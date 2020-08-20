@@ -2,19 +2,19 @@ package logic;
 
 public class FinishedSubject {
 
-	private int note;
+	private int mark;
 
-	public FinishedSubject(int note) {
+	public FinishedSubject(int mark) {
 		super();
-		this.note = note;
+		this.mark = mark;
 	}
 
 	public int getNote() {
-		return note;
+		return mark;
 	}
 
-	public void setNote(int note) {
-		this.note = note;
+	public void setNote(int mark) {
+		this.mark = mark;
 	}
 
 }

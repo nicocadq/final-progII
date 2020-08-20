@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class Exam {
 
 	private LocalDate date;
-	private int note;
+	private int mark;
 
 	public Exam(LocalDate date, int note) {
 		super();
 		this.date = date;
-		this.note = note;
+		this.mark = mark;
 	}
 
 	public LocalDate getDate() {
@@ -22,11 +22,11 @@ public class Exam {
 	}
 
 	public int getNote() {
-		return note;
+		return mark;
 	}
 
 	public void setNote(int note) {
-		this.note = note;
+		this.mark = mark;
 	}
 
 }

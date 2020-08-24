@@ -6,13 +6,16 @@ public class Subject {
 	private String name;
 	private Orientation orientation;
 	private Generation generation;
+	
+	private Teacher teacher;
 
-	public Subject(String code, String name, Orientation orientation, Generation generation) {
+	public Subject(String code, String name, Orientation orientation, Generation generation, Teacher teacher) {
 		super();
 		this.code = code;
 		this.name = name;
 		this.orientation = orientation;
 		this.generation = generation;
+		this.teacher = teacher;
 	}
 
 	public String getCode() {
@@ -45,6 +48,14 @@ public class Subject {
 
 	public void setGeneration(Generation generation) {
 		this.generation = generation;
+	}
+	
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+	
+	public Teacher getTeacher() {
+		return this.teacher;
 	}
 
 }

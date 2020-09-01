@@ -2,6 +2,8 @@ package logic;
 
 public enum AbstenceType {
 
-	JUSTIFY, UNJUSTIFY, LATEAR
-	// strings
+	JUSTIFY, 
+	UNJUSTIFY, 
+	LATEAR
+	
 }

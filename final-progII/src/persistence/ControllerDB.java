@@ -2,7 +2,7 @@ package persistence;
 
 import java.util.ArrayList;
 
-public class ControllerDB {
+public class ControllerDB  extends Conn{
 
 	public void toPersistUser(User user) {
 

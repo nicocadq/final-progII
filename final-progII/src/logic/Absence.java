@@ -8,16 +8,15 @@ public class Absence {
 	private AbstenceType type;
 	private int amountHours;
 
-	private Student student;
-	private Subject subject;
+	private int studentCI;
+	private String subjectCode;
 
-	public Absence(LocalDate date, AbstenceType type, int amountHours, Student student, Subject subject) {
-		super();
+	public Absence(LocalDate date, AbstenceType type, int amountHours, int studentCI, String subjectCode) {
 		this.date = date;
 		this.type = type;
 		this.amountHours = amountHours;
-		this.student = student;
-		this.subject = subject;
+		this.studentCI = studentCI;
+		this.subjectCode = subjectCode;
 	}
 
 	public LocalDate getDate() {
@@ -44,20 +43,20 @@ public class Absence {
 		this.amountHours = amountHours;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudentCI(int studentCI) {
+		this.studentCI = studentCI;
 	}
 
-	public Student getStudent() {
-		return this.student;
+	public int getStudentCI() {
+		return this.studentCI;
 	}
 
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public void setSubjectCode(String subjectCode) {
+		this.subjectCode = subjectCode;
 	}
 
-	public Subject getSubject() {
-		return this.subject;
+	public String getSubjectCode() {
+		return this.subjectCode;
 	}
 
 }

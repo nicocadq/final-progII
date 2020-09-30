@@ -4,12 +4,11 @@ public class FinishedSubject {
 
 	private int mark;
 	
-	private Subject subject;
+	private String subjectCode;
 
-	public FinishedSubject(int mark, Subject subject) {
-		super();
+	public FinishedSubject(int mark, String subjectCode) {
 		this.mark = mark;
-		this.subject = subject;
+		this.subjectCode = subjectCode;
 	}
 
 	public int getMark() {
@@ -20,12 +19,12 @@ public class FinishedSubject {
 		this.mark = mark;
 	}
 	
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public void setSubjectCode(String subjectCode) {
+		this.subjectCode = subjectCode;
 	}
 	
-	public Subject getSubject() {
-		return this.subject;
+	public String getSubjectCode() {
+		return this.subjectCode;
 	}
 
 }

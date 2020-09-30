@@ -14,8 +14,8 @@ public class Student extends User {
 	private List<Exam> exams;
 	private List<FinishedSubject> finishedSubjects;
 
-	public Student(String ci, String password, String name, String mail, LocalDate dateBirth) {
-		super(ci, password, name, mail, dateBirth);
+	public Student(int ci, String name, String lastName, String mail, String password,  LocalDate dateBirth) {
+		super(ci, name, lastName, mail, password, dateBirth);
 		this.absences = new ArrayList<Absence>();
 		this.exams = new ArrayList<Exam>();
 		this.finishedSubjects = new ArrayList<FinishedSubject>();

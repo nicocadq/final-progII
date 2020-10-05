@@ -9,6 +9,9 @@ import javax.security.auth.Subject;
 
 import logic.Absence;
 import logic.Exam;
+import logic.Functionary;
+import logic.Student;
+import logic.Teacher;
 import logic.User;
 
 public class ControllerDB extends Conn {
@@ -17,24 +20,99 @@ public class ControllerDB extends Conn {
 		try {
 			System.out.println("Creating a Connection Object.");
 			this.MySQLconnection();
-			
+
 			System.out.println("Creating PreparedStatement");
-			PreparedStatement st = this.conn.prepareStatement(
+			PreparedStatement userSt = this.conn.prepareStatement(
 					"INSERT INTO User(CI, NAME, LASTNAME, BIRTH, MAIL, PASSWORD) VALUES(?,?,?,?,?,?)");
 
-			st.setInt(1, user.getCi());
-			st.setString(2, user.getName());
-			st.setString(3, user.getLastName());
-			st.setDate(4, java.sql.Date.valueOf(user.getDateBirth()));
-			st.setString(5, user.getMail());
-			st.setString(6, user.getPassword());
-			
-			System.out.println("Created PreparedStatement.");
-			
-			System.out.println("Execute Update.");
-			int rows = st.executeUpdate();
+			userSt.setInt(1, user.getCi());
+			userSt.setString(2, user.getName());
+			userSt.setString(3, user.getLastName());
+			userSt.setDate(4, java.sql.Date.valueOf(user.getDateBirth()));
+			userSt.setString(5, user.getMail());
+			userSt.setString(6, user.getPassword());
 
-			System.out.println("Update rows: " + rows);
+			System.out.println("Created PreparedStatement.");
+
+			System.out.println("Execute Update.");
+			int updatedUserRows = userSt.executeUpdate();
+
+			System.out.println("Update rows: " + updatedUserRows);
+
+			try {
+				
+				System.out.println("Casting User to Student");
+				Student student = (Student) user;
+
+				System.out.println("Creating PreparedStatement");
+
+				PreparedStatement studentSt = this.conn
+						.prepareStatement("INSERT INTO Student(CI, ORIENTATION, GENERATION, STATE) VALUES(?, ?, ? ,?)");
+
+				studentSt.setInt(1, student.getCi());
+				studentSt.setString(2, student.getOrientation().toString());
+				studentSt.setString(3, student.getGeneration().toString());
+				studentSt.setString(4, student.getStatus().toString());
+
+				System.out.println("Created PreparedStatement.");
+
+				System.out.println("Execute Update.");
+
+				int updatedStudentRows = studentSt.executeUpdate();
+
+				System.out.println("Update rows: " + updatedStudentRows);
+
+			} catch (ClassCastException castStudentEx) {
+				
+				try {
+					
+					System.out.println("Casting User to Teacher");
+					Teacher teacher = (Teacher) user;
+
+					System.out.println("Creating PreparedStatement");
+
+					PreparedStatement teacherSt = this.conn
+							.prepareStatement("INSERT INTO Teacher(CI) VALUES(?)");
+
+					teacherSt.setInt(1, teacher.getCi());
+					
+					System.out.println("Created PreparedStatement.");
+
+					System.out.println("Execute Update.");
+
+					int updatedteacherRows = teacherSt.executeUpdate();
+
+					System.out.println("Update rows: " + updatedteacherRows);
+
+				} catch (ClassCastException castTeacherEx) {
+					
+					try {
+						
+						System.out.println("Casting User to Functionary");
+						Functionary functionary = (Functionary) user;
+
+						System.out.println("Creating PreparedStatement");
+
+						PreparedStatement functionarySt = this.conn
+								.prepareStatement("INSERT INTO Functionary(CI) VALUES(?)");
+
+						functionarySt.setInt(1, functionary.getCi());
+						
+						System.out.println("Created PreparedStatement.");
+
+						System.out.println("Execute Update.");
+
+						int updatedStudentRows = functionarySt.executeUpdate();
+
+						System.out.println("Update rows: " + updatedStudentRows);
+
+					} catch (ClassCastException castFunctionaryEx) {
+
+					}
+
+				}
+
+			}
 
 		} catch (Exception ex) {
 			throw ex;
@@ -72,16 +150,15 @@ public class ControllerDB extends Conn {
 		try {
 			System.out.println("Creating a Connection Object.");
 			this.MySQLconnection();
-			
-			
+
 			System.out.println("Creating PreparedStatement");
 			PreparedStatement st = this.conn.prepareStatement("SELECT * FROM User");
-			
+
 			System.out.println("Executing Query and creating ResultSet.");
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				
+
 				System.out.println("Database User");
 				users.add(new User(rs.getInt("CI"), rs.getString("NAME"), rs.getString("LASTNAME"),
 						rs.getString("MAIL"), rs.getString("PASSWORD"), rs.getDate("BIRTH").toLocalDate()));

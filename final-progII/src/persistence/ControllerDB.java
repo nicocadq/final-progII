@@ -47,7 +47,7 @@ public class ControllerDB extends Conn {
 				System.out.println("Creating PreparedStatement");
 
 				PreparedStatement studentSt = this.conn
-						.prepareStatement("INSERT INTO Student(CI, ORIENTATION, GENERATION, STATE) VALUES(?, ?, ? ,?)");
+						.prepareStatement("INSERT INTO Student(CIUSER, ORIENTATION, GENERATION, STATE) VALUES(?, ?, ? ,?)");
 
 				studentSt.setInt(1, student.getCi());
 				studentSt.setString(2, student.getOrientation().toString());
@@ -72,7 +72,7 @@ public class ControllerDB extends Conn {
 					System.out.println("Creating PreparedStatement");
 
 					PreparedStatement teacherSt = this.conn
-							.prepareStatement("INSERT INTO Teacher(CI) VALUES(?)");
+							.prepareStatement("INSERT INTO Teacher(CIUSER) VALUES(?)");
 
 					teacherSt.setInt(1, teacher.getCi());
 					
@@ -94,7 +94,7 @@ public class ControllerDB extends Conn {
 						System.out.println("Creating PreparedStatement");
 
 						PreparedStatement functionarySt = this.conn
-								.prepareStatement("INSERT INTO Functionary(CI) VALUES(?)");
+								.prepareStatement("INSERT INTO Functionary(CIUSER) VALUES(?)");
 
 						functionarySt.setInt(1, functionary.getCi());
 						

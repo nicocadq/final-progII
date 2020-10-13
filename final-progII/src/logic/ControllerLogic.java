@@ -102,6 +102,9 @@ public class ControllerLogic {
 		return null;
 	}
 	
+
+//	This main it's have a testing stuff so it'll not be here in a few commits
+
 	public static void main(String[] args) {
 		ControllerDB dbCon = new ControllerDB();
 		Student student = new Student(545344, "Nicola", "Alejandro", Orientation.ADM, Status.ACTIVE, Generation.FIRST, "asdasdasd@asdasd.com", "asdasdasdasd", LocalDate.of(1,1,1));
@@ -109,7 +112,20 @@ public class ControllerLogic {
 		Functionary functionary = new Functionary(88888, "Nicola", "Alejandro", "asdasdasd@asdasd.com", "asdasdasdasd", LocalDate.of(1,1,1));
 
 		try {
-			dbCon.toPersistUser(functionary);
+			/*dbCon.toPersistUser(functionary);*/
+			User user = dbCon.recoverUser(545344);
+			User userTeacher = dbCon.recoverUser(99999);
+
+			try {
+				Student studeent = (Student) user;
+				System.out.println(studeent.getName());
+				
+				Teacher teacheer = (Teacher) userTeacher;
+				System.out.println(teacheer.getName());
+				
+			}catch(ClassCastException ex) {
+				ex.getMessage();
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

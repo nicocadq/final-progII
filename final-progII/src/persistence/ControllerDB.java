@@ -161,12 +161,13 @@ public class ControllerDB extends Conn {
 			}
 
 			if (user != null) {
+
 				try {
 
-					System.out.println("Creating PreparedStatement");
-					PreparedStatement studentSt = this.conn.prepareStatement("SELECT * FROM Student WHERE CI = ?");
+					System.out.println("Creating PreparedStatement Student");
+					PreparedStatement studentSt = this.conn.prepareStatement("SELECT * FROM Student WHERE ciUser = ?");
 
-					userSt.setInt(1, user.getCi());
+					studentSt.setInt(1, ci);
 
 					System.out.println("Executing Query and creating ResultSet.");
 					ResultSet studentRs = studentSt.executeQuery();
@@ -175,20 +176,23 @@ public class ControllerDB extends Conn {
 
 						System.out.println("Database Student");
 
-						user = new Student(userRs.getInt("CI"), userRs.getString("NAME"), userRs.getString("LASTNAME"),
-								Orientation.valueOf(studentRs.getString("ORIENTATION")),
-								Status.valueOf(studentRs.getString("STATUS")),
-								Generation.valueOf(studentRs.getString("GENERATION")), userRs.getString("MAIL"),
-								userRs.getString("PASSWORD"), userRs.getDate("BIRTH").toLocalDate());
+						User userCopy = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
+								user.getPassword(), user.getDateBirth());
+
+						user = new Student(userCopy.getCi(), userCopy.getName(), userCopy.getLastName(),
+								Orientation.valueOf(studentRs.getString(2)), Status.valueOf(studentRs.getString(4)),
+								Generation.valueOf(studentRs.getString(3)), userCopy.getMail(), userCopy.getPassword(),
+								userCopy.getDateBirth());
+
 					}
 
 				} catch (Exception studentEx) {
 					try {
 
-						System.out.println("Creating PreparedStatement");
-						PreparedStatement teacherSt = this.conn.prepareStatement("SELECT * FROM Teacher WHERE CI = ?");
+						System.out.println("Creating PreparedStatement Teacher");
+						PreparedStatement teacherSt = this.conn.prepareStatement("SELECT * FROM Teacher WHERE ciUser = ?");
 
-						userSt.setInt(1, user.getCi());
+						teacherSt.setInt(1, ci);
 
 						System.out.println("Executing Query and creating ResultSet.");
 						ResultSet teacherRs = teacherSt.executeQuery();
@@ -196,19 +200,22 @@ public class ControllerDB extends Conn {
 						while (teacherRs.next()) {
 
 							System.out.println("Database Teacher");
-
-							user = new Teacher(userRs.getInt("CI"), userRs.getString("NAME"),
-									userRs.getString("LASTNAME"), userRs.getString("MAIL"),
-									userRs.getString("PASSWORD"), userRs.getDate("BIRTH").toLocalDate());
+							
+							User userCopyForTeacher = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
+									user.getPassword(), user.getDateBirth());
+							
+							user = new Teacher(userCopyForTeacher.getCi(), userCopyForTeacher.getName(),
+									userCopyForTeacher.getLastName(), userCopyForTeacher.getMail(),
+									userCopyForTeacher.getPassword(), userCopyForTeacher.getDateBirth());
 						}
 
 					} catch (Exception teacherEx) {
 						try {
+							System.out.println("Creating PreparedStatement Functionary");
+							PreparedStatement functionarySt = this.conn
+									.prepareStatement("SELECT * FROM Functionary WHERE CIUSER = ?");
 
-							System.out.println("Creating PreparedStatement");
-							PreparedStatement functionarySt = this.conn.prepareStatement("SELECT * FROM Functionary WHERE CI = ?");
-
-							userSt.setInt(1, user.getCi());
+							functionarySt.setInt(1, ci);
 
 							System.out.println("Executing Query and creating ResultSet.");
 							ResultSet functionaryRs = functionarySt.executeQuery();
@@ -217,15 +224,20 @@ public class ControllerDB extends Conn {
 
 								System.out.println("Database Functioanry");
 
-								user = new Functionary(userRs.getInt("CI"), userRs.getString("NAME"),
-										userRs.getString("LASTNAME"), userRs.getString("MAIL"),
-										userRs.getString("PASSWORD"), userRs.getDate("BIRTH").toLocalDate());
+								User userCopyForFunctionary = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
+										user.getPassword(), user.getDateBirth());
+								
+								user = new Functionary(userCopyForFunctionary.getCi(), userCopyForFunctionary.getName(),
+										userCopyForFunctionary.getLastName(), userCopyForFunctionary.getMail(),
+										userCopyForFunctionary.getPassword(), userCopyForFunctionary.getDateBirth());
 							}
 
 						} catch (Exception functionaryEx) {
 
 						}
+
 					}
+
 				}
 			}
 

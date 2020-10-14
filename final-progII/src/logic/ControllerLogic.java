@@ -112,16 +112,31 @@ public class ControllerLogic {
 		Functionary functionary = new Functionary(88888, "Nicola", "Alejandro", "asdasdasd@asdasd.com", "asdasdasdasd", LocalDate.of(1,1,1));
 
 		try {
-			/*dbCon.toPersistUser(functionary);*/
+			for( User user :  dbCon.recoverUsers()) {
+				System.out.println(user.getCi());
+			}
+			
+			
+/*
+ 			dbCon.toPersistUser(functionary);
 			User user = dbCon.recoverUser(545344);
 			User userTeacher = dbCon.recoverUser(99999);
-
+			User userFunctionary = dbCon.recoverUser(88888);
+*/
 			try {
+/*
 				Student studeent = (Student) user;
 				System.out.println(studeent.getName());
 				
+				
 				Teacher teacheer = (Teacher) userTeacher;
 				System.out.println(teacheer.getName());
+				
+				
+				Functionary functionaary =  (Functionary) userFunctionary;
+				System.out.println(functionaary.getLastName());
+*/
+				
 				
 			}catch(ClassCastException ex) {
 				ex.getMessage();

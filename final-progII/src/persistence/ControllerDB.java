@@ -1,6 +1,7 @@
 package persistence;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -159,90 +160,99 @@ public class ControllerDB extends Conn {
 				user = new User(userRs.getInt("CI"), userRs.getString("NAME"), userRs.getString("LASTNAME"),
 						userRs.getString("MAIL"), userRs.getString("PASSWORD"), userRs.getDate("BIRTH").toLocalDate());
 			}
+		} catch (SQLException userException) {
+			System.out.println(userException.getMessage());
+		}
 
-			if (user != null) {
+		if (user != null) {
+
+			try {
+				System.out.println("Creating PreparedStatement Student");
+				PreparedStatement studentSt = this.conn.prepareStatement("SELECT * FROM Student WHERE ciUser = ?");
+
+				studentSt.setInt(1, ci);
+
+				System.out.println("Executing Query and creating ResultSet.");
+				ResultSet studentRs = studentSt.executeQuery();
+
+				while (studentRs.next()) {
+
+					System.out.println("Database Student");
+					User userCopy = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
+							user.getPassword(), user.getDateBirth());
+
+					user = new Student(userCopy.getCi(), userCopy.getName(), userCopy.getLastName(),
+							Orientation.valueOf(studentRs.getString(2)), Status.valueOf(studentRs.getString(4)),
+							Generation.valueOf(studentRs.getString(3)), userCopy.getMail(), userCopy.getPassword(),
+							userCopy.getDateBirth());
+
+				}
+
+			} catch (SQLException studentEx) {
+				System.out.println(studentEx.getMessage());
+			}
+
+			if (!(user instanceof Student)) {
 
 				try {
 
-					System.out.println("Creating PreparedStatement Student");
-					PreparedStatement studentSt = this.conn.prepareStatement("SELECT * FROM Student WHERE ciUser = ?");
+					System.out.println("Creating PreparedStatement Teacher");
+					PreparedStatement teacherSt = this.conn.prepareStatement("SELECT * FROM Teacher WHERE ciUser = ?");
 
-					studentSt.setInt(1, ci);
+					teacherSt.setInt(1, ci);
 
 					System.out.println("Executing Query and creating ResultSet.");
-					ResultSet studentRs = studentSt.executeQuery();
+					ResultSet teacherRs = teacherSt.executeQuery();
 
-					while (studentRs.next()) {
+					while (teacherRs.next()) {
 
-						System.out.println("Database Student");
+						System.out.println("Database Teacher");
 
-						User userCopy = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
-								user.getPassword(), user.getDateBirth());
+						User userCopyForTeacher = new User(user.getCi(), user.getName(), user.getLastName(),
+								user.getMail(), user.getPassword(), user.getDateBirth());
 
-						user = new Student(userCopy.getCi(), userCopy.getName(), userCopy.getLastName(),
-								Orientation.valueOf(studentRs.getString(2)), Status.valueOf(studentRs.getString(4)),
-								Generation.valueOf(studentRs.getString(3)), userCopy.getMail(), userCopy.getPassword(),
-								userCopy.getDateBirth());
-
+						user = new Teacher(userCopyForTeacher.getCi(), userCopyForTeacher.getName(),
+								userCopyForTeacher.getLastName(), userCopyForTeacher.getMail(),
+								userCopyForTeacher.getPassword(), userCopyForTeacher.getDateBirth());
 					}
 
-				} catch (Exception studentEx) {
-					try {
-
-						System.out.println("Creating PreparedStatement Teacher");
-						PreparedStatement teacherSt = this.conn.prepareStatement("SELECT * FROM Teacher WHERE ciUser = ?");
-
-						teacherSt.setInt(1, ci);
-
-						System.out.println("Executing Query and creating ResultSet.");
-						ResultSet teacherRs = teacherSt.executeQuery();
-
-						while (teacherRs.next()) {
-
-							System.out.println("Database Teacher");
-							
-							User userCopyForTeacher = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
-									user.getPassword(), user.getDateBirth());
-							
-							user = new Teacher(userCopyForTeacher.getCi(), userCopyForTeacher.getName(),
-									userCopyForTeacher.getLastName(), userCopyForTeacher.getMail(),
-									userCopyForTeacher.getPassword(), userCopyForTeacher.getDateBirth());
-						}
-
-					} catch (Exception teacherEx) {
-						try {
-							System.out.println("Creating PreparedStatement Functionary");
-							PreparedStatement functionarySt = this.conn
-									.prepareStatement("SELECT * FROM Functionary WHERE CIUSER = ?");
-
-							functionarySt.setInt(1, ci);
-
-							System.out.println("Executing Query and creating ResultSet.");
-							ResultSet functionaryRs = functionarySt.executeQuery();
-
-							while (functionaryRs.next()) {
-
-								System.out.println("Database Functioanry");
-
-								User userCopyForFunctionary = new User(user.getCi(), user.getName(), user.getLastName(), user.getMail(),
-										user.getPassword(), user.getDateBirth());
-								
-								user = new Functionary(userCopyForFunctionary.getCi(), userCopyForFunctionary.getName(),
-										userCopyForFunctionary.getLastName(), userCopyForFunctionary.getMail(),
-										userCopyForFunctionary.getPassword(), userCopyForFunctionary.getDateBirth());
-							}
-
-						} catch (Exception functionaryEx) {
-
-						}
-
-					}
-
+				} catch (SQLException teacherEx) {
+					System.out.println(teacherEx.getMessage());
 				}
 			}
 
-		} catch (Exception ex) {
-			throw ex;
+			if (!(user instanceof Teacher)) {
+
+				try {
+					System.out.println("Creating PreparedStatement Functionary");
+					PreparedStatement functionarySt = this.conn
+							.prepareStatement("SELECT * FROM Functionary WHERE CIUSER = ?");
+
+					functionarySt.setInt(1, ci);
+
+					System.out.println("Executing Query and creating ResultSet.");
+					ResultSet functionaryRs = functionarySt.executeQuery();
+
+					while (functionaryRs.next()) {
+
+						System.out.println("Database Functioanry");
+
+						User userCopyForFunctionary = new User(user.getCi(), user.getName(), user.getLastName(),
+								user.getMail(), user.getPassword(), user.getDateBirth());
+
+						user = new Functionary(userCopyForFunctionary.getCi(), userCopyForFunctionary.getName(),
+								userCopyForFunctionary.getLastName(), userCopyForFunctionary.getMail(),
+								userCopyForFunctionary.getPassword(), userCopyForFunctionary.getDateBirth());
+					}
+
+				} catch (SQLException functionaryEx) {
+					System.out.println(functionaryEx.getMessage());
+				} finally {
+					coloseConecction();
+				}
+
+			}
+
 		}
 
 		return user;
@@ -257,21 +267,27 @@ public class ControllerDB extends Conn {
 	public List<User> recoverUsers() throws Exception {
 		List<User> users = new ArrayList<User>();
 
-		try {
-			System.out.println("Creating a Connection Object.");
-			this.MySQLconnection();
+		System.out.println("Creating a Connection Object.");
+		this.MySQLconnection();
 
+		try {
 			System.out.println("Creating PreparedStatement");
-			PreparedStatement st = this.conn.prepareStatement("SELECT * FROM User");
+			PreparedStatement studentst = this.conn
+					.prepareStatement("SELECT * FROM User INNER JOIN student where ci= ciUser");
 
 			System.out.println("Executing Query and creating ResultSet.");
-			ResultSet rs = st.executeQuery();
+			ResultSet studentrs = studentst.executeQuery();
 
-			while (rs.next()) {
+			while (studentrs.next()) {
 
-				System.out.println("Database User");
-				users.add(new User(rs.getInt("CI"), rs.getString("NAME"), rs.getString("LASTNAME"),
-						rs.getString("MAIL"), rs.getString("PASSWORD"), rs.getDate("BIRTH").toLocalDate()));
+				System.out.println("Database User student ");
+				User userStudent = new Student(studentrs.getInt("CI"), studentrs.getString("NAME"),
+						studentrs.getString("LASTNAME"), Orientation.valueOf(studentrs.getString("ORIENTATION")),
+						Status.valueOf(studentrs.getString("state")),
+						Generation.valueOf(studentrs.getString("GENERATION")), studentrs.getString("MAIL"),
+						studentrs.getString("PASSWORD"), studentrs.getDate("BIRTH").toLocalDate());
+				
+				users.add(userStudent);
 			}
 
 		} catch (Exception ex) {

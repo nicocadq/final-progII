@@ -286,14 +286,58 @@ public class ControllerDB extends Conn {
 						Status.valueOf(studentrs.getString("state")),
 						Generation.valueOf(studentrs.getString("GENERATION")), studentrs.getString("MAIL"),
 						studentrs.getString("PASSWORD"), studentrs.getDate("BIRTH").toLocalDate());
-				
+
 				users.add(userStudent);
+			}
+
+		} catch (Exception exx) {
+			throw exx;
+		}
+
+		try {
+			System.out.println("Creating PreparedStatement for Teacher");
+			PreparedStatement teacherst = this.conn
+					.prepareStatement("SELECT * FROM User INNER JOIN teacher where ci= ciUser");
+
+			System.out.println("Executing Query and creating ResultSet for teacher");
+			ResultSet teacherRs = teacherst.executeQuery();
+
+			while (teacherRs.next()) {
+
+				System.out.println("Database User Teacher");
+				User userTeacher = new Teacher(teacherRs.getInt("CI"), teacherRs.getString("NAME"),
+						teacherRs.getString("LASTNAME"), teacherRs.getString("MAIL"), teacherRs.getString("PASSWORD"),
+						teacherRs.getDate("BIRTH").toLocalDate());
+
+				users.add(userTeacher);
 			}
 
 		} catch (Exception ex) {
 			throw ex;
 		}
+		try {
+			System.out.println("Creating PreparedStatement for Functionary");
+			PreparedStatement functionaryst = this.conn
+					.prepareStatement("SELECT * FROM User INNER JOIN functionary where ci= ciUser");
 
+			System.out.println("Executing Query and creating ResultSet Functionary");
+			ResultSet functionaryRs = functionaryst.executeQuery();
+
+			while (functionaryRs.next()) {
+
+				System.out.println("Database User Functionary ");
+				User userFunctionary = new Functionary(functionaryRs.getInt("CI"), functionaryRs.getString("NAME"),
+						functionaryRs.getString("LASTNAME"), functionaryRs.getString("MAIL"),
+						functionaryRs.getString("PASSWORD"), functionaryRs.getDate("BIRTH").toLocalDate());
+
+				users.add(userFunctionary);
+
+			}
+		} catch (Exception exc) {
+			throw exc;
+		} finally {
+			this.coloseConecction();
+		}
 		return users;
 	}
 

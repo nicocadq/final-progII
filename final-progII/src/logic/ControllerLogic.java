@@ -32,7 +32,7 @@ public class ControllerLogic {
 	
 	public ArrayList<Absence> consultAbstence (String ci){
 		return null;
-		O//...?
+		//...?
 	}
 	public ArrayList<Student> studentsToList () {
 		return null;
@@ -80,7 +80,7 @@ public class ControllerLogic {
 		return null;
 	}
 	public ArrayList<Functionary> listFunctionary (){
-		
+		return null;
 	}
 	
 

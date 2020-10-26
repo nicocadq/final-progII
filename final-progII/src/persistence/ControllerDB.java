@@ -1,13 +1,12 @@
 package persistence;
 
-import java.sql.*;
-import java.time.LocalDate;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.security.auth.Subject;
-
+import logic.Subject;
 import logic.Absence;
 import logic.Exam;
 import logic.Functionary;
@@ -125,12 +124,107 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public void toPersistSubject(Subject subject) {
+	public void toPersistSubject(Subject subject) throws Exception {
+
+		try {
+
+			try {
+				System.out.println("Creting a connection object");
+				this.MySQLconnection();
+
+				System.out.println("Created PreparedStatement");
+				PreparedStatement subjectSt = this.conn.prepareStatement(
+						"INSERT INTO Subject(IDSUBJECT, NAME, ORIENTATION, GENERATION) VALUES(?,?,?,?)");
+
+				subjectSt.setString(1, subject.getCode());
+				subjectSt.setString(2, subject.getName());
+				subjectSt.setString(3, subject.getGeneration().toString());
+				subjectSt.setString(4, subject.getOrientation().toString());
+
+				System.out.println("Execute Update");
+
+				int updatedSubjetRows = subjectSt.executeUpdate();
+
+				System.out.println("Update subject rows: " + updatedSubjetRows);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			try {
+
+				int recoveredTeacherCi = 0;		
+
+				System.out.println("Created PreparedStatement to search the ciUser");
+				PreparedStatement teacherSt = this.conn.prepareStatement("SELECT CIUSER FROM TEACHER WHERE CIUSER = ?");
+
+				teacherSt.setInt(1, subject.getTeacher().getCi());
+
+				System.out.println("Executing Query and creating ResultSet.");
+				ResultSet teacherRs = teacherSt.executeQuery();
+
+				while (teacherRs.next()) {
+					recoveredTeacherCi = teacherRs.getInt(1);		
+				}
+
+				if (recoveredTeacherCi > 0) {
+					try {
+						System.out.println("Created PreparedStatement for teaches");
+						
+						PreparedStatement teachesSt = this.conn.prepareStatement("INSERT INTO TEACHES(IDSUBJECT, CITEACHER) VALUES(?,?)");
+						
+						teachesSt.setString(1, subject.getCode());
+						teachesSt.setInt(2, recoveredTeacherCi);
+						
+						System.out.println("Execut Update");
+						
+						int updateTeachesRows = teachesSt.executeUpdate();
+						
+						System.out.println("Update teaches rows: "+ updateTeachesRows);
+						
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+
+				}
+
+			} finally {
+				this.coloseConecction();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public void toPersistAbsence(Absence absence) {
+	public void toPersistAbsence(Absence absence) throws Exception {
 
+		try {
+			
+			System.out.println("Creating a Connection object");
+			this.MySQLconnection();
+			
+			System.out.println("Created PreparedStatment for absences");
+			PreparedStatement absencesSt = this.conn.prepareStatement("INSERT INTO Absence(IDABSENCE, IDSUBJECT, TYPE) VALUES(?,?,?)");
+			
+			absencesSt.setString(2,absence.getSubjectCode());
+			absencesSt.setString(2,absence.getType().toString());
+
+			System.out.println("Ëxecute Update");
+			int updatedAbsence = absencesSt.executeUpdate();
+			
+			System.out.println("Update absence rows: " + updatedAbsence);
+			
+			try {
+					
+			}catch(SQLException exc) {
+				exc.printStackTrace();
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void toPersistExam(Exam exam) {

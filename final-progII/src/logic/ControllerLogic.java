@@ -2,7 +2,6 @@ package logic;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import persistence.Conn;
 import persistence.ControllerDB;
 
@@ -101,4 +100,28 @@ public class ControllerLogic {
 	public ArrayList<Functionary> listFunctionary() {
 		return null;
 	}
+
+	public static void main(String[] args) {
+		ControllerDB db = new ControllerDB();
+		
+		Teacher teacher = null;
+		
+		try {
+			teacher = (Teacher) db.recoverUser(99999);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+		Subject subject = new Subject("Code", "Name", Orientation.ADM, Generation.FIRST, teacher);
+
+		try {
+			db.toPersistSubject(subject);
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+
+	}
+
 }

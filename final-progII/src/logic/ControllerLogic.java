@@ -2,18 +2,34 @@ package logic;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import persistence.ControllerDB;
 
 public class ControllerLogic {
 
-	ControllerDB db = new ControllerDB();
+	public ControllerDB db;
+	public List<User> users = new ArrayList<User>();
+
+	public ControllerLogic() {
+		db = new ControllerDB();
+	}
+
+	public void updateUsersList() throws Exception {
+		try {
+			users = db.recoverUsers();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later.");
+		}
+	}
 
 	public User createUser(User user) throws Exception {
 
 		try {
 
 			db.toPersistUser(user);
+			updateUsersList();
 
 			return user;
 
@@ -25,16 +41,7 @@ public class ControllerLogic {
 		return null;
 	}
 
-	public Subject createSubject(Subject subject) throws Exception {
-		try {
-
-			db.toPersistSubject(subject);
-
-			return subject;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			new Exception("Ups! There was a server error, please try again later");
-		}
+	public Subject createSubject(Subject subject) {
 		return null;
 	}
 
@@ -121,11 +128,43 @@ public class ControllerLogic {
 		return null;
 	}
 
-	public ArrayList<Teacher> listTeachers() {
-		return null;
+	public List<Teacher> listTeachers() throws Exception {
+		List<Teacher> teachers = new ArrayList<Teacher>();
+
+		try {
+			updateUsersList();
+
+			for (User user : users) {
+				if (user instanceof Teacher) {
+					teachers.add((Teacher) user);
+				}
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later");
+		}
+
+		return teachers;
 	}
 
-	public ArrayList<Functionary> listFunctionary() {
-		return null;
+	public List<Functionary> listFunctionary() {
+		List<Functionary> functionaries = new ArrayList<Functionary>();
+
+		try {
+			updateUsersList();
+
+			for (User user : users) {
+				if (user instanceof Functionary) {
+					functionaries.add((Functionary) user);
+				}
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later");
+		}
+
+		return functionaries;
 	}
 }

@@ -9,19 +9,11 @@ import persistence.ControllerDB;
 public class ControllerLogic {
 
 	public ControllerDB db;
-	public List<User> users = new ArrayList<User>();
+	private List<User> users;
 
 	public ControllerLogic() {
 		db = new ControllerDB();
-	}
-
-	public void updateUsersList() throws Exception {
-		try {
-			users = db.recoverUsers();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			new Exception("Ups! There was a server error, please try again later.");
-		}
+		this.users = new ArrayList<User>();
 	}
 
 	public User createUser(User user) throws Exception {
@@ -29,7 +21,7 @@ public class ControllerLogic {
 		try {
 
 			db.toPersistUser(user);
-			updateUsersList();
+			getUsers();
 
 			return user;
 
@@ -132,7 +124,7 @@ public class ControllerLogic {
 		List<Teacher> teachers = new ArrayList<Teacher>();
 
 		try {
-			updateUsersList();
+			getUsers();
 
 			for (User user : users) {
 				if (user instanceof Teacher) {
@@ -152,7 +144,7 @@ public class ControllerLogic {
 		List<Functionary> functionaries = new ArrayList<Functionary>();
 
 		try {
-			updateUsersList();
+			getUsers();
 
 			for (User user : users) {
 				if (user instanceof Functionary) {
@@ -167,4 +159,15 @@ public class ControllerLogic {
 
 		return functionaries;
 	}
+
+	public List<User> getUsers() {
+		try {
+			this.users = db.recoverUsers();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later.");
+		}
+		return this.users;
+	}
+
 }

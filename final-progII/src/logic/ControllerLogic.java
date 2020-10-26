@@ -3,19 +3,39 @@ package logic;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import persistence.Conn;
 import persistence.ControllerDB;
 
 public class ControllerLogic {
 
-	public User createUsers(User user) {
+	ControllerDB db = new ControllerDB();
 
-		return user;
+	public User createUser(User user) throws Exception {
+
+		try {
+
+			db.toPersistUser(user);
+
+			return user;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later");
+		}
+
+		return null;
 	}
 
-	public Subject createSubject(Subject subject) {
+	public Subject createSubject(Subject subject) throws Exception {
+		try {
 
-		return subject;
+			db.toPersistSubject(subject);
+
+			return subject;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later");
+		}
+		return null;
 	}
 
 	public Absence createSubject(Absence absence) {
@@ -23,9 +43,16 @@ public class ControllerLogic {
 		return absence;
 	}
 
-	public User consultUsers(String ci) {
+	public User consultUsers(int ci) {
+		try {
+
+			db.recoverUser(ci);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			new Exception("Ups! There was a server error, please try again later");
+		}
 		return null;
-		// return Usuario.ci o alg asi
 	}
 
 	public Subject consultSubject(String code) {

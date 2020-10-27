@@ -103,24 +103,26 @@ public class ControllerLogic {
 
 	public static void main(String[] args) {
 		ControllerDB db = new ControllerDB();
-		
-		Teacher teacher = null;
-		
-		try {
-			teacher = (Teacher) db.recoverUser(99999);
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
 
-		Subject subject = new Subject("Code", "Name", Orientation.ADM, Generation.FIRST, teacher);
-
+		
+		 /* Teacher teacher = null;
+		  
+		  try { teacher = (Teacher) db.recoverUser(99999); } catch(Exception ex) {
+		  ex.printStackTrace(); }*/
+		Teacher teacheer = new Teacher(888, "Ruben", "Derigo", "rb@mail.com", "psswdRuben", LocalDate.of(1898, 2, 8)); 
+		Subject subject = new Subject("123", "Matematica", Orientation.ADM,Generation.FIRST, teacheer);
+		Student student = new Student(999, "Alejandro", "Gonzalez", Orientation.TIC, Status.ACTIVE, Generation.FIRST, "al@mail.com", "psswd", LocalDate.of(1999, 12, 28));
+		Absence absence = new Absence(LocalDate.of(2001, 1, 8),AbstenceType.JUSTIFY,8,student.getCi(),subject.getCode());
 		try {
+			/*db.toPersistUser(student);
+			db.toPersistUser(teacheer);
 			db.toPersistSubject(subject);
-			
-		} catch(Exception ex) {
+			*/
+			/*db.toPersistSubject(subject);*/
+			db.recoverSubject("123");
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
 
 	}
 

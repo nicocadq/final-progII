@@ -138,8 +138,8 @@ public class ControllerDB extends Conn {
 
 				subjectSt.setString(1, subject.getCode());
 				subjectSt.setString(2, subject.getName());
-				subjectSt.setString(3, subject.getGeneration().toString());
-				subjectSt.setString(4, subject.getOrientation().toString());
+				subjectSt.setString(3, subject.getOrientation().toString());
+				subjectSt.setString(4, subject.getGeneration().toString());
 
 				System.out.println("Execute Update");
 
@@ -153,7 +153,7 @@ public class ControllerDB extends Conn {
 
 			try {
 
-				int recoveredTeacherCi = 0;		
+				int recoveredTeacherCi = 0;
 
 				System.out.println("Created PreparedStatement to search the ciUser");
 				PreparedStatement teacherSt = this.conn.prepareStatement("SELECT CIUSER FROM TEACHER WHERE CIUSER = ?");
@@ -164,24 +164,25 @@ public class ControllerDB extends Conn {
 				ResultSet teacherRs = teacherSt.executeQuery();
 
 				while (teacherRs.next()) {
-					recoveredTeacherCi = teacherRs.getInt(1);		
+					recoveredTeacherCi = teacherRs.getInt(1);
 				}
 
 				if (recoveredTeacherCi > 0) {
 					try {
 						System.out.println("Created PreparedStatement for teaches");
-						
-						PreparedStatement teachesSt = this.conn.prepareStatement("INSERT INTO TEACHES(IDSUBJECT, CITEACHER) VALUES(?,?)");
-						
+
+						PreparedStatement teachesSt = this.conn
+								.prepareStatement("INSERT INTO TEACHES(IDSUBJECT, CITEACHER) VALUES(?,?)");
+
 						teachesSt.setString(1, subject.getCode());
 						teachesSt.setInt(2, recoveredTeacherCi);
-						
+
 						System.out.println("Execut Update");
-						
+
 						int updateTeachesRows = teachesSt.executeUpdate();
-						
-						System.out.println("Update teaches rows: "+ updateTeachesRows);
-						
+
+						System.out.println("Update teaches rows: " + updateTeachesRows);
+
 					} catch (SQLException ex) {
 						ex.printStackTrace();
 					}
@@ -201,28 +202,44 @@ public class ControllerDB extends Conn {
 	public void toPersistAbsence(Absence absence) throws Exception {
 
 		try {
-			
-			System.out.println("Creating a Connection object");
-			this.MySQLconnection();
-			
-			System.out.println("Created PreparedStatment for absences");
-			PreparedStatement absencesSt = this.conn.prepareStatement("INSERT INTO Absence(IDABSENCE, IDSUBJECT, TYPE) VALUES(?,?,?)");
-			
-			absencesSt.setString(2,absence.getSubjectCode());
-			absencesSt.setString(2,absence.getType().toString());
-
-			System.out.println("Ëxecute Update");
-			int updatedAbsence = absencesSt.executeUpdate();
-			
-			System.out.println("Update absence rows: " + updatedAbsence);
-			
 			try {
-					
-			}catch(SQLException exc) {
-				exc.printStackTrace();
+
+				System.out.println("Creating a Connection object");
+				this.MySQLconnection();
+
+				System.out.println("Created PreparedStatment for absences");
+				PreparedStatement absencesSt = this.conn
+						.prepareStatement("INSERT INTO Absence(IDABSENCE, IDSUBJECT, TYPE) VALUES(?,?,?)");
+
+				absencesSt.setString(1, null);
+				absencesSt.setString(2, absence.getSubjectCode());
+				absencesSt.setString(3, absence.getType().toString());
+
+				System.out.println("Ëxecute Update for Absences");
+				int updatedAbsence = absencesSt.executeUpdate();
+
+				System.out.println("Update absence rows: " + updatedAbsence);
+
+				try {
+					System.out.println("Creates preparatedStatement for Kept");
+					PreparedStatement keptSt = this.conn
+							.prepareStatement("INSERT INTO kept(CISTUDENT, IDABSENCE, DATE) VALUES(?,?)");
+
+					keptSt.setInt(1, absence.getStudentCI());
+					keptSt.setDate(2, java.sql.Date.valueOf(absence.getDate()));
+					System.out.println("Executed Update for kept");
+					int updateKeptRows = keptSt.executeUpdate();
+
+					System.out.println("Update kept rows: " + updateKeptRows);
+
+				} catch (SQLException exc) {
+					exc.printStackTrace();
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			
-		}catch(SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -353,8 +370,42 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public Subject recoverSubject(String code) {
-		return null;
+	public Subject recoverSubject(String code) throws Exception {
+
+		Subject subject = null;
+		try {
+			System.out.println("Creating a connection for a RecoverSubject Method");
+			this.MySQLconnection();
+			PreparedStatement subjectSt = this.conn.prepareStatement("SELECT * FROM subject WHERE IDSUBJECT = ?");
+
+			subjectSt.setString(1, code);
+
+			System.out.println("Executing Query and creating ResultSet for the RecoverSubject");
+			ResultSet subjectRs = subjectSt.executeQuery();
+
+			try {
+				while (subjectRs.next()) {
+					Teacher teacher = null;
+					System.out.println("Database Subject");
+
+					Subject subjectCopy = new Subject(subjectRs.getString("IDSUBJECT"), subjectRs.getString("NAME"),
+							Orientation.valueOf(subjectRs.getString(3)), Generation.valueOf(subjectRs.getString(4)),
+							teacher);
+					System.out.println("si");
+					subject = new Subject(subjectCopy.getCode(), subjectCopy.getName(), subjectCopy.getOrientation(),
+							subjectCopy.getGeneration(), subjectCopy.getTeacher());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (SQLException ex) {
+			ex.getNextException();
+		}finally {
+			coloseConecction();
+		}
+		return subject;
+		System.out.println("sii");
 
 	}
 

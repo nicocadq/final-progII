@@ -119,7 +119,11 @@ public class ControllerLogic {
 			db.toPersistSubject(subject);
 			*/
 			/*db.toPersistSubject(subject);*/
+			
+			 
 			db.recoverSubject("123");
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

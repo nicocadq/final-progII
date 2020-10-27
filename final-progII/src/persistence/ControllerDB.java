@@ -391,9 +391,10 @@ public class ControllerDB extends Conn {
 					Subject subjectCopy = new Subject(subjectRs.getString("IDSUBJECT"), subjectRs.getString("NAME"),
 							Orientation.valueOf(subjectRs.getString(3)), Generation.valueOf(subjectRs.getString(4)),
 							teacher);
-					System.out.println("si");
 					subject = new Subject(subjectCopy.getCode(), subjectCopy.getName(), subjectCopy.getOrientation(),
 							subjectCopy.getGeneration(), subjectCopy.getTeacher());
+					System.out.println("si");
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -404,8 +405,12 @@ public class ControllerDB extends Conn {
 		}finally {
 			coloseConecction();
 		}
-		return subject;
-		System.out.println("sii");
+		if(subject !=null) {
+			return subject;
+		}else {
+			return null;
+		}
+		
 
 	}
 

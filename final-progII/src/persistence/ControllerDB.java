@@ -202,42 +202,52 @@ public class ControllerDB extends Conn {
 	public void toPersistAbsence(Absence absence) throws Exception {
 
 		try {
-			try {
+			Boolean doesSubjectExist = false;
 
-				System.out.println("Creating a Connection object");
-				this.MySQLconnection();
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
 
-				System.out.println("Created PreparedStatment for absences");
-				PreparedStatement absencesSt = this.conn
-						.prepareStatement("INSERT INTO Absence(IDABSENCE, IDSUBJECT, TYPE) VALUES(?,?,?)");
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement subjectSt = this.conn
+					.prepareStatement("SELECT idSubject FROM Subject WHERE idSubject = ?");
 
-				absencesSt.setString(1, null);
-				absencesSt.setString(2, absence.getSubjectCode());
-				absencesSt.setString(3, absence.getType().toString());
+			subjectSt.setString(1, absence.getSubjectCode());
 
-				System.out.println("Ëxecute Update for Absences");
-				int updatedAbsence = absencesSt.executeUpdate();
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet subjectRs = subjectSt.executeQuery();
 
-				System.out.println("Update absence rows: " + updatedAbsence);
+			while (subjectRs.next()) {
+
+				System.out.println("Database Subject");
+				System.out.println(subjectRs.getString(1));
+				doesSubjectExist = true;
+			}
+
+			if (doesSubjectExist) {
 
 				try {
-					System.out.println("Creates preparatedStatement for Kept");
-					PreparedStatement keptSt = this.conn
-							.prepareStatement("INSERT INTO kept(CISTUDENT, IDABSENCE, DATE) VALUES(?,?)");
 
-					keptSt.setInt(1, absence.getStudentCI());
-					keptSt.setDate(2, java.sql.Date.valueOf(absence.getDate()));
-					System.out.println("Executed Update for kept");
-					int updateKeptRows = keptSt.executeUpdate();
+					System.out.println("Creating a Connection object");
+					this.MySQLconnection();
 
-					System.out.println("Update kept rows: " + updateKeptRows);
+					System.out.println("Created PreparedStatment for absences");
+					PreparedStatement absencesSt = this.conn.prepareStatement(
+							"INSERT INTO Absence(IDABSENCE, CISTUDENT, IDSUBJECT, TYPE, DATE) VALUES(?,?,?,?,?)");
 
-				} catch (SQLException exc) {
-					exc.printStackTrace();
+					absencesSt.setInt(1, 0);
+					absencesSt.setInt(2, absence.getStudentCI());
+					absencesSt.setString(3, absence.getSubjectCode());
+					absencesSt.setString(4, absence.getType().toString());
+					absencesSt.setDate(5, java.sql.Date.valueOf(absence.getDate()));
+
+					System.out.println("Ëxecute Update for Absences");
+					int updatedAbsence = absencesSt.executeUpdate();
+
+					System.out.println("Update absence rows: " + updatedAbsence);
+
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -393,7 +403,6 @@ public class ControllerDB extends Conn {
 							teacher);
 					subject = new Subject(subjectCopy.getCode(), subjectCopy.getName(), subjectCopy.getOrientation(),
 							subjectCopy.getGeneration(), subjectCopy.getTeacher());
-					System.out.println("si");
 
 				}
 			} catch (Exception e) {
@@ -402,15 +411,11 @@ public class ControllerDB extends Conn {
 
 		} catch (SQLException ex) {
 			ex.getNextException();
-		}finally {
+		} finally {
 			coloseConecction();
 		}
-		if(subject !=null) {
-			return subject;
-		}else {
-			return null;
-		}
-		
+
+		return subject;
 
 	}
 

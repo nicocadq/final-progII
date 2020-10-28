@@ -114,16 +114,14 @@ public class ControllerLogic {
 		Student student = new Student(999, "Alejandro", "Gonzalez", Orientation.TIC, Status.ACTIVE, Generation.FIRST, "al@mail.com", "psswd", LocalDate.of(1999, 12, 28));
 		Absence absence = new Absence(LocalDate.of(2001, 1, 8),AbstenceType.JUSTIFY,8,student.getCi(),subject.getCode());
 		try {
-			/*db.toPersistUser(student);
-			db.toPersistUser(teacheer);
-			db.toPersistSubject(subject);
-			*/
-			/*db.toPersistSubject(subject);*/
+			//db.toPersistUser(student);
+			//db.toPersistUser(teacheer);
+			//db.toPersistSubject(subject);
 			
-			 
-			db.recoverSubject("123");
+			//db.toPersistSubject(subject);
 			
-			
+			//db.toPersistAbsence(absence);
+			System.out.println(db.recoverSubject("123").getCode());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

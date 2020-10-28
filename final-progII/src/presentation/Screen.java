@@ -38,6 +38,7 @@ public class Screen extends JFrame {
 	private JTextField dateCreateFunctionary__textField;
 	private JComboBox generationCreateStudent__comboBox;
 	private JComboBox orientationCreateStudent__comboBox;
+	private JTextField searchCi__textField;
 
 	/**
 	 * Launch the application.
@@ -121,28 +122,28 @@ public class Screen extends JFrame {
 		DescriptionWelcome__Label.setBounds(154, 181, 242, 16);
 		welcome__panel.add(DescriptionWelcome__Label);
 
-		JPanel C__panel = new JPanel();
-		master__panel.add(C__panel, "CREATE_USER_PANEL");
-		Menu createUser__menu = new Menu(C__panel, master__panel, master__cardLayout);
-		C__panel.setLayout(null);
+		JPanel createUser__panel = new JPanel();
+		master__panel.add(createUser__panel, "CREATE_USER_PANEL");
+		Menu createUser__menu = new Menu(createUser__panel, master__panel, master__cardLayout);
+		createUser__panel.setLayout(null);
 		
 		
 		JLabel titleCreateUser__label = new JLabel("Create a new User");
 		titleCreateUser__label.setBounds(239, 33, 124, 16);
-		C__panel.add(titleCreateUser__label);
+		createUser__panel.add(titleCreateUser__label);
 
 		JRadioButton createStudent__radioButton = new JRadioButton("Student");
 		createStudent__radioButton.setBounds(46, 78, 141, 23);
 		createStudent__radioButton.setSelected(true);
-		C__panel.add(createStudent__radioButton);
+		createUser__panel.add(createStudent__radioButton);
 
 		JRadioButton createFunctioanry__radioButton = new JRadioButton("Functioanry");
 		createFunctioanry__radioButton.setBounds(219, 78, 141, 23);
-		C__panel.add(createFunctioanry__radioButton);
+		createUser__panel.add(createFunctioanry__radioButton);
 
 		JRadioButton createTeacher__radioButton = new JRadioButton("Teacher");
 		createTeacher__radioButton.setBounds(397, 78, 141, 23);
-		C__panel.add(createTeacher__radioButton);
+		createUser__panel.add(createTeacher__radioButton);
 
 		ButtonGroup userTypeCreateUser__buttonGroup = new ButtonGroup();
 		userTypeCreateUser__buttonGroup.add(createStudent__radioButton);
@@ -151,11 +152,11 @@ public class Screen extends JFrame {
 
 		JLabel descriptionCreateUser__label = new JLabel("Select the type of user that you want to create.");
 		descriptionCreateUser__label.setBounds(139, 55, 293, 16);
-		C__panel.add(descriptionCreateUser__label);
+		createUser__panel.add(descriptionCreateUser__label);
 
 		JPanel userType__panel = new JPanel();
 		userType__panel.setBounds(46, 113, 462, 384);
-		C__panel.add(userType__panel);
+		createUser__panel.add(userType__panel);
 		userType__panel.setLayout(new CardLayout(0, 0));
 		userType__cardLayout = (CardLayout) userType__panel.getLayout();
 
@@ -383,8 +384,30 @@ public class Screen extends JFrame {
 		submitCreateTeacher__button.setBounds(200, 220, 117, 29);
 		createTeacher__panel.add(submitCreateTeacher__button);
 		
-		JPanel createSubj__panel = new JPanel();
-		master__panel.add(createSubj__panel, "name_6070420451057");
+		JPanel consultUser__panel = new JPanel();
+		master__panel.add(consultUser__panel, "name_6070420451057");
+		consultUser__panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Consult a user from the Database");
+		lblNewLabel.setBounds(165, 67, 217, 16);
+		consultUser__panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("C.I");
+		lblNewLabel_1.setBounds(122, 112, 28, 16);
+		consultUser__panel.add(lblNewLabel_1);
+		
+		searchCi__textField = new JTextField();
+		searchCi__textField.setBounds(165, 107, 161, 26);
+		consultUser__panel.add(searchCi__textField);
+		searchCi__textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Search");
+		btnNewButton.setBounds(327, 107, 117, 29);
+		consultUser__panel.add(btnNewButton);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(81, 170, 425, 294);
+		consultUser__panel.add(panel);
 
 		submitCreateTeacher__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

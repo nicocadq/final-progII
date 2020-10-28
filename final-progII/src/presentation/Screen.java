@@ -108,33 +108,41 @@ public class Screen extends JFrame {
 
 		JPanel welcome__panel = new JPanel();
 		master__panel.add(welcome__panel, "WELCOME_PANEL");
-		welcome__panel.setLayout(new BorderLayout(0, 0));
 		Menu wlecome__menu = new Menu(welcome__panel, master__panel, master__cardLayout);
+		welcome__panel.setLayout(null);
+		
+		JLabel welcomeProject__Label = new JLabel("Welcome to the Project\n\n");
+		welcomeProject__Label.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		welcomeProject__Label.setForeground(new Color(0, 0, 0));
+		welcomeProject__Label.setBounds(175, 90, 190, 47);
+		welcome__panel.add(welcomeProject__Label);
+		
+		JLabel DescriptionWelcome__Label = new JLabel("Choose the optiones above to start\n");
+		DescriptionWelcome__Label.setBounds(154, 181, 242, 16);
+		welcome__panel.add(DescriptionWelcome__Label);
 
-		JLabel welcome__label = new JLabel("Welcome");
-		welcome__label.setBounds(208, 207, 61, 16);
-		welcome__panel.add(welcome__label);
-
-		JPanel createUser__panel = new JPanel();
-		master__panel.add(createUser__panel, "CREATE_USER_PANEL");
-		createUser__panel.setLayout(null);
-
+		JPanel C__panel = new JPanel();
+		master__panel.add(C__panel, "CREATE_USER_PANEL");
+		Menu createUser__menu = new Menu(C__panel, master__panel, master__cardLayout);
+		C__panel.setLayout(null);
+		
+		
 		JLabel titleCreateUser__label = new JLabel("Create a new User");
-		titleCreateUser__label.setBounds(236, 34, 124, 16);
-		createUser__panel.add(titleCreateUser__label);
+		titleCreateUser__label.setBounds(239, 33, 124, 16);
+		C__panel.add(titleCreateUser__label);
 
 		JRadioButton createStudent__radioButton = new JRadioButton("Student");
 		createStudent__radioButton.setBounds(46, 78, 141, 23);
 		createStudent__radioButton.setSelected(true);
-		createUser__panel.add(createStudent__radioButton);
+		C__panel.add(createStudent__radioButton);
 
 		JRadioButton createFunctioanry__radioButton = new JRadioButton("Functioanry");
 		createFunctioanry__radioButton.setBounds(219, 78, 141, 23);
-		createUser__panel.add(createFunctioanry__radioButton);
+		C__panel.add(createFunctioanry__radioButton);
 
 		JRadioButton createTeacher__radioButton = new JRadioButton("Teacher");
 		createTeacher__radioButton.setBounds(397, 78, 141, 23);
-		createUser__panel.add(createTeacher__radioButton);
+		C__panel.add(createTeacher__radioButton);
 
 		ButtonGroup userTypeCreateUser__buttonGroup = new ButtonGroup();
 		userTypeCreateUser__buttonGroup.add(createStudent__radioButton);
@@ -143,11 +151,11 @@ public class Screen extends JFrame {
 
 		JLabel descriptionCreateUser__label = new JLabel("Select the type of user that you want to create.");
 		descriptionCreateUser__label.setBounds(139, 55, 293, 16);
-		createUser__panel.add(descriptionCreateUser__label);
+		C__panel.add(descriptionCreateUser__label);
 
 		JPanel userType__panel = new JPanel();
 		userType__panel.setBounds(46, 113, 462, 384);
-		createUser__panel.add(userType__panel);
+		C__panel.add(userType__panel);
 		userType__panel.setLayout(new CardLayout(0, 0));
 		userType__cardLayout = (CardLayout) userType__panel.getLayout();
 
@@ -374,6 +382,9 @@ public class Screen extends JFrame {
 		JButton submitCreateTeacher__button = new JButton("SUBMIT");
 		submitCreateTeacher__button.setBounds(200, 220, 117, 29);
 		createTeacher__panel.add(submitCreateTeacher__button);
+		
+		JPanel createSubj__panel = new JPanel();
+		master__panel.add(createSubj__panel, "name_6070420451057");
 
 		submitCreateTeacher__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -412,5 +423,4 @@ public class Screen extends JFrame {
 			}
 		});
 	}
-
 }

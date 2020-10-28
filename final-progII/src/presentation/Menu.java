@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class Menu {
 	public Menu(JPanel panel, JPanel master__panel, CardLayout master__cardLayout) {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 230, 22);
+		menuBar.setBounds(0, 0, 7000, 22);
 		panel.add(menuBar, BorderLayout.NORTH);
 
 		JMenu menu_User = new JMenu("Users");
@@ -21,7 +21,7 @@ public class Menu {
 		JMenu menu_Absence = new JMenu("Absence");
 		JMenu menu_Exam = new JMenu("Exam");
 		JMenu menu_Exit = new JMenu("Exit");
-		JMenu menu_Space = new JMenu("                                                                               ");
+		JMenu menu_Space = new JMenu("                                    ");
 		JMenu menu_LogOut = new JMenu("Log Out");
 
 		menuBar.add(menu_User);
@@ -46,11 +46,11 @@ public class Menu {
 		JMenuItem consultSubject__menuItem = new JMenuItem("Consult Subjects");
 		menu_Subject.add(consultSubject__menuItem);
 		
-		JMenuItem consultSubject_menuItem = new JMenuItem("List Subjects");
-		menu_Subject.add(consultSubject_menuItem);
+		JMenuItem listSubject_menuItem = new JMenuItem("List Subjects");
+		menu_Subject.add(listSubject_menuItem);
 		
-		JMenuItem deleteSubject_menuItem = new JMenuItem("Create Subject");
-		menu_Subject.add(deleteSubject_menuItem);
+		JMenuItem createSubject_menuItem = new JMenuItem("Create Subject");
+		menu_Subject.add(createSubject_menuItem);
 
 		
 		

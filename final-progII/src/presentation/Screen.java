@@ -1,14 +1,22 @@
 package presentation;
 
+
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import persistence.ControllerDB;
 
 import logic.ControllerLogic;
+import persistence.Conn;
+import logic.Student;
+import logic.Teacher;
+import logic.User;
 
 public class Screen extends JFrame {
 
+	Conn con;
+	ControllerDB db;
 	private static ControllerLogic controller;
 	private static boolean isUserLoggedIn = true;
 
@@ -39,6 +47,12 @@ public class Screen extends JFrame {
 	private JComboBox generationCreateStudent__comboBox;
 	private JComboBox orientationCreateStudent__comboBox;
 	private JTextField searchCi__textField;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -61,6 +75,7 @@ public class Screen extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("deprecation")
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 570);
@@ -111,13 +126,13 @@ public class Screen extends JFrame {
 		master__panel.add(welcome__panel, "WELCOME_PANEL");
 		Menu wlecome__menu = new Menu(welcome__panel, master__panel, master__cardLayout);
 		welcome__panel.setLayout(null);
-		
+
 		JLabel welcomeProject__Label = new JLabel("Welcome to the Project\n\n");
 		welcomeProject__Label.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		welcomeProject__Label.setForeground(new Color(0, 0, 0));
 		welcomeProject__Label.setBounds(175, 90, 190, 47);
 		welcome__panel.add(welcomeProject__Label);
-		
+
 		JLabel DescriptionWelcome__Label = new JLabel("Choose the optiones above to start\n");
 		DescriptionWelcome__Label.setBounds(154, 181, 242, 16);
 		welcome__panel.add(DescriptionWelcome__Label);
@@ -126,8 +141,7 @@ public class Screen extends JFrame {
 		master__panel.add(createUser__panel, "CREATE_USER_PANEL");
 		Menu createUser__menu = new Menu(createUser__panel, master__panel, master__cardLayout);
 		createUser__panel.setLayout(null);
-		
-		
+
 		JLabel titleCreateUser__label = new JLabel("Create a new User");
 		titleCreateUser__label.setBounds(239, 33, 124, 16);
 		createUser__panel.add(titleCreateUser__label);
@@ -383,31 +397,118 @@ public class Screen extends JFrame {
 		JButton submitCreateTeacher__button = new JButton("SUBMIT");
 		submitCreateTeacher__button.setBounds(200, 220, 117, 29);
 		createTeacher__panel.add(submitCreateTeacher__button);
-		
+
 		JPanel consultUser__panel = new JPanel();
 		master__panel.add(consultUser__panel, "name_6070420451057");
+		Menu consultUserr__panel = new Menu(consultUser__panel, master__panel, master__cardLayout);
 		consultUser__panel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Consult a user from the Database");
 		lblNewLabel.setBounds(165, 67, 217, 16);
 		consultUser__panel.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("C.I");
 		lblNewLabel_1.setBounds(122, 112, 28, 16);
 		consultUser__panel.add(lblNewLabel_1);
-		
+
 		searchCi__textField = new JTextField();
 		searchCi__textField.setBounds(165, 107, 161, 26);
 		consultUser__panel.add(searchCi__textField);
 		searchCi__textField.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Search");
-		btnNewButton.setBounds(327, 107, 117, 29);
-		consultUser__panel.add(btnNewButton);
-		
+
+		JButton searchConsultUser__btnNewButton = new JButton("Search");
+		searchConsultUser__btnNewButton.setBounds(334, 106, 117, 29);
+		consultUser__panel.add(searchConsultUser__btnNewButton);
+
+		JPanel editConsult__panel = new JPanel();
+		editConsult__panel.setBounds(52, 139, 470, 333);
+		consultUser__panel.add(editConsult__panel);
+		editConsult__panel.setLayout(null);
+		editConsult__panel.show(false);
+
+		JPanel infoUser__panel = new JPanel();
+		infoUser__panel.setBounds(107, 11, 208, 181);
+		editConsult__panel.add(infoUser__panel);
+		infoUser__panel.setLayout(null);
+		infoUser__panel.show(false);
+
+		JLabel lblNewLabel_2 = new JLabel("Name");
+		lblNewLabel_2.setBounds(10, 14, 67, 14);
+		infoUser__panel.add(lblNewLabel_2);
+
+		JLabel lblNewLabel_3 = new JLabel("Lastname");
+		lblNewLabel_3.setBounds(10, 45, 67, 14);
+		infoUser__panel.add(lblNewLabel_3);
+
+		JLabel lblNewLabel_4 = new JLabel("Email");
+		lblNewLabel_4.setBounds(10, 73, 67, 14);
+		infoUser__panel.add(lblNewLabel_4);
+
+		JLabel lblNewLabel_5 = new JLabel("Password");
+		lblNewLabel_5.setBounds(10, 98, 67, 14);
+		infoUser__panel.add(lblNewLabel_5);
+
+		JLabel lblNewLabel_6 = new JLabel("C.I");
+		lblNewLabel_6.setBounds(10, 123, 42, 14);
+		infoUser__panel.add(lblNewLabel_6);
+
+		JLabel lblNewLabel_7 = new JLabel("Date Birth");
+		lblNewLabel_7.setBounds(10, 152, 57, 14);
+		infoUser__panel.add(lblNewLabel_7);
+
+		textField = new JTextField();
+		textField.setBounds(87, 11, 86, 20);
+		infoUser__panel.add(textField);
+		textField.setColumns(10);
+
+		textField_1 = new JTextField();
+		textField_1.setBounds(87, 42, 86, 20);
+		infoUser__panel.add(textField_1);
+		textField_1.setColumns(10);
+
+		textField_2 = new JTextField();
+		textField_2.setBounds(87, 70, 86, 20);
+		infoUser__panel.add(textField_2);
+		textField_2.setColumns(10);
+
+		textField_3 = new JTextField();
+		textField_3.setBounds(87, 95, 86, 20);
+		infoUser__panel.add(textField_3);
+		textField_3.setColumns(10);
+
+		textField_4 = new JTextField();
+		textField_4.setBounds(87, 120, 86, 20);
+		infoUser__panel.add(textField_4);
+		textField_4.setColumns(10);
+
+		textField_5 = new JTextField();
+		textField_5.setBounds(87, 149, 86, 20);
+		infoUser__panel.add(textField_5);
+		textField_5.setColumns(10);
+
+		JPanel studentConsult__panel = new JPanel();
+		studentConsult__panel.setBounds(216, 39, 105, 89);
+		infoUser__panel.add(studentConsult__panel);
+		studentConsult__panel.setLayout(null);
+
+		JButton updateConsult__btnNewButton = new JButton("Update");
+		updateConsult__btnNewButton.setBounds(325, 11, 89, 23);
+		editConsult__panel.add(updateConsult__btnNewButton);
+
 		JPanel panel = new JPanel();
-		panel.setBounds(81, 170, 425, 294);
-		consultUser__panel.add(panel);
+		panel.setBounds(107, 203, 208, 44);
+		editConsult__panel.add(panel);
+		panel.setLayout(null);
+
+		JButton addSubject__btnNewButton_1 = new JButton("Add subject");
+		addSubject__btnNewButton_1.setBounds(59, 5, 89, 23);
+		panel.add(addSubject__btnNewButton_1);
+		addSubject__btnNewButton_1.show(false);
+
+		JButton modifySubj__btnNewButton_2 = new JButton("Modify subject");
+		modifySubj__btnNewButton_2.setBounds(59, 5, 89, 23);
+		panel.add(modifySubj__btnNewButton_2);
+		modifySubj__btnNewButton_2.show(false);
 
 		submitCreateTeacher__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -443,6 +544,31 @@ public class Screen extends JFrame {
 				if (isUserLoggedIn) {
 					master__cardLayout.show(master__panel, "WELCOME_PANEL");
 				}
+			}
+		});
+		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					String ciConsult = searchCi__textField.getText();
+					System.out.println(ciConsult);
+					editConsult__panel.show(true);
+					infoUser__panel.show(true);
+					User user = db.recoverUser(ciConsult);
+
+					if (user instanceof Student) {
+						modifySubj__btnNewButton_2.show(true);
+					} else {
+						if (user instanceof Teacher) {
+							addSubject__btnNewButton_1.show(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Something went Wrong !, try again.");
+
+						}
+					}
+				} catch (Exception e) {
+				}
+
 			}
 		});
 	}

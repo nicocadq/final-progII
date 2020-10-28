@@ -52,13 +52,18 @@ public class Menu {
 		JMenuItem createSubject_menuItem = new JMenuItem("Create Subject");
 		menu_Subject.add(createSubject_menuItem);
 
-		
-		
 		createUser__menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				master__cardLayout.show(master__panel, "CREATE_USER_PANEL");
+			}
+		});
+		
+		consultUsers_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_6070420451057");
 				
 			}
 		});
+		
 	}
 }

@@ -43,14 +43,28 @@ public class Menu {
 		menu_User.add(listUsers_menuItem);
 		
 		/*Sub Menu of the JMenu Subject*/
+		JMenuItem createSubject_menuItem = new JMenuItem("Create Subject");
+		menu_Subject.add(createSubject_menuItem);
 		JMenuItem consultSubject__menuItem = new JMenuItem("Consult Subjects");
 		menu_Subject.add(consultSubject__menuItem);
 		
 		JMenuItem listSubject_menuItem = new JMenuItem("List Subjects");
 		menu_Subject.add(listSubject_menuItem);
 		
-		JMenuItem createSubject_menuItem = new JMenuItem("Create Subject");
-		menu_Subject.add(createSubject_menuItem);
+		/*Sub Menu of the JMenu Exams*/
+		JMenuItem createExan_menuItem = new JMenuItem("Create Exam");
+		menu_Exam.add(createExan_menuItem);
+		
+		/*Sub Menu of the JMenu Absences*/
+		JMenuItem createAbsence_menuItem = new JMenuItem("Create Absences");
+		menu_Absence.add(createAbsence_menuItem);
+		
+		JMenuItem consultAbsence_menuItem = new JMenuItem("Consult Absences");
+		menu_Absence.add(consultAbsence_menuItem);
+		
+		JMenuItem listAbsence_menuItem = new JMenuItem("List Absences");
+		menu_Absence.add(listAbsence_menuItem);
+
 
 		createUser__menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,6 +78,60 @@ public class Menu {
 				
 			}
 		});
+		listUsers_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_110770879092900");
+				
+			}
+		});
 		
+		listUsers_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_110770879092900");
+				
+			}
+		});
+		createSubject_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_113009623994000");
+				
+			}
+		});
+		consultSubject__menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_114186707320200");
+				
+			}
+		});
+		listSubject_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_115076285776000");
+				
+			}
+		});
+		createAbsence_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_115660093197000");
+				
+			}
+		});
+		consultAbsence_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_117345618880400");
+				
+			}
+		});
+		listAbsence_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_118124424073500");
+				
+			}
+		});
+		
+		createExan_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "name_120052289757000");
+			}
+		});
 	}
 }

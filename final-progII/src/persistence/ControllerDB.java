@@ -255,6 +255,21 @@ public class ControllerDB extends Conn {
 	}
 
 	public void toPersistExam(Exam exam) {
+		
+		try {
+			
+			System.out.println("Crearing a connection Object");
+			this.MySQLconnection();
+			
+			System.out.println("Creating preparedStatement for Exams");
+			
+			
+			
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

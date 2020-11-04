@@ -7,16 +7,26 @@ public class Absence {
 	private LocalDate date;
 	private AbstenceType type;
 	private int amountHours;
+	private int id;
 
-	private int studentCI;
-	private String subjectCode;
+	private Student student;
+	private Subject subject;
 
-	public Absence(LocalDate date, AbstenceType type, int amountHours, int studentCI, String subjectCode) {
+	public Absence(int id, LocalDate date, AbstenceType type, int amountHours, Student student, Subject subject) {
+		this.id = id;
 		this.date = date;
 		this.type = type;
 		this.amountHours = amountHours;
-		this.studentCI = studentCI;
-		this.subjectCode = subjectCode;
+		this.student = student;
+		this.subject = subject;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public LocalDate getDate() {
@@ -43,20 +53,20 @@ public class Absence {
 		this.amountHours = amountHours;
 	}
 
-	public void setStudentCI(int studentCI) {
-		this.studentCI = studentCI;
+	public void setStuden(Student student) {
+		this.student = student;
 	}
 
-	public int getStudentCI() {
-		return this.studentCI;
+	public Student getStudent() {
+		return this.student;
 	}
 
-	public void setSubjectCode(String subjectCode) {
-		this.subjectCode = subjectCode;
+	public void setSubject(Subject subject) {
+		this.subject = subject;
 	}
 
-	public String getSubjectCode() {
-		return this.subjectCode;
+	public Subject getSubject() {
+		return this.subject;
 	}
 
 }

@@ -1,14 +1,14 @@
 package persistence;
 
-import java.sql.*;
-import java.time.LocalDate;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.security.auth.Subject;
-
+import logic.Subject;
 import logic.Absence;
+import logic.AbstenceType;
 import logic.Exam;
 import logic.Functionary;
 import logic.Generation;
@@ -125,15 +125,112 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public void toPersistSubject(Subject subject) {
+	public void toPersistSubject(Subject subject) throws Exception {
+
+		try {
+
+			System.out.println("Creting a connection object");
+			this.MySQLconnection();
+
+			System.out.println("Created PreparedStatement");
+			PreparedStatement subjectSt = this.conn
+					.prepareStatement("INSERT INTO Subject(IDSUBJECT, NAME, ORIENTATION, GENERATION) VALUES(?,?,?,?)");
+
+			subjectSt.setString(1, subject.getCode());
+			subjectSt.setString(2, subject.getName());
+			subjectSt.setString(3, subject.getOrientation().toString());
+			subjectSt.setString(4, subject.getGeneration().toString());
+
+			System.out.println("Execute Update");
+
+			int updatedSubjetRows = subjectSt.executeUpdate();
+
+			System.out.println("Update subject rows: " + updatedSubjetRows);
+
+		} catch (SQLException ex) {
+			throw ex;
+		} finally {
+			this.coloseConecction();
+		}
 
 	}
 
-	public void toPersistAbsence(Absence absence) {
+	public void toPersistIntoTeaches(Subject subject, Teacher teacher) throws SQLException {
+		try {
+			System.out.println("Created PreparedStatement for teaches");
+
+			PreparedStatement teachesSt = this.conn
+					.prepareStatement("INSERT INTO TEACHES(IDSUBJECT, CITEACHER) VALUES(?,?)");
+
+			teachesSt.setString(1, subject.getCode());
+			teachesSt.setInt(2, teacher.getCi());
+
+			System.out.println("Execut Update");
+
+			int updateTeachesRows = teachesSt.executeUpdate();
+
+			System.out.println("Update teaches rows: " + updateTeachesRows);
+
+		} catch (SQLException ex) {
+			throw ex;
+		}
 
 	}
 
-	public void toPersistExam(Exam exam) {
+	public void toPersistAbsence(Absence absence) throws Exception {
+
+		try {
+
+			System.out.println("Creating a Connection object");
+			this.MySQLconnection();
+
+			System.out.println("Created PreparedStatment for absences");
+			PreparedStatement absencesSt = this.conn.prepareStatement(
+					"INSERT INTO Absence(IDABSENCE, CISTUDENT, IDSUBJECT, TYPE, DATE, AMOUNTOFHOURS) VALUES(?,?,?,?,?,?)");
+
+			absencesSt.setInt(1, 0);
+			absencesSt.setInt(2, absence.getStudent().getCi());
+			absencesSt.setString(3, absence.getSubject().getCode());
+			absencesSt.setString(4, absence.getType().toString());
+			absencesSt.setDate(5, java.sql.Date.valueOf(absence.getDate()));
+			absencesSt.setInt(6, absence.getAmountHours());
+
+			System.out.println("Ëxecute Update for Absences");
+			int updatedAbsence = absencesSt.executeUpdate();
+
+			System.out.println("Update absence rows: " + updatedAbsence);
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+
+	public void toPersistExam(Exam exam) throws Exception {
+
+		try {
+
+			System.out.println("Crearing a connection Object");
+			this.MySQLconnection();
+
+			System.out.println("Creating preparedStatement for Exams");
+			PreparedStatement examSt = this.conn.prepareStatement(
+					"INSERT INTO Exam(IDEXAM, CISTUDENT, IDSUBJECT, DATE, MARKFAILED) VALUES(?,?,?,?,?)");
+
+			examSt.setInt(1, 0);
+			examSt.setInt(2, exam.getStudent().getCi());
+			examSt.setString(3, exam.getSubject().getCode());
+			examSt.setDate(4, java.sql.Date.valueOf(exam.getDate()));
+			examSt.setInt(5, exam.getMark());
+
+			System.out.println("Execut Update");
+
+			int updatedExamRows = examSt.executeUpdate();
+
+			System.out.println("Update teaches rows: " + updatedExamRows);
+
+		} catch (Exception e) {
+			throw e;
+		}
 
 	}
 
@@ -259,8 +356,80 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public Subject recoverSubject(String code) {
-		return null;
+	public Subject recoverSubject(String code) throws Exception {
+
+		Subject subject = null;
+		try {
+			System.out.println("Creating a connection for a RecoverSubject Method");
+			this.MySQLconnection();
+			PreparedStatement subjectSt = this.conn.prepareStatement("SELECT * FROM subject WHERE IDSUBJECT = ?");
+
+			subjectSt.setString(1, code);
+
+			System.out.println("Executing Query and creating ResultSet for the RecoverSubject");
+			ResultSet subjectRs = subjectSt.executeQuery();
+
+			while (subjectRs.next()) {
+				Teacher teacher = null;
+				System.out.println("Database Subject");
+
+				Subject subjectCopy = new Subject(subjectRs.getString("IDSUBJECT"), subjectRs.getString("NAME"),
+						Orientation.valueOf(subjectRs.getString(3)), Generation.valueOf(subjectRs.getString(4)),
+						teacher);
+				subject = new Subject(subjectCopy.getCode(), subjectCopy.getName(), subjectCopy.getOrientation(),
+						subjectCopy.getGeneration(), subjectCopy.getTeacher());
+
+			}
+
+		} catch (SQLException ex) {
+			throw ex;
+		} finally {
+			coloseConecction();
+		}
+
+		return subject;
+
+	}
+
+	public void updateSubject(String code, Subject subject) throws SQLException {
+		try {
+			System.out.println("Created PreparedStatement for Update Subject");
+
+			PreparedStatement subjectSt = this.conn.prepareStatement(
+					"UPDATE Subject SET NAME = ?, GENERATION = ?, ORIENTATION = ? WHERE IDSUBJECT = ?");
+
+			subjectSt.setString(1, subject.getName());
+			subjectSt.setString(2, subject.getGeneration().toString());
+			subjectSt.setString(3, subject.getOrientation().toString());
+			subjectSt.setString(4, code);
+
+			System.out.println("Execut Update");
+
+			int updatedSubjectRows = subjectSt.executeUpdate();
+
+			System.out.println("Updated subject rows: " + updatedSubjectRows);
+
+		} catch (SQLException ex) {
+			throw ex;
+		}
+
+	}
+
+	public void deleteAbsence(Absence absence) throws SQLException {
+		try {
+			System.out.println("Created PreparedStatement for delete absence");
+
+			PreparedStatement absenceSt = this.conn.prepareStatement("DELETE FROM Absence WHERE IDABSENCE = ?");
+
+			absenceSt.setInt(1, absence.getId());
+
+			System.out.println("Execut Update");
+
+			absenceSt.execute();
+
+		} catch (SQLException ex) {
+			throw ex;
+		}
 
 	}
 
@@ -341,13 +510,86 @@ public class ControllerDB extends Conn {
 		return users;
 	}
 
-	public List<Subject> recoverSubjects() {
-		return null;
+	public List<Subject> recoverSubjects() throws Exception {
+		List<Subject> subjects = new ArrayList<Subject>();
+
+		System.out.println("Creating a Connection Object.");
+		this.MySQLconnection();
+
+		try {
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement subjectSt = this.conn.prepareStatement("SELECT * FROM Subject");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet subjectRs = subjectSt.executeQuery();
+
+			while (subjectRs.next()) {
+				Teacher teacher = null;
+
+				System.out.println("Database User student ");
+				Subject subject = new Subject(subjectRs.getString(1), subjectRs.getString(2),
+						Orientation.valueOf(subjectRs.getString(3)), Generation.valueOf(subjectRs.getString(4)),
+						teacher);
+				subjects.add(subject);
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return subjects;
 
 	}
 
-	public List<Subject> recoverExams() {
-		return null;
+	public List<Exam> recoverExams() throws Exception {
+		List<Exam> exams = new ArrayList<Exam>();
 
+		try {
+
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement examSt = this.conn.prepareStatement("SELECT * FROM Exam");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet examRs = examSt.executeQuery();
+
+			while (examRs.next()) {
+				Exam exam = new Exam(examRs.getDate("DATE").toLocalDate(), examRs.getInt("MARKFAILED"), null, null);
+				exams.add(exam);
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return exams;
+	}
+	
+	public List<Absence> recoverAbsences() throws Exception{
+		List<Absence> absences = new ArrayList<Absence>();
+
+		try {
+
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement absenceSt = this.conn.prepareStatement("SELECT * FROM Absence");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet absenceRs = absenceSt.executeQuery();
+
+			while (absenceRs.next()) {
+				Absence absence = new Absence(absenceRs.getInt(1), absenceRs.getDate(2).toLocalDate(), AbstenceType.valueOf(absenceRs.getString("TYPE")), absenceRs.getInt("AMOUNTOFHOURS"), null, null);
+				absences.add(absence);
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return absences;
 	}
 }

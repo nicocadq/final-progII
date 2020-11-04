@@ -23,6 +23,10 @@ public class Student extends User {
 		this.exams = new ArrayList<Exam>();
 		this.finishedSubjects = new ArrayList<FinishedSubject>();
 	}
+	
+	public Student(int ci) {
+		super(ci);
+	}
 
 	public Orientation getOrientation() {
 		return orientation;

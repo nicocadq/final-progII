@@ -17,6 +17,10 @@ public class Subject {
 		this.generation = generation;
 		this.teacher = teacher;
 	}
+	
+	public Subject(String code) {
+		this.code = code;
+	}
 
 	public String getCode() {
 		return code;

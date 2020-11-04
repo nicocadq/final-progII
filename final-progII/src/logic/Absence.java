@@ -20,11 +20,15 @@ public class Absence {
 		this.student = student;
 		this.subject = subject;
 	}
-	
+
+	public Absence(int id) {
+		this.id = id;
+	}
+
 	public int getId() {
 		return this.id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}

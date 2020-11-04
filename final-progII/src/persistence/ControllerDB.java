@@ -155,8 +155,11 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public void toPersistIntoTeaches(Subject subject, Teacher teacher) throws SQLException {
+	public void toPersistIntoTeaches(Subject subject, Teacher teacher) throws Exception {
 		try {
+			System.out.println("Creting a connection object");
+			this.MySQLconnection();
+
 			System.out.println("Created PreparedStatement for teaches");
 
 			PreparedStatement teachesSt = this.conn
@@ -359,9 +362,12 @@ public class ControllerDB extends Conn {
 	public Subject recoverSubject(String code) throws Exception {
 
 		Subject subject = null;
+		Teacher teacher = null;
+
 		try {
 			System.out.println("Creating a connection for a RecoverSubject Method");
 			this.MySQLconnection();
+
 			PreparedStatement subjectSt = this.conn.prepareStatement("SELECT * FROM subject WHERE IDSUBJECT = ?");
 
 			subjectSt.setString(1, code);
@@ -369,8 +375,20 @@ public class ControllerDB extends Conn {
 			System.out.println("Executing Query and creating ResultSet for the RecoverSubject");
 			ResultSet subjectRs = subjectSt.executeQuery();
 
+			PreparedStatement teachesSt = this.conn.prepareStatement("SELECT * FROM teaches WHERE IDSUBJECT = ?");
+
+			teachesSt.setString(1, code);
+
+			System.out.println("Executing Query and creating ResultSet for the Recover Teaches");
+			ResultSet teachesRs = teachesSt.executeQuery();
+
+			while (teachesRs.next()) {
+				System.out.println("Database IDTEACHER");
+				teacher = new Teacher(teachesRs.getInt("CITEACHER"));
+			}
+
 			while (subjectRs.next()) {
-				Teacher teacher = null;
+
 				System.out.println("Database Subject");
 
 				Subject subjectCopy = new Subject(subjectRs.getString("IDSUBJECT"), subjectRs.getString("NAME"),
@@ -391,8 +409,11 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public void updateSubject(String code, Subject subject) throws SQLException {
+	public void updateSubject(String code, Subject subject) throws Exception {
 		try {
+			System.out.println("Creating a connection for a RecoverSubject Method");
+			this.MySQLconnection();
+
 			System.out.println("Created PreparedStatement for Update Subject");
 
 			PreparedStatement subjectSt = this.conn.prepareStatement(
@@ -415,15 +436,18 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public void deleteAbsence(Absence absence) throws SQLException {
+	public void deleteAbsence(Absence absence) throws Exception {
 		try {
+			System.out.println("Creating a connection for a RecoverSubject Method");
+			this.MySQLconnection();
+
 			System.out.println("Created PreparedStatement for delete absence");
 
 			PreparedStatement absenceSt = this.conn.prepareStatement("DELETE FROM Absence WHERE IDABSENCE = ?");
 
 			absenceSt.setInt(1, absence.getId());
 
-			System.out.println("Execut Update");
+			System.out.println("Execute Update");
 
 			absenceSt.execute();
 
@@ -513,10 +537,10 @@ public class ControllerDB extends Conn {
 	public List<Subject> recoverSubjects() throws Exception {
 		List<Subject> subjects = new ArrayList<Subject>();
 
-		System.out.println("Creating a Connection Object.");
-		this.MySQLconnection();
-
 		try {
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
+
 			System.out.println("Creating PreparedStatement");
 			PreparedStatement subjectSt = this.conn.prepareStatement("SELECT * FROM Subject");
 
@@ -525,6 +549,18 @@ public class ControllerDB extends Conn {
 
 			while (subjectRs.next()) {
 				Teacher teacher = null;
+				
+				PreparedStatement teachesSt = this.conn.prepareStatement("SELECT * FROM teaches WHERE IDSUBJECT = ?");
+
+				teachesSt.setString(1, subjectRs.getString("IDSUBJECT"));
+
+				System.out.println("Executing Query and creating ResultSet for the Recover Teaches");
+				ResultSet teachesRs = teachesSt.executeQuery();
+
+				while (teachesRs.next()) {
+					System.out.println("Database IDTEACHER");
+					teacher = new Teacher(teachesRs.getInt("CITEACHER"));
+				}
 
 				System.out.println("Database User student ");
 				Subject subject = new Subject(subjectRs.getString(1), subjectRs.getString(2),
@@ -556,7 +592,8 @@ public class ControllerDB extends Conn {
 			ResultSet examRs = examSt.executeQuery();
 
 			while (examRs.next()) {
-				Exam exam = new Exam(examRs.getDate("DATE").toLocalDate(), examRs.getInt("MARKFAILED"), null, null);
+				Exam exam = new Exam(examRs.getDate("DATE").toLocalDate(), examRs.getInt("MARKFAILED"),
+						new Student(examRs.getInt("CISTUDENT")), new Subject(examRs.getString("IDSUBJECT")));
 				exams.add(exam);
 			}
 
@@ -566,8 +603,8 @@ public class ControllerDB extends Conn {
 
 		return exams;
 	}
-	
-	public List<Absence> recoverAbsences() throws Exception{
+
+	public List<Absence> recoverAbsences() throws Exception {
 		List<Absence> absences = new ArrayList<Absence>();
 
 		try {
@@ -582,7 +619,9 @@ public class ControllerDB extends Conn {
 			ResultSet absenceRs = absenceSt.executeQuery();
 
 			while (absenceRs.next()) {
-				Absence absence = new Absence(absenceRs.getInt(1), absenceRs.getDate(2).toLocalDate(), AbstenceType.valueOf(absenceRs.getString("TYPE")), absenceRs.getInt("AMOUNTOFHOURS"), null, null);
+				Absence absence = new Absence(absenceRs.getInt(1), absenceRs.getDate("DATE").toLocalDate(),
+						AbstenceType.valueOf(absenceRs.getString("TYPE")), absenceRs.getInt("AMOUNTOFHOURS"),
+						new Student(absenceRs.getInt("CISTUDENT")), new Subject(absenceRs.getString("IDSUBJECT")));
 				absences.add(absence);
 			}
 

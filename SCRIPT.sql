@@ -16,7 +16,7 @@ CREATE TABLE Student( ciUser INT NOT NULL, orientation VARCHAR(64), generation V
 
 CREATE TABLE Exam( idExam INT NOT NULL AUTO_INCREMENT, ciStudent INT NOT NULL, idSubject VARCHAR(64), date DATE, markFailed INT, PRIMARY KEY (idExam, ciStudent), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser));
 
-CREATE TABLE Absence(idAbsence INT NOT NULL AUTO_INCREMENT, ciStudent INT NOT NULL, idSubject VARCHAR(64) , type VARCHAR(64), date DATE, PRIMARY KEY (idAbsence, ciStudent), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject));
+CREATE TABLE Absence(idAbsence INT NOT NULL AUTO_INCREMENT, ciStudent INT NOT NULL, idSubject VARCHAR(64) , type VARCHAR(64), date DATE, amountOfHours INT,  PRIMARY KEY (idAbsence, ciStudent), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject));
 
 CREATE TABLE Takes(ciStudent INT NOT NULL, idSubject VARCHAR(64), PRIMARY KEY (ciStudent, idSubject), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject));
 

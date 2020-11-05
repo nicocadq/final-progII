@@ -2,105 +2,307 @@ package logic;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import persistence.Conn;
+import java.util.List;
+
 import persistence.ControllerDB;
 
 public class ControllerLogic {
 
-	public User createUsers(User user) {
+	private final String errorMessage = "There was a server error, please try again later.";
+
+	private ControllerDB db;
+
+	public ControllerLogic() {
+		this.db = new ControllerDB();
+	}
+
+	public User createUser(User user) throws Exception {
+
+		try {
+
+			this.db.toPersistUser(user);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
 
 		return user;
 	}
 
-	public Subject createSubject(Subject subject) {
+	public Subject createSubject(Subject subject) throws Exception {
+
+		try {
+
+			this.db.toPersistSubject(subject);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
 
 		return subject;
 	}
 
-	public Absence createSubject(Absence absence) {
+	public Absence createSubject(Absence absence) throws Exception {
+
+		try {
+
+			this.db.toPersistAbsence(absence);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
 
 		return absence;
 	}
 
-	public User consultUsers(String ci) {
-		return null;
-		// return Usuario.ci o alg asi
+	public User consultUsers(int ci) throws Exception {
+
+		User user = null;
+
+		try {
+
+			user = this.db.recoverUser(ci);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		return user;
 	}
 
-	public Subject consultSubject(String code) {
-		return null;
-		// return Materi.codigo
+	public Subject consultSubject(String code) throws Exception {
+
+		Subject subject = null;
+
+		try {
+
+			subject = this.db.recoverSubject(code);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		return subject;
 	}
 
-	public ArrayList<Absence> consultAbstence(String ci) {
-		return null;
-		// ...?
+	public List<Absence> consultAbstence(int ci) throws Exception {
+		List<Absence> absences = null;
+
+		try {
+
+			absences = this.db.recoverAbsences();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		for (Absence absence : absences) {
+			if (absence.getStudent().getCi() != ci) {
+				absences.remove(absence);
+			}
+		}
+
+		return absences;
 	}
 
-	public ArrayList<Student> studentsToList() {
-		return null;
-		// void creo
+	public List<Student> studentsList() throws Exception {
+		List<User> users = null;
+		List<Student> students = new ArrayList<Student>();
+
+		try {
+			users = this.db.recoverUsers();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			for (User user : users) {
+				students.add((Student) user);
+			}
+
+		} catch (ClassCastException castEx) {
+
+		}
+
+		return students;
 	}
 
-	public ArrayList<Subject> subjectsToList() {
-		return null;
+	public List<Subject> subjectsList() throws Exception {
+		List<Subject> subjects = null;
+
+		try {
+
+			subjects = this.db.recoverSubjects();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		return subjects;
 	}
 
-	public ArrayList<Absence> abstencesToList() {
-		return null;
+	public List<Absence> abstencesList() throws Exception {
+		List<Absence> absences = null;
+
+		try {
+
+			absences = this.db.recoverAbsences();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		return absences;
 	}
 
+	// To implement
 	public ArrayList<Absence> abstencesToList(LocalDate fromDate, LocalDate tillDate) {
 		return null;
 	}
 
-	public User userModify(String ci, User user) {
+	// To implement in ControllerDB
+	public User userUpdate(int ci, User user) {
 		return null;
 	}
 
-	public Subject subjectModify(Subject code, Subject subject) {
+	public Subject subjectUpdate(String code, Subject subject) throws Exception {
+
+		try {
+
+			this.db.updateSubject(code, subject);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		return subject;
+	}
+
+	public void deleteAbstence(Absence absence) throws Exception {
+
+		try {
+
+			this.db.deleteAbsence(absence);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+	}
+
+	// To implement in ControllerDB
+	public List<User> listStudentsWithSubjToDo() {
+		List<User> users = null;
+		List<Subject> subjects = null;
+
 		return null;
 	}
 
-	public void deleteAbstence(Absence absence) {
+	public List<Exam> listHistoryExams() throws Exception {
+		List<Exam> exams = null;
+
+		try {
+
+			exams = this.db.recoverExams();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		return exams;
 	}
 
-	public ArrayList<User> listStudentsWithSubjToDo() {
+	// To implement
+	public List<Exam> listHistoryExams(int ci) throws Exception {
+		List<Exam> exams = null;
+
+		try {
+
+			exams = this.db.recoverExams();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		for (Exam exam : exams) {
+			if (exam.getStudent().getCi() != ci) {
+				exams.remove(exam);
+			}
+		}
+
+		return exams;
+	}
+
+	// To implement
+	public List<Subject> listPendientings(int ci) {
 		return null;
 	}
 
-	public ArrayList<Exam> listHistoricExamns() {
+	// To implement
+	public User login(int ci, String password) {
 		return null;
 	}
 
-	public ArrayList<Exam> listHistoricExamns(String ci) {
-		return null;
-	}
-
-	public ArrayList<Subject> listPendientings(String ci) {
-		return null;
-	}
-
-	public User login(String ci, String password) {
-		return null;
-	}
-
+	// TO implement
 	public Boolean logout() {
 		return null;
 	}
 
-	public ArrayList<User> listClass(Generation generation, Orientation orientation) {
+	public List<User> listClass(Generation generation, Orientation orientation) {
 		return null;
 	}
 
-	public ArrayList<Teacher> listTeachers() {
-		return null;
+	public List<Teacher> teachersList() throws Exception {
+		List<User> users = null;
+		List<Teacher> teachers = new ArrayList<Teacher>();
+
+		try {
+			users = this.db.recoverUsers();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			for (User user : users) {
+				teachers.add((Teacher) user);
+			}
+
+		} catch (ClassCastException castEx) {
+
+		}
+
+		return teachers;
 	}
 
-	public ArrayList<Functionary> listFunctionary() {
-		return null;
+	public List<Functionary> functionariesList() throws Exception {
+		List<User> users = null;
+		List<Functionary> functionaries = new ArrayList<Functionary>();
+
+		try {
+			users = this.db.recoverUsers();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			for (User user : users) {
+				functionaries.add((Functionary) user);
+			}
+
+		} catch (ClassCastException castEx) {
+
+		}
+
+		return functionaries;
 	}
 
+	//This is here just for testing purposes, we must delete the method before merge to develop
 	public static void main(String[] args) {
 		ControllerDB db = new ControllerDB();
 
@@ -117,29 +319,28 @@ public class ControllerLogic {
 		Absence absence = new Absence(2, LocalDate.of(2001, 1, 8), AbstenceType.JUSTIFY, 8, student, subject);
 		Exam exam = new Exam(LocalDate.of(2000, 3, 8), 7, student, subject);
 		try {
-			//Tested to persist
-			//db.toPersistUser(student);
-			//db.toPersistUser(teacher);
-			//db.toPersistSubject(subject);
-			 db.toPersistAbsence(absence);
-			 //db.toPersistExam(exam);
-			//db.toPersistIntoTeaches(subject, teacher);
-			
-			
-			 //System.out.println(db.recoverSubject("123").getCode());
-			
-			//db.updateSubject(subject.getCode(), subject);
-			
-		//	db.deleteAbsence(absence);
-			
+			// Tested to persist
+			// db.toPersistUser(student);
+			// db.toPersistUser(teacher);
+			// db.toPersistSubject(subject);
+			db.toPersistAbsence(absence);
+			// db.toPersistExam(exam);
+			// db.toPersistIntoTeaches(subject, teacher);
+
+			// System.out.println(db.recoverSubject("123").getCode());
+
+			// db.updateSubject(subject.getCode(), subject);
+
+			// db.deleteAbsence(absence);
+
 //			for (Subject sub : db.recoverSubjects()) {
 //				System.out.println(sub.getCode());
 //			}
-			
+
 //			for(Exam examFromDB : db.recoverExams()) {
 //				System.out.println(examFromDB.getMark());
 //			}
-			
+
 //			for(Absence absenceFromDB : db.recoverAbsences()) {
 //				System.out.println(absenceFromDB.getSubject().getCode());
 //			}

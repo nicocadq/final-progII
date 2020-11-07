@@ -42,7 +42,7 @@ public class ControllerLogic {
 		return subject;
 	}
 
-	public Absence createSubject(Absence absence) throws Exception {
+	public Absence createAbsence(Absence absence) throws Exception {
 
 		try {
 
@@ -193,10 +193,11 @@ public class ControllerLogic {
 	}
 
 	// To implement in ControllerDB
-	public List<User> listStudentsWithSubjToDo() {
+	public List<User> listStudentsWithSubjToDo() throws Exception {
 		List<User> users = null;
 		List<Subject> subjects = null;
 
+		
 		return null;
 	}
 
@@ -237,17 +238,43 @@ public class ControllerLogic {
 
 	// To implement
 	public List<Subject> listPendientings(int ci) {
+		List<User> users = null;
+		List<Subject> subjects = null;
+
 		return null;
 	}
 
-	// To implement
-	public User login(int ci, String password) {
-		return null;
+	// To finish the Idea
+	public User login(int ci, String password) throws Exception {
+
+		User ciLogin = null;
+
+		try {
+			ciLogin = this.db.recoverUser(ci);
+
+			if (ciLogin instanceof Functionary) {
+				if (ciLogin.getPassword() == password) {
+					System.out.println("Login succes");
+				} else {
+					System.out.println("The password is Incorrect");
+				}
+
+			} else {
+
+				System.out.println("Yoy write something wrong! Try Again");
+			}
+
+		} catch (Exception e) {
+			throw new Exception(errorMessage);
+		}
+		return ciLogin;
 	}
 
 	// TO implement
 	public Boolean logout() {
-		return null;
+
+		return true;
+		// Asi de sencillo nico xd
 	}
 
 	public List<User> listClass(Generation generation, Orientation orientation) {
@@ -302,7 +329,8 @@ public class ControllerLogic {
 		return functionaries;
 	}
 
-	//This is here just for testing purposes, we must delete the method before merge to develop
+	// This is here just for testing purposes, we must delete the method before
+	// merge to develop
 	public static void main(String[] args) {
 		ControllerDB db = new ControllerDB();
 

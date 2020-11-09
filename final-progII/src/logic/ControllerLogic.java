@@ -10,6 +10,8 @@ public class ControllerLogic {
 
 	private final String errorMessage = "There was a server error, please try again later.";
 
+	private User userLoggedIn = null;
+	
 	private ControllerDB db;
 
 	public ControllerLogic() {
@@ -180,7 +182,7 @@ public class ControllerLogic {
 		return subject;
 	}
 
-	public void deleteAbstence(Absence absence) throws Exception {
+	public void deleteAbsence(Absence absence) throws Exception {
 
 		try {
 
@@ -217,23 +219,8 @@ public class ControllerLogic {
 
 	// To implement
 	public List<Exam> listHistoryExams(int ci) throws Exception {
-		List<Exam> exams = null;
-
-		try {
-
-			exams = this.db.recoverExams();
-
-		} catch (Exception ex) {
-			throw new Exception(errorMessage);
-		}
-
-		for (Exam exam : exams) {
-			if (exam.getStudent().getCi() != ci) {
-				exams.remove(exam);
-			}
-		}
-
-		return exams;
+		return null;
+		
 	}
 
 	// To implement
@@ -244,37 +231,33 @@ public class ControllerLogic {
 		return null;
 	}
 
-	// To finish the Idea
 	public User login(int ci, String password) throws Exception {
 
-		User ciLogin = null;
-
 		try {
-			ciLogin = this.db.recoverUser(ci);
+			
+			this.userLoggedIn = this.db.recoverUser(ci);
 
-			if (ciLogin instanceof Functionary) {
-				if (ciLogin.getPassword() == password) {
-					System.out.println("Login succes");
-				} else {
-					System.out.println("The password is Incorrect");
+			if (this.userLoggedIn instanceof Functionary) {
+				if (userLoggedIn.getPassword() != password) {
+					throw new Exception("The password doesn't match.");
 				}
 
 			} else {
 
-				System.out.println("Yoy write something wrong! Try Again");
+				throw new Exception("Something is wrong! Try Again");
 			}
 
 		} catch (Exception e) {
 			throw new Exception(errorMessage);
 		}
-		return ciLogin;
+		
+		return this.userLoggedIn;
 	}
 
-	// TO implement
-	public Boolean logout() {
+	public void logout() {
 
-		return true;
-		// Asi de sencillo nico xd
+		this.userLoggedIn = null;
+		
 	}
 
 	public List<User> listClass(Generation generation, Orientation orientation) {
@@ -327,6 +310,10 @@ public class ControllerLogic {
 		}
 
 		return functionaries;
+	}
+	
+	public User getUserLoggedIn() {
+		return this.userLoggedIn;
 	}
 
 	// This is here just for testing purposes, we must delete the method before

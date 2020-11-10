@@ -198,7 +198,7 @@ public class ControllerDB extends Conn {
 			absencesSt.setDate(5, java.sql.Date.valueOf(absence.getDate()));
 			absencesSt.setInt(6, absence.getAmountHours());
 
-			System.out.println("Ëxecute Update for Absences");
+			System.out.println("ï¿½xecute Update for Absences");
 			int updatedAbsence = absencesSt.executeUpdate();
 
 			System.out.println("Update absence rows: " + updatedAbsence);
@@ -408,10 +408,40 @@ public class ControllerDB extends Conn {
 		return subject;
 
 	}
+	
+	
+	public void updateUser(int ci, User user) throws Exception{
+		try {
+			
+			System.out.println("Creating a connection for a updateUser method");
+			this.MySQLconnection();
+
+			System.out.println("Created PreparedStatement for Update Subject");
+
+			PreparedStatement userSt = this.conn.prepareStatement(
+					"UPDATE User SET NAME = ?, LASTNAME = ?, BIRTH = ?, MAIL = ?, PASSWORD =? WHERE CI = ?");
+
+			userSt.setString(1,  user.getName());
+			userSt.setString(2, user.getLastName());
+			userSt.setDate(3, java.sql.Date.valueOf(user.getDateBirth()));
+			userSt.setString(4, user.getMail());
+			userSt.setString(5, user.getPassword());
+			userSt.setInt(6, ci);
+
+			System.out.println("Execut Update");
+
+			int updatedUserRows = userSt.executeUpdate();
+
+			System.out.println("Updated subject rows: " + updatedUserRows);
+
+		} catch (SQLException ex) {
+			throw ex;
+		}
+	}
 
 	public void updateSubject(String code, Subject subject) throws Exception {
 		try {
-			System.out.println("Creating a connection for a RecoverSubject Method");
+			System.out.println("Creating a connection for a UpdateSubject Method");
 			this.MySQLconnection();
 
 			System.out.println("Created PreparedStatement for Update Subject");

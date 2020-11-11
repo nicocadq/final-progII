@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import logic.Subject;
 import logic.Absence;
@@ -198,7 +200,7 @@ public class ControllerDB extends Conn {
 			absencesSt.setDate(5, java.sql.Date.valueOf(absence.getDate()));
 			absencesSt.setInt(6, absence.getAmountHours());
 
-			System.out.println("Ëxecute Update for Absences");
+			System.out.println("ï¿½xecute Update for Absences");
 			int updatedAbsence = absencesSt.executeUpdate();
 
 			System.out.println("Update absence rows: " + updatedAbsence);
@@ -408,10 +410,40 @@ public class ControllerDB extends Conn {
 		return subject;
 
 	}
+	
+	
+	public void updateUser(int ci, User user) throws Exception{
+		try {
+			
+			System.out.println("Creating a connection for a updateUser method");
+			this.MySQLconnection();
+
+			System.out.println("Created PreparedStatement for Update Subject");
+
+			PreparedStatement userSt = this.conn.prepareStatement(
+					"UPDATE User SET NAME = ?, LASTNAME = ?, BIRTH = ?, MAIL = ?, PASSWORD =? WHERE CI = ?");
+
+			userSt.setString(1,  user.getName());
+			userSt.setString(2, user.getLastName());
+			userSt.setDate(3, java.sql.Date.valueOf(user.getDateBirth()));
+			userSt.setString(4, user.getMail());
+			userSt.setString(5, user.getPassword());
+			userSt.setInt(6, ci);
+
+			System.out.println("Execut Update");
+
+			int updatedUserRows = userSt.executeUpdate();
+
+			System.out.println("Updated subject rows: " + updatedUserRows);
+
+		} catch (SQLException ex) {
+			throw ex;
+		}
+	}
 
 	public void updateSubject(String code, Subject subject) throws Exception {
 		try {
-			System.out.println("Creating a connection for a RecoverSubject Method");
+			System.out.println("Creating a connection for a UpdateSubject Method");
 			this.MySQLconnection();
 
 			System.out.println("Created PreparedStatement for Update Subject");
@@ -575,6 +607,32 @@ public class ControllerDB extends Conn {
 
 		return subjects;
 
+	}
+	
+	//this method must be tested in database environment
+	public Map<Integer,String> recoverTakes() throws Exception{
+		Map<Integer, String> studentCIandSubjectCode = new HashMap<Integer, String>();
+
+		try {
+
+			System.out.println("Creating a Connection Object for Takes table.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement takesSt = this.conn.prepareStatement("SELECT * FROM Takes");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet takesRs = takesSt.executeQuery();
+
+			while (takesRs.next()) {
+				studentCIandSubjectCode.put(takesRs.getInt("CISTUDENT"), takesRs.getString("IDSUBJECT"));
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return studentCIandSubjectCode;
 	}
 
 	public List<Exam> recoverExams() throws Exception {

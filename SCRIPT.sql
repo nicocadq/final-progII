@@ -1,4 +1,4 @@
-﻿CREATE DATABASE endProject;
+CREATE DATABASE endProject;
 
 
 USE endProject;

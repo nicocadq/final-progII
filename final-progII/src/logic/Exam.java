@@ -26,11 +26,11 @@ public class Exam {
 		this.date = date;
 	}
 
-	public int getNote() {
+	public int getMark() {
 		return mark;
 	}
 
-	public void setNote(int mark) {
+	public void setMark(int mark) {
 		this.mark = mark;
 	}
 	

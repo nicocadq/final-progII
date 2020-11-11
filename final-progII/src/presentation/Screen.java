@@ -1317,12 +1317,12 @@ public class Screen extends JFrame {
 
 		submitLogin__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String ci = nameLogin__textField.getText();
+				String psswd = passwordLogin__textField.getText();
+
 				if (isUserLoggedIn) {
 					master__cardLayout.show(master__panel, "WELCOME_PANEL");
 				}
-
-				String name = nameLogin__textField.getText();
-				String psswd = passwordLogin__textField.getText();
 
 			}
 		});
@@ -1333,23 +1333,18 @@ public class Screen extends JFrame {
 				editConsult__panel.show(true);
 				infoUser__panel.show(true);
 
-				try {
-					User user = db.recoverUser(ciConsult);
-
-					if (user instanceof Student) {
-						addSubjectStudent__panel.show(true);
-						addSubjectConsultUser__btnNewButton.show(true);
-					} else {
-						if (user instanceof Teacher) {
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Something went Wrong !, try again.");
-
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				/*
+				 * try { User user = db.recoverUser(ciConsult);
+				 * 
+				 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
+				 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
+				 * Teacher) {
+				 * 
+				 * } else { JOptionPane.showMessageDialog(null,
+				 * "Something went Wrong !, try again.");
+				 * 
+				 * } } } catch (Exception e) { e.printStackTrace(); }
+				 */
 
 			}
 		});

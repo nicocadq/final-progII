@@ -17,6 +17,7 @@ public class main {
 		 * try { teacher = (Teacher) db.recoverUser(99999); } catch(Exception ex) {
 		 * ex.printStackTrace(); }
 		 */
+		Functionary functionary = new Functionary (87897, "Pedro","Varela", "fun@mail.com", "password", LocalDate.of(1898, 2, 8));
 		Teacher teacher = new Teacher(888, "Ruben", "Derigo", "rb@mail.com", "psswdRuben", LocalDate.of(1898, 2, 8));
 		Subject subject = new Subject("123", "Geometria", Orientation.ADM, Generation.FIRST, teacher);
 		Student student = new Student(9939, "Alejandro", "Gonzalez", Orientation.TIC, Status.ACTIVE, Generation.FIRST,
@@ -25,6 +26,7 @@ public class main {
 		Exam exam = new Exam(LocalDate.of(2000, 3, 8), 7, student, subject);
 		try {
 			// Tested to persist
+			//db.toPersistUser(functionary);
 			// db.toPersistUser(student);
 			// db.toPersistUser(teacher);
 			// db.toPersistSubject(subject);

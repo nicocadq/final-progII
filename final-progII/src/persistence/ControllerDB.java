@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import logic.Subject;
 import logic.Absence;
@@ -605,6 +607,32 @@ public class ControllerDB extends Conn {
 
 		return subjects;
 
+	}
+	
+	//this method must be tested in database environment
+	public Map<Integer,String> recoverTakes() throws Exception{
+		Map<Integer, String> studentCIandSubjectCode = new HashMap<Integer, String>();
+
+		try {
+
+			System.out.println("Creating a Connection Object for Takes table.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement takesSt = this.conn.prepareStatement("SELECT * FROM Takes");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet takesRs = takesSt.executeQuery();
+
+			while (takesRs.next()) {
+				studentCIandSubjectCode.put(takesRs.getInt("CISTUDENT"), takesRs.getString("IDSUBJECT"));
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return studentCIandSubjectCode;
 	}
 
 	public List<Exam> recoverExams() throws Exception {

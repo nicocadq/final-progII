@@ -19,6 +19,10 @@ public class User {
 		this.mail = mail;
 		this.dateBirth = dateBirth;
 	}
+	
+	public User(int ci) {
+		this.ci = ci;
+	}
 
 	public int getCi() {
 		return ci;

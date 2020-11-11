@@ -13,6 +13,10 @@ public class Teacher extends User {
 		this.subjects = new ArrayList<Subject>();
 	}
 	
+	public Teacher(int ci) {
+		super(ci);
+	}
+	
 	public void setSubject(List<Subject> subjects) {
 		this.subjects = subjects;
 	}

@@ -14,6 +14,7 @@ import logic.Orientation;
 import logic.Status;
 import persistence.Conn;
 import logic.Student;
+import logic.Subject;
 import logic.Teacher;
 import logic.User;
 import javax.swing.table.DefaultTableModel;
@@ -130,7 +131,7 @@ public class Screen extends JFrame {
 	@SuppressWarnings("deprecation")
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 581, 570);
+		setBounds(100, 100, 859, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -520,7 +521,7 @@ public class Screen extends JFrame {
 		editConsult__panel.show(false);
 
 		JPanel infoUser__panel = new JPanel();
-		infoUser__panel.setBounds(47, 11, 268, 181);
+		infoUser__panel.setBounds(47, 11, 391, 181);
 		editConsult__panel.add(infoUser__panel);
 		infoUser__panel.setLayout(null);
 		infoUser__panel.show(false);
@@ -590,21 +591,13 @@ public class Screen extends JFrame {
 		infoUser__panel.add(dateDayConsultUser__textField);
 
 		JButton updateConsult__btnNewButton = new JButton("Update");
-		updateConsult__btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				String nameConsult = nameConsultUser__textField.getText();
-				String lastNameConsult = lastNameConsultUser__textField.getText();
-				String emailConsult = emailConsultUser__textField.getText();
-				String psswdConsult = passwordConsultUser__textField.getText();
-				String ciConsult = ciConsultUser__textField__textField.getText();
-				String yearDateConsult = dateYearConsultUser__textField.getText();
-				String monthDateConsult = dateMonthConsultUser__textField.getText();
-
-			}
-		});
-		updateConsult__btnNewButton.setBounds(325, 11, 89, 23);
-		editConsult__panel.add(updateConsult__btnNewButton);
+		updateConsult__btnNewButton.setBounds(254, 10, 89, 23);
+		infoUser__panel.add(updateConsult__btnNewButton);
+		
+		JPanel modifySubjectsOfTeacher__panel = new JPanel();
+		modifySubjectsOfTeacher__panel.setBounds(463, 80, 243, 165);
+		infoUser__panel.add(modifySubjectsOfTeacher__panel);
+		modifySubjectsOfTeacher__panel.setLayout(null);
 
 		JPanel addSubjectStudent__panel = new JPanel();
 		addSubjectStudent__panel.setBounds(10, 203, 450, 157);
@@ -622,6 +615,15 @@ public class Screen extends JFrame {
 				String generationConsultSubjectAdd = generationConsultUserSubject__comboBox.getSelectedItem()
 						.toString();
 				String markConsultSubjectAdd = markConsultUserSubject__textField.getText();
+				
+			
+				
+				try {
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		});
@@ -1385,22 +1387,97 @@ public class Screen extends JFrame {
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				String ciConsult = searchCiConsultUser__textField.getText();
 				editConsult__panel.show(true);
 				infoUser__panel.show(true);
 
-				/*
-				 * try { User user = db.recoverUser(ciConsult);
-				 * 
-				 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
-				 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
-				 * Teacher) {
-				 * 
-				 * } else { JOptionPane.showMessageDialog(null,
-				 * "Something went Wrong !, try again.");
-				 * 
-				 * } } } catch (Exception e) { e.printStackTrace(); }
-				 */
+				int ciConsult = Integer.parseInt(searchCiConsultUser__textField.getText());
+
+				try {
+					User userConsult = controller.consultUsers(ciConsult);
+
+					nameConsultUser__textField.setText(userConsult.getName());
+					lastNameConsultUser__textField.setText(userConsult.getLastName());
+					emailConsultUser__textField.setText(userConsult.getMail());
+					passwordConsultUser__textField.setText(userConsult.getPassword());
+					ciConsultUser__textField__textField.setText(userConsult.getCi() + "");
+					dateYearConsultUser__textField.setText(userConsult.getDateBirth().getYear() + "");
+					dateMonthConsultUser__textField.setText(userConsult.getDateBirth().getMonthValue() + "");
+					dateDayConsultUser__textField.setText(userConsult.getDateBirth().getDayOfMonth() + "");
+
+					if(userConsult instanceof Student) {
+						
+						addSubjectStudent__panel.show(true);
+						
+						
+					}
+					
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			/*
+			 * try { User user = db.recoverUser(ciConsult);
+			 * 
+			 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
+			 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
+			 * Teacher) {
+			 * 
+			 * } else { JOptionPane.showMessageDialog(null,
+			 * "Something went Wrong !, try again.");
+			 * 
+			 * } } } catch (Exception e) { e.printStackTrace(); }
+			 */
+
+		});
+
+		updateConsult__btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int ciConsult = Integer.parseInt(searchCiConsultUser__textField.getText());
+
+				String name = nameConsultUser__textField.getText();
+				String lastName = lastNameConsultUser__textField.getText();
+				String email = emailConsultUser__textField.getText();
+				String psswrd = passwordConsultUser__textField.getText();
+				int ci = Integer.parseInt(ciConsultUser__textField__textField.getText());
+				int year = Integer.parseInt(dateYearConsultUser__textField.getText());
+				int month = Integer.parseInt(dateMonthConsultUser__textField.getText());
+				int day = Integer.parseInt(dateDayConsultUser__textField.getText());
+
+				try {
+
+					User user = controller.consultUsers(ciConsult);
+
+					if (user instanceof Student) {
+
+						Student student = new Student(ci, name, lastName, ((Student) user).getOrientation(),
+								((Student) user).getStatus(), ((Student) user).getGeneration(), email, psswrd,
+								LocalDate.of(year, month, day));
+
+						controller.userUpdate(ciConsult, student);
+
+					} else if (user instanceof Teacher) {
+
+						Teacher teacher = new Teacher(ci, name, lastName, email, psswrd,
+								LocalDate.of(year, month, day));
+
+						controller.userUpdate(ciConsult, teacher);
+					} else if (user instanceof Functionary) {
+
+						Functionary functionary = new Functionary(ci, name, lastName, email, psswrd,
+								LocalDate.of(year, month, day));
+
+						controller.userUpdate(ciConsult, functionary);
+					}else {
+						throw new Exception();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		});

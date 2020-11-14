@@ -73,7 +73,7 @@ public class ControllerLogic {
 
 		return user;
 	}
-  
+
 	public Subject consultSubject(String code) throws Exception {
 
 		Subject subject = null;
@@ -329,21 +329,29 @@ public class ControllerLogic {
 
 	public User login(int ci, String password) throws Exception {
 
+		String loginErrorMessage = "";
+
 		try {
 
 			this.userLoggedIn = this.db.recoverUser(ci);
 
 			if (this.userLoggedIn instanceof Functionary) {
 				if (userLoggedIn.getPassword() != password) {
-					throw new Exception("The password doesn't match.");
+					loginErrorMessage = "The password doesn't match.";
 				}
 
 			} else {
 
-				throw new Exception("Something is wrong! Try Again");
+				loginErrorMessage = "Something is wrong! Try Again";
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+
+			if (loginErrorMessage != "") {
+				throw new Exception(loginErrorMessage);
+			}
+
 			throw new Exception(errorMessage);
 		}
 
@@ -359,7 +367,7 @@ public class ControllerLogic {
 	public List<User> listClass(Generation generation, Orientation orientation) {
 		return null;
 	}
-  
+
 	public List<Teacher> teachersList() throws Exception {
 		List<User> users = null;
 		List<Teacher> teachers = new ArrayList<Teacher>();
@@ -411,4 +419,5 @@ public class ControllerLogic {
 	public User getUserLoggedIn() {
 		return this.userLoggedIn;
 	}
+
 }

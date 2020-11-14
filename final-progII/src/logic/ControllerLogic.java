@@ -362,7 +362,7 @@ public class ControllerLogic {
 	public void logout() {
 
 		this.userLoggedIn = null;
-
+		
 	}
 
 	public List<User> listClass(Generation generation, Orientation orientation) {

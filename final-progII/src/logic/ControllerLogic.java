@@ -73,7 +73,7 @@ public class ControllerLogic {
 
 		return user;
 	}
-
+  
 	public Subject consultSubject(String code) throws Exception {
 
 		Subject subject = null;
@@ -359,7 +359,7 @@ public class ControllerLogic {
 	public List<User> listClass(Generation generation, Orientation orientation) {
 		return null;
 	}
-
+  
 	public List<Teacher> teachersList() throws Exception {
 		List<User> users = null;
 		List<Teacher> teachers = new ArrayList<Teacher>();

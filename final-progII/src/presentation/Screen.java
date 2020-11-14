@@ -68,6 +68,10 @@ public class Screen extends JFrame {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
+	private JTextField idConsulSubject__textField;
+	private JTextField nameSubjectConsulted__textField;
+	private JTextField enrolledSubjectConsulted__textField;
+	private JTable table_3;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
@@ -893,59 +897,51 @@ public class Screen extends JFrame {
 		infoConsultSubject__panel.setLayout(null);
 		infoConsultSubject__panel.show(false);
 
-		JLabel lblNewLabel_23 = new JLabel("ID");
-		lblNewLabel_23.setBounds(29, 26, 46, 14);
-		infoConsultSubject__panel.add(lblNewLabel_23);
-
 		JLabel lblNewLabel_24 = new JLabel("Name");
-		lblNewLabel_24.setBounds(29, 58, 46, 14);
+		lblNewLabel_24.setBounds(24, 14, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_24);
 
 		JLabel lblNewLabel_25 = new JLabel("Orientation");
-		lblNewLabel_25.setBounds(29, 93, 70, 14);
+		lblNewLabel_25.setBounds(24, 49, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_25);
 
 		JLabel lblNewLabel_26 = new JLabel("Generation");
-		lblNewLabel_26.setBounds(29, 126, 70, 14);
+		lblNewLabel_26.setBounds(24, 82, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_26);
 
 		JLabel lblNewLabel_27 = new JLabel("Enrolled");
-		lblNewLabel_27.setBounds(29, 158, 46, 14);
+		lblNewLabel_27.setBounds(24, 114, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_27);
 
-		textField_12 = new JTextField();
-		textField_12.setBounds(109, 23, 86, 20);
-		infoConsultSubject__panel.add(textField_12);
-		textField_12.setColumns(10);
+		nameSubjectConsulted__textField = new JTextField();
+		nameSubjectConsulted__textField.setBounds(104, 11, 86, 20);
+		infoConsultSubject__panel.add(nameSubjectConsulted__textField);
+		nameSubjectConsulted__textField.setColumns(10);
 
-		textField_13 = new JTextField();
-		textField_13.setBounds(109, 55, 86, 20);
-		infoConsultSubject__panel.add(textField_13);
-		textField_13.setColumns(10);
-
-		textField_14 = new JTextField();
-		textField_14.setBounds(109, 90, 86, 20);
-		infoConsultSubject__panel.add(textField_14);
-		textField_14.setColumns(10);
-
-		textField_15 = new JTextField();
-		textField_15.setBounds(109, 123, 86, 20);
-		infoConsultSubject__panel.add(textField_15);
-		textField_15.setColumns(10);
-
-		textField_16 = new JTextField();
-		textField_16.setBounds(109, 155, 86, 20);
-		infoConsultSubject__panel.add(textField_16);
-		textField_16.setColumns(10);
+		enrolledSubjectConsulted__textField = new JTextField();
+		enrolledSubjectConsulted__textField.setBounds(104, 111, 86, 20);
+		infoConsultSubject__panel.add(enrolledSubjectConsulted__textField);
+		enrolledSubjectConsulted__textField.setColumns(10);
 
 		JButton btnNewButton_1 = new JButton("Update");
-		btnNewButton_1.setBounds(54, 197, 89, 23);
+		btnNewButton_1.setBounds(49, 153, 89, 23);
 		infoConsultSubject__panel.add(btnNewButton_1);
 
-		textField_11 = new JTextField();
-		textField_11.setBounds(200, 113, 94, 20);
-		consultSubject__panel.add(textField_11);
-		textField_11.setColumns(10);
+		JComboBox orientationSubjectConsult__comboBox = new JComboBox();
+		orientationSubjectConsult__comboBox.setModel(new DefaultComboBoxModel(new String[] { "TIC", "ADM" }));
+		orientationSubjectConsult__comboBox.setBounds(104, 45, 86, 22);
+		infoConsultSubject__panel.add(orientationSubjectConsult__comboBox);
+
+		JComboBox generationSubjectConsult__comboBox = new JComboBox();
+		generationSubjectConsult__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { " FIRST", "SECOND", "THIRD" }));
+		generationSubjectConsult__comboBox.setBounds(104, 78, 86, 22);
+		infoConsultSubject__panel.add(generationSubjectConsult__comboBox);
+
+		idConsulSubject__textField = new JTextField();
+		idConsulSubject__textField.setBounds(200, 113, 94, 20);
+		consultSubject__panel.add(idConsulSubject__textField);
+		idConsulSubject__textField.setColumns(10);
 
 		JButton consultSearchSubject__button = new JButton("Search");
 		consultSearchSubject__button.setBounds(304, 112, 89, 23);
@@ -1315,7 +1311,29 @@ public class Screen extends JFrame {
 
 		consultSearchSubject__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				infoConsultSubject__panel.show(true);
+
+				String idSubject = idConsulSubject__textField.getText();
+
+				try {
+					Subject subject = controller.consultSubject(idSubject);
+
+					if (subject != null) {
+
+						nameSubjectConsulted__textField.setText(subject.getName());
+						orientationSubjectConsult__comboBox.setSelectedItem(subject.getOrientation() + "");
+						generationSubjectConsult__comboBox.setSelectedItem(subject.getGeneration() + "");
+						//to Implement
+						enrolledSubjectConsulted__textField.setText("");
+
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1524,19 +1542,6 @@ public class Screen extends JFrame {
 				}
 			}
 
-			/*
-			 * try { User user = db.recoverUser(ciConsult);
-			 * 
-			 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
-			 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
-			 * Teacher) {
-			 * 
-			 * } else { JOptionPane.showMessageDialog(null,
-			 * "Something went Wrong !, try again.");
-			 * 
-			 * } } } catch (Exception e) { e.printStackTrace(); }
-			 */
-
 		});
 
 		updateConsult__btnNewButton.addActionListener(new ActionListener() {
@@ -1587,5 +1592,26 @@ public class Screen extends JFrame {
 
 			}
 		});
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String idSubject = idConsulSubject__textField.getText();
+				String newNameSubject = nameSubjectConsulted__textField.getText();
+				String newOrientationSubject = orientationSubjectConsult__comboBox.getSelectedItem() + "";
+				String newGenerationSubject = generationSubjectConsult__comboBox.getSelectedItem() + "";
+
+				Subject subject = new Subject(idSubject, newNameSubject, Orientation.valueOf(newOrientationSubject),
+						Generation.valueOf(newGenerationSubject), null);
+
+				try {
+					controller.subjectUpdate(idSubject, subject);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+
 	}
 }

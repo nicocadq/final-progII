@@ -14,6 +14,7 @@ import logic.Orientation;
 import logic.Status;
 import persistence.Conn;
 import logic.Student;
+import logic.Subject;
 import logic.Teacher;
 import logic.User;
 import javax.swing.table.DefaultTableModel;
@@ -63,11 +64,11 @@ public class Screen extends JFrame {
 	private JTable StudentList__table;
 	private JTable table_1;
 	private JTable table_2;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
+	private JTextField codeCreateSubject__textField;
+	private JTextField nameCreateSubject__textField;
+	private JTextField orientationCreateSubject__textField;
+	private JTextField generationCreateSubject__textField;
+	private JTextField teacherCreateSubject__textField;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
@@ -807,25 +808,25 @@ public class Screen extends JFrame {
 		lblNewLabel_15.setBounds(228, 67, 86, 14);
 		createSubject_panel.add(lblNewLabel_15);
 
-		textField_6 = new JTextField();
-		textField_6.setBounds(260, 115, 86, 20);
-		createSubject_panel.add(textField_6);
-		textField_6.setColumns(10);
+		codeCreateSubject__textField = new JTextField();
+		codeCreateSubject__textField.setBounds(260, 115, 86, 20);
+		createSubject_panel.add(codeCreateSubject__textField);
+		codeCreateSubject__textField.setColumns(10);
 
-		textField_7 = new JTextField();
-		textField_7.setBounds(260, 146, 86, 20);
-		createSubject_panel.add(textField_7);
-		textField_7.setColumns(10);
+		nameCreateSubject__textField = new JTextField();
+		nameCreateSubject__textField.setBounds(260, 146, 86, 20);
+		createSubject_panel.add(nameCreateSubject__textField);
+		nameCreateSubject__textField.setColumns(10);
 
-		textField_8 = new JTextField();
-		textField_8.setBounds(260, 177, 86, 20);
-		createSubject_panel.add(textField_8);
-		textField_8.setColumns(10);
+		orientationCreateSubject__textField = new JTextField();
+		orientationCreateSubject__textField.setBounds(260, 177, 86, 20);
+		createSubject_panel.add(orientationCreateSubject__textField);
+		orientationCreateSubject__textField.setColumns(10);
 
-		textField_9 = new JTextField();
-		textField_9.setBounds(260, 208, 86, 20);
-		createSubject_panel.add(textField_9);
-		textField_9.setColumns(10);
+		generationCreateSubject__textField = new JTextField();
+		generationCreateSubject__textField.setBounds(260, 208, 86, 20);
+		createSubject_panel.add(generationCreateSubject__textField);
+		generationCreateSubject__textField.setColumns(10);
 
 		JLabel lblNewLabel_16 = new JLabel("Code");
 		lblNewLabel_16.setBounds(168, 118, 46, 14);
@@ -843,15 +844,15 @@ public class Screen extends JFrame {
 		lblNewLabel_19.setBounds(168, 211, 67, 14);
 		createSubject_panel.add(lblNewLabel_19);
 
-		JButton btnNewButton = new JButton("Create");
-		btnNewButton.setBounds(322, 286, 89, 23);
-		createSubject_panel.add(btnNewButton);
+		JButton submitCreateSubject__button = new JButton("Create");
+		submitCreateSubject__button.setBounds(322, 286, 89, 23);
+		createSubject_panel.add(submitCreateSubject__button);
 
-		textField_10 = new JTextField();
-		textField_10.setText("");
-		textField_10.setBounds(260, 239, 86, 20);
-		createSubject_panel.add(textField_10);
-		textField_10.setColumns(10);
+		teacherCreateSubject__textField = new JTextField();
+		teacherCreateSubject__textField.setText("");
+		teacherCreateSubject__textField.setBounds(260, 239, 86, 20);
+		createSubject_panel.add(teacherCreateSubject__textField);
+		teacherCreateSubject__textField.setColumns(10);
 
 		JLabel lblNewLabel_20 = new JLabel("Teacher CI");
 		lblNewLabel_20.setBounds(168, 236, 67, 14);
@@ -1382,6 +1383,32 @@ public class Screen extends JFrame {
 
 			}
 		});
+
+		submitCreateSubject__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String code = codeCreateSubject__textField.getText();
+				String name = nameCreateSubject__textField.getText();
+				String orientation = orientationCreateSubject__textField.getText();
+				String generation = generationCreateSubject__textField.getText();
+				int teacherCI = Integer.valueOf(teacherCreateSubject__textField.getText());
+
+				try {
+
+					Subject subject = new Subject(code, name, Orientation.valueOf(orientation),
+							Generation.valueOf(generation), new Teacher(teacherCI));
+
+					controller.createSubject(subject);
+
+				} catch (Exception ex) {
+
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+
+				}
+
+			}
+		});
+
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 

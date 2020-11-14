@@ -3,12 +3,13 @@ package presentation;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
-
+import logic.Absence;
 import logic.ControllerLogic;
 import logic.Functionary;
 import logic.Generation;
@@ -81,13 +82,12 @@ public class Screen extends JFrame {
 	private JTextField textField_21;
 	private JTextField textField_18;
 	private JTextField textField_22;
-	private JTextField textField_23;
-	private JTextField textField_24;
-	private JTextField textField_25;
-	private JTextField textField_26;
-	private JTextField textField_27;
-	private JTextField textField_28;
-	private JTable table_4;
+	private JTextField startYearConsult__textField;
+	private JTextField startMonthConsult__textField;
+	private JTextField startDayConsult__textField;
+	private JTextField endMonthConsult__textField;
+	private JTextField endDayConsult__textField;
+	private JTable listAbsences__table;
 	private JTable table_5;
 	private JTextField textField_29;
 	private JTextField textField_30;
@@ -669,54 +669,47 @@ public class Screen extends JFrame {
 		master__panel.add(listUsers__panel, "name_110770879092900");
 		Menu listUserss__panel = new Menu(listUsers__panel, master__panel, master__cardLayout);
 		listUsers__panel.setLayout(null);
-		
-				JPanel listOfFunctionary__panel = new JPanel();
-				listOfFunctionary__panel.setLayout(null);
-				listOfFunctionary__panel.setBounds(82, 205, 393, 225);
-				listUsers__panel.add(listOfFunctionary__panel);
-				listOfFunctionary__panel.show(false);
-				
-						functionaryList__table = new JTable();
-						functionaryList__table.setModel(
-								new DefaultTableModel(
-							new Object[][] {
-								{null, null, null, null, null},
-								{null, null, null, null, null},
-							},
-							new String[] {
-								"New column", "New column", "New column", "New column", "New column"
-							}
-						));
-						functionaryList__table.setBounds(10, 24, 373, 190);
-						listOfFunctionary__panel.add(functionaryList__table);
-						
-								JLabel lblNewLabel_10_2 = new JLabel("CI");
-								lblNewLabel_10_2.setBounds(30, 6, 46, 14);
-								listOfFunctionary__panel.add(lblNewLabel_10_2);
-								
-										JLabel lblNewLabel_11_2 = new JLabel("NAME");
-										lblNewLabel_11_2.setBounds(88, 0, 72, 27);
-										listOfFunctionary__panel.add(lblNewLabel_11_2);
-										
-												JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
-												lblNewLabel_12_2.setBounds(160, 6, 65, 14);
-												listOfFunctionary__panel.add(lblNewLabel_12_2);
-												
-														JLabel label_3 = new JLabel("New label");
-														label_3.setBounds(66, 108, 46, 14);
-														listOfFunctionary__panel.add(label_3);
-														
-																JLabel label_1_2 = new JLabel("New label");
-																label_1_2.setBounds(10, 119, 46, 14);
-																listOfFunctionary__panel.add(label_1_2);
-																
-																JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
-																lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
-																listOfFunctionary__panel.add(lblNewLabel_12_2_1);
-																
-																JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
-																lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
-																listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
+
+		JPanel listOfFunctionary__panel = new JPanel();
+		listOfFunctionary__panel.setLayout(null);
+		listOfFunctionary__panel.setBounds(82, 205, 393, 225);
+		listUsers__panel.add(listOfFunctionary__panel);
+		listOfFunctionary__panel.show(false);
+
+		functionaryList__table = new JTable();
+		functionaryList__table.setModel(new DefaultTableModel(
+				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		functionaryList__table.setBounds(10, 24, 373, 190);
+		listOfFunctionary__panel.add(functionaryList__table);
+
+		JLabel lblNewLabel_10_2 = new JLabel("CI");
+		lblNewLabel_10_2.setBounds(30, 6, 46, 14);
+		listOfFunctionary__panel.add(lblNewLabel_10_2);
+
+		JLabel lblNewLabel_11_2 = new JLabel("NAME");
+		lblNewLabel_11_2.setBounds(88, 0, 72, 27);
+		listOfFunctionary__panel.add(lblNewLabel_11_2);
+
+		JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
+		lblNewLabel_12_2.setBounds(160, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2);
+
+		JLabel label_3 = new JLabel("New label");
+		label_3.setBounds(66, 108, 46, 14);
+		listOfFunctionary__panel.add(label_3);
+
+		JLabel label_1_2 = new JLabel("New label");
+		label_1_2.setBounds(10, 119, 46, 14);
+		listOfFunctionary__panel.add(label_1_2);
+
+		JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
+		lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2_1);
+
+		JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
+		lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
 
 		JLabel lblNewLabel_8 = new JLabel("Liste Users");
 		lblNewLabel_8.setBounds(214, 86, 149, 14);
@@ -781,52 +774,46 @@ public class Screen extends JFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(366, 24, 17, 48);
 		listOfStudent__panel.add(scrollBar);
-		
-				JPanel listOfTeacher__panel = new JPanel();
-				listOfTeacher__panel.setLayout(null);
-				listOfTeacher__panel.setBounds(82, 205, 393, 225);
-				listUsers__panel.add(listOfTeacher__panel);
-				listOfTeacher__panel.show(false);
-				
-						listTeacher__table = new JTable();
-						listTeacher__table.setModel(new DefaultTableModel(
-							new Object[][] {
-								{null, null, null, null, null},
-							},
-							new String[] {
-								"New column", "New column", "New column", "New column", "New column"
-							}
-						));
-						listTeacher__table.setBounds(10, 24, 373, 190);
-						listOfTeacher__panel.add(listTeacher__table);
-						
-								JLabel lblNewLabel_10_1 = new JLabel("CI");
-								lblNewLabel_10_1.setBounds(33, 6, 46, 14);
-								listOfTeacher__panel.add(lblNewLabel_10_1);
-								
-										JLabel lblNewLabel_11_1 = new JLabel("NAME");
-										lblNewLabel_11_1.setBounds(89, 0, 72, 27);
-										listOfTeacher__panel.add(lblNewLabel_11_1);
-										
-												JLabel lblNewLabel_12_1 = new JLabel("MAIL");
-												lblNewLabel_12_1.setBounds(233, 6, 65, 14);
-												listOfTeacher__panel.add(lblNewLabel_12_1);
-												
-														JLabel label_2 = new JLabel("New label");
-														label_2.setBounds(66, 108, 46, 14);
-														listOfTeacher__panel.add(label_2);
-														
-																JLabel label_1_1 = new JLabel("New label");
-																label_1_1.setBounds(10, 119, 46, 14);
-																listOfTeacher__panel.add(label_1_1);
-																
-																JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
-																lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
-																listOfTeacher__panel.add(lblNewLabel_11_1_1);
-																
-																JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
-																lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
-																listOfTeacher__panel.add(lblNewLabel_12_1_1);
+
+		JPanel listOfTeacher__panel = new JPanel();
+		listOfTeacher__panel.setLayout(null);
+		listOfTeacher__panel.setBounds(82, 205, 393, 225);
+		listUsers__panel.add(listOfTeacher__panel);
+		listOfTeacher__panel.show(false);
+
+		listTeacher__table = new JTable();
+		listTeacher__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listTeacher__table.setBounds(10, 24, 373, 190);
+		listOfTeacher__panel.add(listTeacher__table);
+
+		JLabel lblNewLabel_10_1 = new JLabel("CI");
+		lblNewLabel_10_1.setBounds(33, 6, 46, 14);
+		listOfTeacher__panel.add(lblNewLabel_10_1);
+
+		JLabel lblNewLabel_11_1 = new JLabel("NAME");
+		lblNewLabel_11_1.setBounds(89, 0, 72, 27);
+		listOfTeacher__panel.add(lblNewLabel_11_1);
+
+		JLabel lblNewLabel_12_1 = new JLabel("MAIL");
+		lblNewLabel_12_1.setBounds(233, 6, 65, 14);
+		listOfTeacher__panel.add(lblNewLabel_12_1);
+
+		JLabel label_2 = new JLabel("New label");
+		label_2.setBounds(66, 108, 46, 14);
+		listOfTeacher__panel.add(label_2);
+
+		JLabel label_1_1 = new JLabel("New label");
+		label_1_1.setBounds(10, 119, 46, 14);
+		listOfTeacher__panel.add(label_1_1);
+
+		JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
+		lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
+		listOfTeacher__panel.add(lblNewLabel_11_1_1);
+
+		JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
+		lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
+		listOfTeacher__panel.add(lblNewLabel_12_1_1);
 
 		JPanel createSubject_panel = new JPanel();
 		master__panel.add(createSubject_panel, "name_113009623994000");
@@ -1076,10 +1063,10 @@ public class Screen extends JFrame {
 		lblNewLabel_40.setBounds(115, 106, 62, 14);
 		consultAbsences__panel.add(lblNewLabel_40);
 
-		textField_23 = new JTextField();
-		textField_23.setBounds(197, 103, 53, 20);
-		consultAbsences__panel.add(textField_23);
-		textField_23.setColumns(10);
+		startYearConsult__textField = new JTextField();
+		startYearConsult__textField.setBounds(197, 103, 53, 20);
+		consultAbsences__panel.add(startYearConsult__textField);
+		startYearConsult__textField.setColumns(10);
 
 		JButton btnNewButton_3 = new JButton("Consult");
 		btnNewButton_3.setBounds(389, 156, 89, 23);
@@ -1089,30 +1076,30 @@ public class Screen extends JFrame {
 		lblNewLabel_41.setBounds(115, 139, 46, 14);
 		consultAbsences__panel.add(lblNewLabel_41);
 
-		textField_24 = new JTextField();
-		textField_24.setColumns(10);
-		textField_24.setBounds(260, 103, 53, 20);
-		consultAbsences__panel.add(textField_24);
+		startMonthConsult__textField = new JTextField();
+		startMonthConsult__textField.setColumns(10);
+		startMonthConsult__textField.setBounds(260, 103, 53, 20);
+		consultAbsences__panel.add(startMonthConsult__textField);
 
-		textField_25 = new JTextField();
-		textField_25.setColumns(10);
-		textField_25.setBounds(323, 103, 62, 20);
-		consultAbsences__panel.add(textField_25);
+		startDayConsult__textField = new JTextField();
+		startDayConsult__textField.setColumns(10);
+		startDayConsult__textField.setBounds(323, 103, 62, 20);
+		consultAbsences__panel.add(startDayConsult__textField);
 
-		textField_26 = new JTextField();
-		textField_26.setColumns(10);
-		textField_26.setBounds(197, 136, 53, 20);
-		consultAbsences__panel.add(textField_26);
+		JTextField endYearConsult__textField = new JTextField();
+		endYearConsult__textField.setColumns(10);
+		endYearConsult__textField.setBounds(197, 136, 53, 20);
+		consultAbsences__panel.add(endYearConsult__textField);
 
-		textField_27 = new JTextField();
-		textField_27.setColumns(10);
-		textField_27.setBounds(270, 136, 43, 20);
-		consultAbsences__panel.add(textField_27);
+		endMonthConsult__textField = new JTextField();
+		endMonthConsult__textField.setColumns(10);
+		endMonthConsult__textField.setBounds(270, 136, 43, 20);
+		consultAbsences__panel.add(endMonthConsult__textField);
 
-		textField_28 = new JTextField();
-		textField_28.setColumns(10);
-		textField_28.setBounds(323, 136, 62, 20);
-		consultAbsences__panel.add(textField_28);
+		endDayConsult__textField = new JTextField();
+		endDayConsult__textField.setColumns(10);
+		endDayConsult__textField.setBounds(323, 136, 62, 20);
+		consultAbsences__panel.add(endDayConsult__textField);
 
 		JPanel infoConsultAbsences__panel = new JPanel();
 		infoConsultAbsences__panel.setBounds(70, 181, 427, 257);
@@ -1120,11 +1107,11 @@ public class Screen extends JFrame {
 		infoConsultAbsences__panel.setLayout(null);
 		infoConsultAbsences__panel.show(false);
 
-		table_4 = new JTable();
-		table_4.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "SUBJECT", "NAME", "DATE", "TYPE", "HOURS" }));
-		table_4.setBounds(10, 43, 407, 203);
-		infoConsultAbsences__panel.add(table_4);
+		listAbsences__table = new JTable();
+		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listAbsences__table.setBounds(10, 43, 407, 203);
+		infoConsultAbsences__panel.add(listAbsences__table);
 
 		JLabel lblNewLabel_42 = new JLabel("MATERIA");
 		lblNewLabel_42.setBounds(10, 28, 46, 14);
@@ -1308,6 +1295,43 @@ public class Screen extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				infoConsultAbsences__panel.show(true);
+
+				int fromYearDate = Integer.parseInt(startYearConsult__textField.getText() + "");
+				int fromMonthDate = Integer.parseInt(startMonthConsult__textField.getText() + "");
+				int fromDayDate = Integer.parseInt(startDayConsult__textField.getText() + "");
+
+				int tillYearDate = Integer.parseInt(endYearConsult__textField.getText() + "");
+				int tillMonthDate = Integer.parseInt(endMonthConsult__textField.getText() + "");
+				int tillDayDate = Integer.parseInt(endDayConsult__textField.getText() + "");
+
+				LocalDate fromDate = null;
+				LocalDate tillDate = null;
+
+				fromDate.of(fromYearDate, fromMonthDate, fromDayDate);
+				tillDate.of(tillYearDate, tillMonthDate, tillDayDate);
+				System.out.println(fromDate + " / " + tillDate);
+
+				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
+				try {
+					List<Absence> absence = controller.absencesList(fromDate, tillDate);
+
+					String[][] listAbsenceTemp = new String[absence.size()][5];
+					for (int i = 0; i < absence.size(); i++) {
+						listAbsenceTemp[i][0] = absence.get(i).getId() + "";
+						listAbsenceTemp[i][1] = absence.get(i).getSubject().getCode();
+						listAbsenceTemp[i][2] = absence.get(i).getDate() + "";
+						listAbsenceTemp[i][3] = absence.get(i).getType() + "";
+						listAbsenceTemp[i][4] = absence.get(i).getAmountHours() + "";
+
+					}
+
+					listAbsences__table.setModel(new DefaultTableModel(listAbsenceTemp,infolistAbsences));
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1325,8 +1349,8 @@ public class Screen extends JFrame {
 				listOfFunctionary__panel.show(true);
 				listOfStudent__panel.show(false);
 				listOfTeacher__panel.show(false);
-				
-				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD" , "MAIL"};
+
+				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD", "MAIL" };
 				try {
 					List<Functionary> functionary = controller.functionariesList();
 
@@ -1363,14 +1387,12 @@ public class Screen extends JFrame {
 					List<Teacher> teachers = controller.teachersList();
 					String[][] teacherTemp = new String[teachers.size()][5];
 
-
 					for (int i = 0; i < teachers.size(); i++) {
 						teacherTemp[i][0] = teachers.get(i).getCi() + "";
 						teacherTemp[i][1] = teachers.get(i).getName();
 						teacherTemp[i][2] = teachers.get(i).getLastName();
 						teacherTemp[i][3] = teachers.get(i).getMail();
 						teacherTemp[i][4] = teachers.get(i).getPassword();
-
 
 					}
 					listTeacher__table.setModel(new DefaultTableModel(teacherTemp, infoListTeacher));
@@ -1460,32 +1482,32 @@ public class Screen extends JFrame {
 
 		submitLogin__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
-				
-				int ci = Integer.parseInt(ciLogin__textField.getText());
-				String password = passwordLogin__textField.getText();
 
 				try {
 
-					controller.login(ci, password);
+					int ci = Integer.parseInt(ciLogin__textField.getText());
+					String password = passwordLogin__textField.getText();
 
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
+					try {
+
+						controller.login(ci, password);
+
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
+
+					}
+
+					if (controller.getUserLoggedIn() != null) {
+						master__cardLayout.show(master__panel, "WELCOME_PANEL");
+					}
+
+				} catch (NumberFormatException exc) {
+					JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
 
 				}
-
-				if (controller.getUserLoggedIn() != null) {
-					master__cardLayout.show(master__panel, "WELCOME_PANEL");
-				}
-
-			}catch(NumberFormatException exc) {
-				JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
-
 			}
-				}
 		});
-		
+
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 

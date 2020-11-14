@@ -1314,6 +1314,9 @@ public class Screen extends JFrame {
 
 		submitLogin__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				try {
+				
 				int ci = Integer.parseInt(ciLogin__textField.getText());
 				String password = passwordLogin__textField.getText();
 
@@ -1322,8 +1325,7 @@ public class Screen extends JFrame {
 					controller.login(ci, password);
 
 				} catch (Exception ex) {
-
-					JOptionPane.showMessageDialog(null, ex.getMessage());
+					JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
 
 				}
 
@@ -1331,7 +1333,11 @@ public class Screen extends JFrame {
 					master__cardLayout.show(master__panel, "WELCOME_PANEL");
 				}
 
+			}catch(NumberFormatException exc) {
+				JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
+
 			}
+				}
 		});
 		
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {

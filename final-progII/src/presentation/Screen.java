@@ -593,7 +593,7 @@ public class Screen extends JFrame {
 		JButton updateConsult__btnNewButton = new JButton("Update");
 		updateConsult__btnNewButton.setBounds(254, 10, 89, 23);
 		infoUser__panel.add(updateConsult__btnNewButton);
-		
+
 		JPanel modifySubjectsOfTeacher__panel = new JPanel();
 		modifySubjectsOfTeacher__panel.setBounds(463, 80, 243, 165);
 		infoUser__panel.add(modifySubjectsOfTeacher__panel);
@@ -615,11 +615,9 @@ public class Screen extends JFrame {
 				String generationConsultSubjectAdd = generationConsultUserSubject__comboBox.getSelectedItem()
 						.toString();
 				String markConsultSubjectAdd = markConsultUserSubject__textField.getText();
-				
-			
-				
+
 				try {
-					
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1387,37 +1385,41 @@ public class Screen extends JFrame {
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				editConsult__panel.show(true);
-				infoUser__panel.show(true);
-
 				int ciConsult = Integer.parseInt(searchCiConsultUser__textField.getText());
 
 				try {
+					try {
 					User userConsult = controller.consultUsers(ciConsult);
-
-					nameConsultUser__textField.setText(userConsult.getName());
-					lastNameConsultUser__textField.setText(userConsult.getLastName());
-					emailConsultUser__textField.setText(userConsult.getMail());
-					passwordConsultUser__textField.setText(userConsult.getPassword());
-					ciConsultUser__textField__textField.setText(userConsult.getCi() + "");
-					dateYearConsultUser__textField.setText(userConsult.getDateBirth().getYear() + "");
-					dateMonthConsultUser__textField.setText(userConsult.getDateBirth().getMonthValue() + "");
-					dateDayConsultUser__textField.setText(userConsult.getDateBirth().getDayOfMonth() + "");
-
-					if(userConsult instanceof Student) {
-						
-						addSubjectStudent__panel.show(true);
-						
-						
+					
+					if (userConsult != null) {
+						editConsult__panel.show(true);
+						infoUser__panel.show(true);
+						nameConsultUser__textField.setText(userConsult.getName());
+						lastNameConsultUser__textField.setText(userConsult.getLastName());
+						emailConsultUser__textField.setText(userConsult.getMail());
+						passwordConsultUser__textField.setText(userConsult.getPassword());
+						ciConsultUser__textField__textField.setText(userConsult.getCi() + "");
+						dateYearConsultUser__textField.setText(userConsult.getDateBirth().getYear() + "");
+						dateMonthConsultUser__textField.setText(userConsult.getDateBirth().getMonthValue() + "");
+						dateDayConsultUser__textField.setText(userConsult.getDateBirth().getDayOfMonth() + "");
+					} else if (userConsult == null) {
+						JOptionPane.showMessageDialog(null, "The USER doesnt exit !");
 					}
-					
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+					if (userConsult instanceof Student) {
 
+						addSubjectStudent__panel.show(true);
+
+					}
+					}catch(NumberFormatException e) {
+						//add a JoptionPane that says "You write someting wrong, Try Again !"
+					}
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Something went Wrong!");
+
+				}
 			}
+
 			/*
 			 * try { User user = db.recoverUser(ciConsult);
 			 * 
@@ -1471,7 +1473,7 @@ public class Screen extends JFrame {
 								LocalDate.of(year, month, day));
 
 						controller.userUpdate(ciConsult, functionary);
-					}else {
+					} else {
 						throw new Exception();
 					}
 				} catch (Exception e) {

@@ -23,17 +23,14 @@ public class Screen extends JFrame {
 
 	protected static final JComboBox orientationConsultUserSubject__comboBox = null;
 	protected static final JComboBox generationConsultUserSubject__comboBox = null;
-	Conn con;
-	ControllerDB db;
 	private static ControllerLogic controller;
-	private static boolean isUserLoggedIn = true;
 
 	private JPanel contentPane;
 	private JPanel master__panel;
 	private CardLayout master__cardLayout;
 	private CardLayout userType__cardLayout;
+	private JTextField ciLogin__textField;
 	private JTextField passwordLogin__textField;
-	private JTextField nameLogin__textField;
 	private JTextField ciCreateStudent__textField;
 	private JTextField nameCreateStudent__textField;
 	private JTextField lastNameCreateStudent__textField;
@@ -151,9 +148,9 @@ public class Screen extends JFrame {
 		titleLogin__label.setBounds(247, 162, 61, 16);
 		login__panel.add(titleLogin__label);
 
-		JLabel nameLogin__label = new JLabel("Name:");
-		nameLogin__label.setBounds(198, 210, 61, 16);
-		login__panel.add(nameLogin__label);
+		JLabel ciLogin__label = new JLabel("CI:");
+		ciLogin__label.setBounds(198, 210, 61, 16);
+		login__panel.add(ciLogin__label);
 
 		JLabel passwordLogin__label = new JLabel("Password:");
 		passwordLogin__label.setBounds(198, 253, 69, 16);
@@ -168,10 +165,10 @@ public class Screen extends JFrame {
 		login__panel.add(passwordLogin__textField);
 		passwordLogin__textField.setColumns(10);
 
-		nameLogin__textField = new JTextField();
-		nameLogin__textField.setColumns(10);
-		nameLogin__textField.setBounds(294, 205, 130, 26);
-		login__panel.add(nameLogin__textField);
+		ciLogin__textField = new JTextField();
+		ciLogin__textField.setColumns(10);
+		ciLogin__textField.setBounds(294, 205, 130, 26);
+		login__panel.add(ciLogin__textField);
 
 		master__cardLayout.show(master__panel, "LOGIN_PANEL");
 
@@ -1378,15 +1375,26 @@ public class Screen extends JFrame {
 
 		submitLogin__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String ci = nameLogin__textField.getText();
-				String psswd = passwordLogin__textField.getText();
+				int ci = Integer.parseInt(ciLogin__textField.getText());
+				String password = passwordLogin__textField.getText();
 
-				if (isUserLoggedIn) {
+				try {
+
+					controller.login(ci, password);
+
+				} catch (Exception ex) {
+
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+
+				}
+
+				if (controller.getUserLoggedIn() != null) {
 					master__cardLayout.show(master__panel, "WELCOME_PANEL");
 				}
 
 			}
 		});
+
 
 		submitCreateSubject__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1421,7 +1429,6 @@ public class Screen extends JFrame {
 
 			}
 		});
-
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 

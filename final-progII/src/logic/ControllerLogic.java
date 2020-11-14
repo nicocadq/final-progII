@@ -342,7 +342,7 @@ public class ControllerLogic {
 
 			} else {
 				userLoggedIn = null;
-				throw new Exception("Something is wrong! Try Again");
+				throw new Exception("The user has to be a Functionary to Log In");
 
 			}
 

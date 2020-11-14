@@ -46,6 +46,16 @@ public class ControllerLogic {
 		return subject;
 	}
 
+	public void addTeacherToSubject(Subject subject) throws Exception {
+		try {
+
+			this.db.toPersistIntoTeaches(subject, subject.getTeacher());
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+	}
+
 	public Absence createAbsence(Absence absence) throws Exception {
 
 		try {
@@ -73,7 +83,7 @@ public class ControllerLogic {
 
 		return user;
 	}
-  
+
 	public Subject consultSubject(String code) throws Exception {
 
 		Subject subject = null;
@@ -359,7 +369,7 @@ public class ControllerLogic {
 	public List<User> listClass(Generation generation, Orientation orientation) {
 		return null;
 	}
-  
+
 	public List<Teacher> teachersList() throws Exception {
 		List<User> users = null;
 		List<Teacher> teachers = new ArrayList<Teacher>();

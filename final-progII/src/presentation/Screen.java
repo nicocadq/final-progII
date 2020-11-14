@@ -845,18 +845,22 @@ public class Screen extends JFrame {
 		createSubject_panel.add(lblNewLabel_19);
 
 		JButton submitCreateSubject__button = new JButton("Create");
-		submitCreateSubject__button.setBounds(322, 286, 89, 23);
+		submitCreateSubject__button.setBounds(349, 372, 89, 23);
 		createSubject_panel.add(submitCreateSubject__button);
 
 		teacherCreateSubject__textField = new JTextField();
 		teacherCreateSubject__textField.setText("");
-		teacherCreateSubject__textField.setBounds(260, 239, 86, 20);
+		teacherCreateSubject__textField.setBounds(260, 303, 86, 20);
 		createSubject_panel.add(teacherCreateSubject__textField);
 		teacherCreateSubject__textField.setColumns(10);
 
 		JLabel lblNewLabel_20 = new JLabel("Teacher CI");
-		lblNewLabel_20.setBounds(168, 236, 67, 14);
+		lblNewLabel_20.setBounds(168, 306, 67, 14);
 		createSubject_panel.add(lblNewLabel_20);
+
+		JCheckBox addTeacherCreateSubject__chckbxNewCheckBox = new JCheckBox("Add teacher");
+		addTeacherCreateSubject__chckbxNewCheckBox.setBounds(168, 273, 97, 23);
+		createSubject_panel.add(addTeacherCreateSubject__chckbxNewCheckBox);
 
 		JPanel consultSubject__panel = new JPanel();
 		master__panel.add(consultSubject__panel, "name_114186707320200");
@@ -1391,14 +1395,23 @@ public class Screen extends JFrame {
 				String name = nameCreateSubject__textField.getText();
 				String orientation = orientationCreateSubject__textField.getText();
 				String generation = generationCreateSubject__textField.getText();
-				int teacherCI = Integer.valueOf(teacherCreateSubject__textField.getText());
+				Boolean isSelectedAddTeacher = addTeacherCreateSubject__chckbxNewCheckBox.isSelected();
 
 				try {
 
 					Subject subject = new Subject(code, name, Orientation.valueOf(orientation),
-							Generation.valueOf(generation), new Teacher(teacherCI));
+							Generation.valueOf(generation), null);
 
 					controller.createSubject(subject);
+
+					if (isSelectedAddTeacher) {
+						int teacherCI = Integer.valueOf(teacherCreateSubject__textField.getText());
+
+						subject.setTeacher(new Teacher(teacherCI));
+
+						controller.addTeacherToSubject(subject);
+
+					}
 
 				} catch (Exception ex) {
 

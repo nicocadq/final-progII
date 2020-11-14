@@ -1304,12 +1304,9 @@ public class Screen extends JFrame {
 				int tillMonthDate = Integer.parseInt(endMonthConsult__textField.getText() + "");
 				int tillDayDate = Integer.parseInt(endDayConsult__textField.getText() + "");
 
-				LocalDate fromDate = null;
-				LocalDate tillDate = null;
+				LocalDate fromDate = LocalDate.of(fromYearDate, fromMonthDate, fromDayDate);
+				LocalDate tillDate = LocalDate.of(tillYearDate, tillMonthDate, tillDayDate);
 
-				fromDate.of(fromYearDate, fromMonthDate, fromDayDate);
-				tillDate.of(tillYearDate, tillMonthDate, tillDayDate);
-				System.out.println(fromDate + " / " + tillDate);
 
 				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
 				try {

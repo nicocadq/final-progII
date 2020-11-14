@@ -47,11 +47,14 @@ public class main {
 //			for(Exam examFromDB : db.recoverExams()) {
 //				System.out.println(examFromDB.getMark());
 //			}
+			/*
+			LocalDate desde= LocalDate.of(100, 01, 01);
+			LocalDate hasta=LocalDate.of(2100, 01, 15);
 			
-			for (User fun : db.recoverUsers()) {
-				System.out.println( (Teacher)fun);
-			}
-
+			ControllerLogic c = new ControllerLogic() ;
+			
+			System.out.println(c.absencesList(desde, hasta));
+*/
 //			for(Absence absenceFromDB : db.recoverAbsences()) {
 //				System.out.println(absenceFromDB.getSubject().getCode());
 //			}

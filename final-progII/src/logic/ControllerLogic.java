@@ -374,7 +374,9 @@ public class ControllerLogic {
 		try {
 
 			for (User user : users) {
-				teachers.add((Teacher) user);
+				if(user instanceof Teacher) {
+					teachers.add((Teacher) user);	
+				}
 			}
 
 		} catch (ClassCastException castEx) {
@@ -398,7 +400,10 @@ public class ControllerLogic {
 		try {
 
 			for (User user : users) {
-				functionaries.add((Functionary) user);
+				if(user instanceof Functionary) {
+					functionaries.add((Functionary) user);	
+				}
+				
 			}
 
 		} catch (ClassCastException castEx) {

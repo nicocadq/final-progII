@@ -329,6 +329,8 @@ public class ControllerLogic {
 
 	public User login(int ci, String password) throws Exception {
 
+		String loginErrorMessage = "";
+
 		try {
 
 			this.userLoggedIn = this.db.recoverUser(ci);
@@ -341,9 +343,16 @@ public class ControllerLogic {
 			} else {
 				userLoggedIn = null;
 				throw new Exception("Something is wrong! Try Again");
+
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+
+			if (loginErrorMessage != "") {
+				throw new Exception(loginErrorMessage);
+			}
+
 			throw new Exception(errorMessage);
 		}
 		return this.userLoggedIn;
@@ -411,4 +420,5 @@ public class ControllerLogic {
 	public User getUserLoggedIn() {
 		return this.userLoggedIn;
 	}
+
 }

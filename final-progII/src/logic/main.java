@@ -47,6 +47,10 @@ public class main {
 //			for(Exam examFromDB : db.recoverExams()) {
 //				System.out.println(examFromDB.getMark());
 //			}
+			
+			for (User fun : db.recoverUsers()) {
+				System.out.println( (Teacher)fun);
+			}
 
 //			for(Absence absenceFromDB : db.recoverAbsences()) {
 //				System.out.println(absenceFromDB.getSubject().getCode());

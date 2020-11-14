@@ -1,14 +1,22 @@
 package presentation;
 
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
 
 import logic.ControllerLogic;
+import logic.Functionary;
+import logic.Generation;
+import logic.Orientation;
+import logic.Status;
 import persistence.Conn;
 import logic.Student;
+import logic.Subject;
 import logic.Teacher;
 import logic.User;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +38,7 @@ public class Screen extends JFrame {
 	private JTextField lastNameCreateStudent__textField;
 	private JTextField mailCreateStudent__textField;
 	private JTextField passwordCreateStudent__textField;
-	private JTextField dateCreateStudent__textField;
+	private JTextField yearStudent__textField;
 	private JTextField ciCreateTeacher__textField;
 	private JTextField nameCreateTeacher__textField;
 	private JTextField lastNameCreateTeacher__textField;
@@ -53,8 +61,8 @@ public class Screen extends JFrame {
 	private JTextField ciConsultUser__textField__textField;
 	private JTextField dateYearConsultUser__textField;
 	private JTable StudentList__table;
-	private JTable table_1;
-	private JTable table_2;
+	private JTable listTeacher__table;
+	private JTable functionaryList__table;
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
@@ -95,6 +103,8 @@ public class Screen extends JFrame {
 	private JTextField markConsultUserSubject__textField;
 	private JTextField dateMonthConsultUser__textField;
 	private JTextField dateDayConsultUser__textField;
+	private JTextField monthStudent__textField;
+	private JTextField dayStudent__textField;
 
 	/**
 	 * Launch the application.
@@ -120,7 +130,7 @@ public class Screen extends JFrame {
 	@SuppressWarnings("deprecation")
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 581, 570);
+		setBounds(100, 100, 859, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -224,49 +234,51 @@ public class Screen extends JFrame {
 		userType__cardLayout.show(userType__panel, "CREATE_STUDENT_PANEL");
 
 		JLabel nameCreateStudent__label = new JLabel("Name:");
-		nameCreateStudent__label.setBounds(139, 54, 61, 16);
+		nameCreateStudent__label.setBounds(111, 49, 61, 16);
 		createStudent__panel.add(nameCreateStudent__label);
 
 		JLabel ciCreateStudent__label = new JLabel("CI:");
-		ciCreateStudent__label.setBounds(139, 24, 61, 16);
+		ciCreateStudent__label.setBounds(111, 19, 61, 16);
 		createStudent__panel.add(ciCreateStudent__label);
 
 		JLabel passwordCreateStudent__label = new JLabel("Password:");
-		passwordCreateStudent__label.setBounds(139, 154, 91, 16);
+		passwordCreateStudent__label.setBounds(111, 149, 91, 16);
 		createStudent__panel.add(passwordCreateStudent__label);
 
 		JLabel lastNameCreateStudent__label = new JLabel("Last name:");
-		lastNameCreateStudent__label.setBounds(138, 87, 108, 16);
+		lastNameCreateStudent__label.setBounds(110, 82, 62, 16);
 		createStudent__panel.add(lastNameCreateStudent__label);
 
 		JLabel dateCreateStudent__label = new JLabel("Birth date:");
-		dateCreateStudent__label.setBounds(139, 218, 91, 16);
+		dateCreateStudent__label.setBounds(111, 213, 61, 16);
 		createStudent__panel.add(dateCreateStudent__label);
 
 		JLabel generationCreateStudent__label = new JLabel("Generation:");
-		generationCreateStudent__label.setBounds(139, 186, 91, 16);
+		generationCreateStudent__label.setBounds(111, 181, 91, 16);
 		createStudent__panel.add(generationCreateStudent__label);
 
 		JLabel orientationCreateStudent__label = new JLabel("Orientation:");
-		orientationCreateStudent__label.setBounds(139, 246, 91, 16);
+		orientationCreateStudent__label.setBounds(111, 241, 91, 16);
 		createStudent__panel.add(orientationCreateStudent__label);
 
 		JLabel mailCreateStudent__label = new JLabel("Mail:");
-		mailCreateStudent__label.setBounds(139, 120, 61, 16);
+		mailCreateStudent__label.setBounds(111, 115, 61, 16);
 		createStudent__panel.add(mailCreateStudent__label);
 
 		JButton submitCreateStudent__button = new JButton("SUBMIT");
-		submitCreateStudent__button.setBounds(195, 276, 117, 29);
+		submitCreateStudent__button.setBounds(183, 285, 117, 29);
 		createStudent__panel.add(submitCreateStudent__button);
 
 		String generations[] = { "GEN18", "GEN19", "GEN20" };
 		generationCreateStudent__comboBox = new JComboBox(generations);
-		generationCreateStudent__comboBox.setBounds(218, 182, 130, 27);
+		generationCreateStudent__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
+		generationCreateStudent__comboBox.setBounds(195, 180, 130, 27);
 		createStudent__panel.add(generationCreateStudent__comboBox);
 
 		String orientations[] = { "ADM", "TIC" };
 		orientationCreateStudent__comboBox = new JComboBox(orientations);
-		orientationCreateStudent__comboBox.setBounds(218, 242, 142, 27);
+		orientationCreateStudent__comboBox.setBounds(183, 247, 142, 27);
 		createStudent__panel.add(orientationCreateStudent__comboBox);
 
 		ciCreateStudent__textField = new JTextField();
@@ -280,51 +292,61 @@ public class Screen extends JFrame {
 		nameCreateStudent__textField.setColumns(10);
 
 		lastNameCreateStudent__textField = new JTextField();
-		lastNameCreateStudent__textField.setBounds(218, 82, 130, 26);
+		lastNameCreateStudent__textField.setBounds(195, 81, 130, 26);
 		createStudent__panel.add(lastNameCreateStudent__textField);
 		lastNameCreateStudent__textField.setColumns(10);
 
 		mailCreateStudent__textField = new JTextField();
-		mailCreateStudent__textField.setBounds(176, 115, 184, 26);
+		mailCreateStudent__textField.setBounds(195, 115, 130, 26);
 		createStudent__panel.add(mailCreateStudent__textField);
 		mailCreateStudent__textField.setColumns(10);
 
 		passwordCreateStudent__textField = new JTextField();
-		passwordCreateStudent__textField.setBounds(208, 149, 130, 26);
+		passwordCreateStudent__textField.setBounds(195, 149, 130, 26);
 		createStudent__panel.add(passwordCreateStudent__textField);
 		passwordCreateStudent__textField.setColumns(10);
 
-		dateCreateStudent__textField = new JTextField();
-		dateCreateStudent__textField.setBounds(208, 213, 130, 26);
-		createStudent__panel.add(dateCreateStudent__textField);
-		dateCreateStudent__textField.setColumns(10);
+		yearStudent__textField = new JTextField();
+		yearStudent__textField.setBounds(195, 213, 38, 26);
+		createStudent__panel.add(yearStudent__textField);
+		yearStudent__textField.setColumns(10);
+
+		monthStudent__textField = new JTextField();
+		monthStudent__textField.setColumns(10);
+		monthStudent__textField.setBounds(243, 213, 38, 26);
+		createStudent__panel.add(monthStudent__textField);
+
+		dayStudent__textField = new JTextField();
+		dayStudent__textField.setColumns(10);
+		dayStudent__textField.setBounds(291, 213, 38, 26);
+		createStudent__panel.add(dayStudent__textField);
 
 		JPanel createFunctionary__panel = new JPanel();
 		userType__panel.add(createFunctionary__panel, "CREATE_FUNCTIONARY_PANEL");
 		createFunctionary__panel.setLayout(null);
 
 		JLabel nameCreateFunctionary__label = new JLabel("Name:");
-		nameCreateFunctionary__label.setBounds(139, 61, 61, 16);
+		nameCreateFunctionary__label.setBounds(118, 56, 61, 16);
 		createFunctionary__panel.add(nameCreateFunctionary__label);
 
 		JLabel ciCreateFunctioanry__label = new JLabel("CI:");
-		ciCreateFunctioanry__label.setBounds(139, 28, 61, 16);
+		ciCreateFunctioanry__label.setBounds(118, 23, 61, 16);
 		createFunctionary__panel.add(ciCreateFunctioanry__label);
 
 		JLabel passwordCreateFunctioanry__label = new JLabel("Password:");
-		passwordCreateFunctioanry__label.setBounds(139, 156, 91, 16);
+		passwordCreateFunctioanry__label.setBounds(118, 151, 91, 16);
 		createFunctionary__panel.add(passwordCreateFunctioanry__label);
 
 		JLabel lastNameCreateFunctionary__label = new JLabel("Last name:");
-		lastNameCreateFunctionary__label.setBounds(139, 94, 108, 16);
+		lastNameCreateFunctionary__label.setBounds(118, 89, 108, 16);
 		createFunctionary__panel.add(lastNameCreateFunctionary__label);
 
 		JLabel dateCreateFunctionary__label = new JLabel("Birth date:");
-		dateCreateFunctionary__label.setBounds(139, 194, 91, 16);
+		dateCreateFunctionary__label.setBounds(118, 189, 91, 16);
 		createFunctionary__panel.add(dateCreateFunctionary__label);
 
 		JLabel mailCreateFunctionary__label = new JLabel("Mail:");
-		mailCreateFunctionary__label.setBounds(139, 122, 117, 29);
+		mailCreateFunctionary__label.setBounds(118, 117, 39, 29);
 		createFunctionary__panel.add(mailCreateFunctionary__label);
 
 		ciCreateFunctionary__textField = new JTextField();
@@ -338,50 +360,62 @@ public class Screen extends JFrame {
 		nameCreateFunctionary__textField.setColumns(10);
 
 		lastNameCreateFunctionary__textField = new JTextField();
-		lastNameCreateFunctionary__textField.setBounds(219, 89, 130, 26);
+		lastNameCreateFunctionary__textField.setBounds(195, 89, 130, 26);
 		createFunctionary__panel.add(lastNameCreateFunctionary__textField);
 		lastNameCreateFunctionary__textField.setColumns(10);
 
 		mailCreateFunctionary__textField = new JTextField();
-		mailCreateFunctionary__textField.setBounds(208, 122, 184, 26);
+		mailCreateFunctionary__textField.setBounds(195, 120, 130, 26);
 		createFunctionary__panel.add(mailCreateFunctionary__textField);
 		mailCreateFunctionary__textField.setColumns(10);
 
 		passwordCreateFunctionary__textField = new JTextField();
-		passwordCreateFunctionary__textField.setBounds(208, 151, 130, 26);
+		passwordCreateFunctionary__textField.setBounds(195, 152, 130, 26);
 		createFunctionary__panel.add(passwordCreateFunctionary__textField);
 		passwordCreateFunctionary__textField.setColumns(10);
 
 		dateYearCreateFunctionary__textField = new JTextField();
-		dateYearCreateFunctionary__textField.setBounds(208, 189, 39, 26);
+		dateYearCreateFunctionary__textField.setBounds(195, 184, 39, 26);
 		createFunctionary__panel.add(dateYearCreateFunctionary__textField);
 		dateYearCreateFunctionary__textField.setColumns(10);
 
 		JButton submitCreateFunctionary__button = new JButton("SUBMIT");
-		submitCreateFunctionary__button.setBounds(200, 220, 117, 29);
+		submitCreateFunctionary__button.setBounds(178, 226, 117, 29);
 		createFunctionary__panel.add(submitCreateFunctionary__button);
 
 		dateMonthCreateFunctionary__textField = new JTextField();
-		dateMonthCreateFunctionary__textField.setBounds(257, 188, 39, 27);
+		dateMonthCreateFunctionary__textField.setBounds(241, 184, 39, 27);
 		createFunctionary__panel.add(dateMonthCreateFunctionary__textField);
 		dateMonthCreateFunctionary__textField.setColumns(10);
 
 		dateDayCreateFunctionary__textField = new JTextField();
-		dateDayCreateFunctionary__textField.setBounds(306, 188, 86, 27);
+		dateDayCreateFunctionary__textField.setBounds(287, 184, 39, 27);
 		createFunctionary__panel.add(dateDayCreateFunctionary__textField);
 		dateDayCreateFunctionary__textField.setColumns(10);
 
 		submitCreateFunctionary__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String ciFunctionary = ciCreateFunctionary__textField.getText();
+				int ciFunctionary = Integer.parseInt(ciCreateFunctionary__textField.getText());
 				String nameFunctionary = nameCreateFunctionary__textField.getText();
-				String lastNmaeFunctionary = lastNameCreateFunctionary__textField.getText();
+				String lastNameFunctionary = lastNameCreateFunctionary__textField.getText();
 				String mailFunctionary = mailCreateFunctionary__textField.getText();
 				String psswdFunctionary = passwordCreateFunctionary__textField.getText();
-				String yearDateFunctionary = dateYearCreateFunctionary__textField.getText();
-				String monthDateFunctionary = dateMonthCreateFunctionary__textField.getText();
-				String dayDateFunctionary = dateDayCreateFunctionary__textField.getText();
+				int yearDateFunctionary = Integer.parseInt(dateYearCreateFunctionary__textField.getText());
+				int monthDateFunctionary = Integer.parseInt(dateMonthCreateFunctionary__textField.getText());
+				int dayDateFunctionary = Integer.parseInt(dateMonthCreateFunctionary__textField.getText());
+
+				Functionary functionary = new Functionary(ciFunctionary, nameFunctionary, lastNameFunctionary,
+						mailFunctionary, psswdFunctionary,
+						LocalDate.of(yearDateFunctionary, monthDateFunctionary, dayDateFunctionary));
+
+				try {
+					controller.createUser(functionary);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 		});
 
@@ -390,27 +424,27 @@ public class Screen extends JFrame {
 		createTeacher__panel.setLayout(null);
 
 		JLabel nameCreateTeacher__label = new JLabel("Name:");
-		nameCreateTeacher__label.setBounds(139, 61, 61, 16);
+		nameCreateTeacher__label.setBounds(120, 66, 61, 16);
 		createTeacher__panel.add(nameCreateTeacher__label);
 
 		JLabel ciCreateTeacher__label = new JLabel("CI:");
-		ciCreateTeacher__label.setBounds(139, 28, 61, 16);
+		ciCreateTeacher__label.setBounds(120, 33, 61, 16);
 		createTeacher__panel.add(ciCreateTeacher__label);
 
 		JLabel passwordCreateTeacher__label = new JLabel("Password:");
-		passwordCreateTeacher__label.setBounds(139, 156, 91, 16);
+		passwordCreateTeacher__label.setBounds(120, 161, 91, 16);
 		createTeacher__panel.add(passwordCreateTeacher__label);
 
 		JLabel lastNameCreateTeacher__label = new JLabel("Last name:");
-		lastNameCreateTeacher__label.setBounds(139, 94, 108, 16);
+		lastNameCreateTeacher__label.setBounds(120, 99, 108, 16);
 		createTeacher__panel.add(lastNameCreateTeacher__label);
 
 		JLabel dateCreateTeacher__label = new JLabel("Birth date:");
-		dateCreateTeacher__label.setBounds(139, 194, 91, 16);
+		dateCreateTeacher__label.setBounds(120, 199, 91, 16);
 		createTeacher__panel.add(dateCreateTeacher__label);
 
 		JLabel mailCreateTeacher__label = new JLabel("Mail:");
-		mailCreateTeacher__label.setBounds(139, 122, 117, 29);
+		mailCreateTeacher__label.setBounds(120, 127, 39, 29);
 		createTeacher__panel.add(mailCreateTeacher__label);
 
 		ciCreateTeacher__textField = new JTextField();
@@ -424,36 +458,36 @@ public class Screen extends JFrame {
 		nameCreateTeacher__textField.setColumns(10);
 
 		lastNameCreateTeacher__textField = new JTextField();
-		lastNameCreateTeacher__textField.setBounds(219, 89, 130, 26);
+		lastNameCreateTeacher__textField.setBounds(195, 89, 130, 26);
 		createTeacher__panel.add(lastNameCreateTeacher__textField);
 		lastNameCreateTeacher__textField.setColumns(10);
 
 		mailCreateTeacher__textField = new JTextField();
-		mailCreateTeacher__textField.setBounds(208, 122, 184, 26);
+		mailCreateTeacher__textField.setBounds(195, 124, 130, 26);
 		createTeacher__panel.add(mailCreateTeacher__textField);
 		mailCreateTeacher__textField.setColumns(10);
 
 		passwordCreateTeacher__textField = new JTextField();
-		passwordCreateTeacher__textField.setBounds(208, 151, 130, 26);
+		passwordCreateTeacher__textField.setBounds(195, 156, 130, 26);
 		createTeacher__panel.add(passwordCreateTeacher__textField);
 		passwordCreateTeacher__textField.setColumns(10);
 
 		dateYearCreateTeacher__textField = new JTextField();
-		dateYearCreateTeacher__textField.setBounds(208, 189, 39, 26);
+		dateYearCreateTeacher__textField.setBounds(195, 194, 39, 26);
 		createTeacher__panel.add(dateYearCreateTeacher__textField);
 		dateYearCreateTeacher__textField.setColumns(10);
 
 		JButton submitCreateTeacher__button = new JButton("SUBMIT");
-		submitCreateTeacher__button.setBounds(200, 220, 117, 29);
+		submitCreateTeacher__button.setBounds(189, 238, 117, 29);
 		createTeacher__panel.add(submitCreateTeacher__button);
 
 		dateMonthCreateTeacher__textField = new JTextField();
-		dateMonthCreateTeacher__textField.setBounds(257, 188, 39, 27);
+		dateMonthCreateTeacher__textField.setBounds(238, 194, 39, 27);
 		createTeacher__panel.add(dateMonthCreateTeacher__textField);
 		dateMonthCreateTeacher__textField.setColumns(10);
 
 		dateDayCreateTeacher__textField = new JTextField();
-		dateDayCreateTeacher__textField.setBounds(306, 188, 53, 27);
+		dateDayCreateTeacher__textField.setBounds(287, 194, 39, 27);
 		createTeacher__panel.add(dateDayCreateTeacher__textField);
 		dateDayCreateTeacher__textField.setColumns(10);
 
@@ -486,7 +520,7 @@ public class Screen extends JFrame {
 		editConsult__panel.show(false);
 
 		JPanel infoUser__panel = new JPanel();
-		infoUser__panel.setBounds(47, 11, 268, 181);
+		infoUser__panel.setBounds(47, 11, 391, 181);
 		editConsult__panel.add(infoUser__panel);
 		infoUser__panel.setLayout(null);
 		infoUser__panel.show(false);
@@ -556,21 +590,13 @@ public class Screen extends JFrame {
 		infoUser__panel.add(dateDayConsultUser__textField);
 
 		JButton updateConsult__btnNewButton = new JButton("Update");
-		updateConsult__btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		updateConsult__btnNewButton.setBounds(254, 10, 89, 23);
+		infoUser__panel.add(updateConsult__btnNewButton);
 
-				String nameConsult = nameConsultUser__textField.getText();
-				String lastNameConsult = lastNameConsultUser__textField.getText();
-				String emailConsult = emailConsultUser__textField.getText();
-				String psswdConsult = passwordConsultUser__textField.getText();
-				String ciConsult = ciConsultUser__textField__textField.getText();
-				String yearDateConsult = dateYearConsultUser__textField.getText();
-				String monthDateConsult = dateMonthConsultUser__textField.getText();
-
-			}
-		});
-		updateConsult__btnNewButton.setBounds(325, 11, 89, 23);
-		editConsult__panel.add(updateConsult__btnNewButton);
+		JPanel modifySubjectsOfTeacher__panel = new JPanel();
+		modifySubjectsOfTeacher__panel.setBounds(463, 80, 243, 165);
+		infoUser__panel.add(modifySubjectsOfTeacher__panel);
+		modifySubjectsOfTeacher__panel.setLayout(null);
 
 		JPanel addSubjectStudent__panel = new JPanel();
 		addSubjectStudent__panel.setBounds(10, 203, 450, 157);
@@ -588,6 +614,13 @@ public class Screen extends JFrame {
 				String generationConsultSubjectAdd = generationConsultUserSubject__comboBox.getSelectedItem()
 						.toString();
 				String markConsultSubjectAdd = markConsultUserSubject__textField.getText();
+
+				try {
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		});
@@ -636,6 +669,54 @@ public class Screen extends JFrame {
 		master__panel.add(listUsers__panel, "name_110770879092900");
 		Menu listUserss__panel = new Menu(listUsers__panel, master__panel, master__cardLayout);
 		listUsers__panel.setLayout(null);
+		
+				JPanel listOfFunctionary__panel = new JPanel();
+				listOfFunctionary__panel.setLayout(null);
+				listOfFunctionary__panel.setBounds(82, 205, 393, 225);
+				listUsers__panel.add(listOfFunctionary__panel);
+				listOfFunctionary__panel.show(false);
+				
+						functionaryList__table = new JTable();
+						functionaryList__table.setModel(
+								new DefaultTableModel(
+							new Object[][] {
+								{null, null, null, null, null},
+								{null, null, null, null, null},
+							},
+							new String[] {
+								"New column", "New column", "New column", "New column", "New column"
+							}
+						));
+						functionaryList__table.setBounds(10, 24, 373, 190);
+						listOfFunctionary__panel.add(functionaryList__table);
+						
+								JLabel lblNewLabel_10_2 = new JLabel("CI");
+								lblNewLabel_10_2.setBounds(30, 6, 46, 14);
+								listOfFunctionary__panel.add(lblNewLabel_10_2);
+								
+										JLabel lblNewLabel_11_2 = new JLabel("NAME");
+										lblNewLabel_11_2.setBounds(88, 0, 72, 27);
+										listOfFunctionary__panel.add(lblNewLabel_11_2);
+										
+												JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
+												lblNewLabel_12_2.setBounds(160, 6, 65, 14);
+												listOfFunctionary__panel.add(lblNewLabel_12_2);
+												
+														JLabel label_3 = new JLabel("New label");
+														label_3.setBounds(66, 108, 46, 14);
+														listOfFunctionary__panel.add(label_3);
+														
+																JLabel label_1_2 = new JLabel("New label");
+																label_1_2.setBounds(10, 119, 46, 14);
+																listOfFunctionary__panel.add(label_1_2);
+																
+																JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
+																lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
+																listOfFunctionary__panel.add(lblNewLabel_12_2_1);
+																
+																JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
+																lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
+																listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
 
 		JLabel lblNewLabel_8 = new JLabel("Liste Users");
 		lblNewLabel_8.setBounds(214, 86, 149, 14);
@@ -664,11 +745,8 @@ public class Screen extends JFrame {
 		listOfStudent__panel.show(false);
 
 		StudentList__table = new JTable();
-		StudentList__table.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null }, { "si", "no", "peude ser", "algo", } },
-				new String[] { "CI", "NAME", "LASTNAME", "ORIENTATION", "GENERATION" }));
-		StudentList__table.getColumnModel().getColumn(3).setPreferredWidth(90);
-		StudentList__table.getColumnModel().getColumn(4).setPreferredWidth(90);
+		StudentList__table.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
 		StudentList__table.setBounds(10, 24, 373, 190);
 		listOfStudent__panel.add(StudentList__table);
 
@@ -700,69 +778,55 @@ public class Screen extends JFrame {
 		lblNewLabel_14.setBounds(303, 6, 78, 14);
 		listOfStudent__panel.add(lblNewLabel_14);
 
-		JPanel listOfTeacher__panel = new JPanel();
-		listOfTeacher__panel.setLayout(null);
-		listOfTeacher__panel.setBounds(82, 205, 393, 225);
-		listUsers__panel.add(listOfTeacher__panel);
-		listOfTeacher__panel.show(false);
-
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, },
-				new String[] { "CI", "NAME", "LASTNAME" }));
-		table_1.setBounds(10, 24, 373, 190);
-		listOfTeacher__panel.add(table_1);
-
-		JLabel lblNewLabel_10_1 = new JLabel("CI");
-		lblNewLabel_10_1.setBounds(33, 6, 46, 14);
-		listOfTeacher__panel.add(lblNewLabel_10_1);
-
-		JLabel lblNewLabel_11_1 = new JLabel("NAME");
-		lblNewLabel_11_1.setBounds(167, 0, 72, 27);
-		listOfTeacher__panel.add(lblNewLabel_11_1);
-
-		JLabel lblNewLabel_12_1 = new JLabel("LASTNAME");
-		lblNewLabel_12_1.setBounds(282, 6, 65, 14);
-		listOfTeacher__panel.add(lblNewLabel_12_1);
-
-		JLabel label_2 = new JLabel("New label");
-		label_2.setBounds(66, 108, 46, 14);
-		listOfTeacher__panel.add(label_2);
-
-		JLabel label_1_1 = new JLabel("New label");
-		label_1_1.setBounds(10, 119, 46, 14);
-		listOfTeacher__panel.add(label_1_1);
-
-		JPanel listOfFunctionary__panel = new JPanel();
-		listOfFunctionary__panel.setLayout(null);
-		listOfFunctionary__panel.setBounds(82, 205, 393, 225);
-		listUsers__panel.add(listOfFunctionary__panel);
-		listOfFunctionary__panel.show(false);
-
-		table_2 = new JTable();
-		table_2.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, },
-				new String[] { "CI", "NAME", "LASTNAME" }));
-		table_2.setBounds(10, 24, 373, 190);
-		listOfFunctionary__panel.add(table_2);
-
-		JLabel lblNewLabel_10_2 = new JLabel("CI");
-		lblNewLabel_10_2.setBounds(30, 6, 46, 14);
-		listOfFunctionary__panel.add(lblNewLabel_10_2);
-
-		JLabel lblNewLabel_11_2 = new JLabel("NAME");
-		lblNewLabel_11_2.setBounds(173, 0, 72, 27);
-		listOfFunctionary__panel.add(lblNewLabel_11_2);
-
-		JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
-		lblNewLabel_12_2.setBounds(279, 6, 65, 14);
-		listOfFunctionary__panel.add(lblNewLabel_12_2);
-
-		JLabel label_3 = new JLabel("New label");
-		label_3.setBounds(66, 108, 46, 14);
-		listOfFunctionary__panel.add(label_3);
-
-		JLabel label_1_2 = new JLabel("New label");
-		label_1_2.setBounds(10, 119, 46, 14);
-		listOfFunctionary__panel.add(label_1_2);
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(366, 24, 17, 48);
+		listOfStudent__panel.add(scrollBar);
+		
+				JPanel listOfTeacher__panel = new JPanel();
+				listOfTeacher__panel.setLayout(null);
+				listOfTeacher__panel.setBounds(82, 205, 393, 225);
+				listUsers__panel.add(listOfTeacher__panel);
+				listOfTeacher__panel.show(false);
+				
+						listTeacher__table = new JTable();
+						listTeacher__table.setModel(new DefaultTableModel(
+							new Object[][] {
+								{null, null, null, null, null},
+							},
+							new String[] {
+								"New column", "New column", "New column", "New column", "New column"
+							}
+						));
+						listTeacher__table.setBounds(10, 24, 373, 190);
+						listOfTeacher__panel.add(listTeacher__table);
+						
+								JLabel lblNewLabel_10_1 = new JLabel("CI");
+								lblNewLabel_10_1.setBounds(33, 6, 46, 14);
+								listOfTeacher__panel.add(lblNewLabel_10_1);
+								
+										JLabel lblNewLabel_11_1 = new JLabel("NAME");
+										lblNewLabel_11_1.setBounds(89, 0, 72, 27);
+										listOfTeacher__panel.add(lblNewLabel_11_1);
+										
+												JLabel lblNewLabel_12_1 = new JLabel("MAIL");
+												lblNewLabel_12_1.setBounds(233, 6, 65, 14);
+												listOfTeacher__panel.add(lblNewLabel_12_1);
+												
+														JLabel label_2 = new JLabel("New label");
+														label_2.setBounds(66, 108, 46, 14);
+														listOfTeacher__panel.add(label_2);
+														
+																JLabel label_1_1 = new JLabel("New label");
+																label_1_1.setBounds(10, 119, 46, 14);
+																listOfTeacher__panel.add(label_1_1);
+																
+																JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
+																lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
+																listOfTeacher__panel.add(lblNewLabel_11_1_1);
+																
+																JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
+																lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
+																listOfTeacher__panel.add(lblNewLabel_12_1_1);
 
 		JPanel createSubject_panel = new JPanel();
 		master__panel.add(createSubject_panel, "name_113009623994000");
@@ -1202,13 +1266,28 @@ public class Screen extends JFrame {
 
 		submitCreateStudent__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String ciStudent = ciCreateStudent__textField.getText();
+				int ciStudent = Integer.parseInt(ciCreateStudent__textField.getText());
 				String nameStudent = nameCreateStudent__textField.getText();
 				String lastNameStudent = lastNameCreateStudent__textField.getText();
 				String mailCreateStudent = mailCreateStudent__textField.getText();
 				String passwordStudent = passwordCreateStudent__textField.getText();
-				String generationStudent = orientationCreateStudent__comboBox.getSelectedItem().toString();
-				String orientationStudent = generationCreateStudent__comboBox.getSelectedItem().toString();
+				String generationStudent = generationCreateStudent__comboBox.getSelectedItem().toString();
+				String orientationStudent = orientationCreateStudent__comboBox.getSelectedItem().toString();
+				int day = Integer.parseInt(dayStudent__textField.getText());
+				int month = Integer.parseInt(monthStudent__textField.getText());
+				int year = Integer.parseInt(yearStudent__textField.getText());
+
+				Student student = new Student(ciStudent, nameStudent, lastNameStudent,
+						Orientation.valueOf(orientationStudent), Status.ACTIVE, Generation.valueOf(generationStudent),
+						mailCreateStudent, passwordStudent, LocalDate.of(year, month, day));
+
+				try {
+					controller.createUser(student);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1241,11 +1320,31 @@ public class Screen extends JFrame {
 		listFunctionary__rdbtnNewRadioButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listStudent__rdbtnNewRadioButton.setSelected(false);
-				listStudent__rdbtnNewRadioButton.setSelected(false);
+				listTeacher__rdbtnNewRadioButton_1.setSelected(false);
 
 				listOfFunctionary__panel.show(true);
 				listOfStudent__panel.show(false);
 				listOfTeacher__panel.show(false);
+				
+				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD" , "MAIL"};
+				try {
+					List<Functionary> functionary = controller.functionariesList();
+
+					String[][] functionaryTemp = new String[functionary.size()][5];
+					for (int i = 0; i < functionary.size(); i++) {
+						functionaryTemp[i][0] = functionary.get(i).getCi() + "";
+						functionaryTemp[i][1] = functionary.get(i).getName();
+						functionaryTemp[i][2] = functionary.get(i).getLastName();
+						functionaryTemp[i][3] = functionary.get(i).getMail();
+						functionaryTemp[i][4] = functionary.get(i).getPassword();
+
+					}
+					functionaryList__table.setModel(new DefaultTableModel(functionaryTemp, infoListFunctionary));
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1257,6 +1356,29 @@ public class Screen extends JFrame {
 				listOfTeacher__panel.show(true);
 				listOfFunctionary__panel.show(false);
 				listOfStudent__panel.show(false);
+
+				String[] infoListTeacher = { "CI", "NAME", "LASTNAME", "MAIL", "PASSWORD" };
+
+				try {
+					List<Teacher> teachers = controller.teachersList();
+					String[][] teacherTemp = new String[teachers.size()][5];
+
+
+					for (int i = 0; i < teachers.size(); i++) {
+						teacherTemp[i][0] = teachers.get(i).getCi() + "";
+						teacherTemp[i][1] = teachers.get(i).getName();
+						teacherTemp[i][2] = teachers.get(i).getLastName();
+						teacherTemp[i][3] = teachers.get(i).getMail();
+						teacherTemp[i][4] = teachers.get(i).getPassword();
+
+
+					}
+					listTeacher__table.setModel(new DefaultTableModel(teacherTemp, infoListTeacher));
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1268,23 +1390,47 @@ public class Screen extends JFrame {
 				listOfTeacher__panel.show(false);
 				listOfFunctionary__panel.show(false);
 
-				if (markConsultUserSubject__textField.isEnabled()) {
+				String[] infoList = { "CI", "NAME", "LASTNAME", "ORIENTATION", "GENERATION" };
+				try {
 
+					List<Student> students = controller.studentsList();
+					String[][] studentsTemp = new String[students.size()][5];
+					for (int i = 0; i < students.size(); i++) {
+						studentsTemp[i][0] = students.get(i).getCi() + "";
+						studentsTemp[i][1] = students.get(i).getName();
+						studentsTemp[i][2] = students.get(i).getLastName();
+						studentsTemp[i][3] = students.get(i).getOrientation() + "";
+						studentsTemp[i][4] = students.get(i).getGeneration() + "";
+					}
+					StudentList__table.setModel(new DefaultTableModel(studentsTemp, infoList));
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+
 			}
 		});
 
 		submitCreateTeacher__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String ciTeacher = ciCreateTeacher__textField.getText();
+				int ciTeacher = Integer.parseInt(ciCreateTeacher__textField.getText());
 				String nameTeacher = nameCreateTeacher__textField.getText();
 				String lastNameTeacher = lastNameCreateTeacher__textField.getText();
 				String mailTeacher = mailCreateTeacher__textField.getText();
 				String psswrdTeacher = passwordCreateTeacher__textField.getText();
-				String yearDateTeacher = dateYearCreateTeacher__textField.getText();
-				String monthDateTeacher = dateMonthCreateTeacher__textField.getText();
-				String dayDateTeacher = dateDayCreateTeacher__textField.getText();
+				int yearDateTeacher = Integer.parseInt(dateYearCreateTeacher__textField.getText());
+				int monthDateTeacher = Integer.parseInt(dateMonthCreateTeacher__textField.getText());
+				int dayDateTeacher = Integer.parseInt(dateDayCreateTeacher__textField.getText());
+
+				Teacher teacher = new Teacher(ciTeacher, nameTeacher, lastNameTeacher, mailTeacher, psswrdTeacher,
+						LocalDate.of(yearDateTeacher, monthDateTeacher, monthDateTeacher));
+
+				try {
+					controller.createUser(teacher);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -1343,22 +1489,101 @@ public class Screen extends JFrame {
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				String ciConsult = searchCiConsultUser__textField.getText();
-				editConsult__panel.show(true);
-				infoUser__panel.show(true);
+				int ciConsult = Integer.parseInt(searchCiConsultUser__textField.getText());
 
-				/*
-				 * try { User user = db.recoverUser(ciConsult);
-				 * 
-				 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
-				 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
-				 * Teacher) {
-				 * 
-				 * } else { JOptionPane.showMessageDialog(null,
-				 * "Something went Wrong !, try again.");
-				 * 
-				 * } } } catch (Exception e) { e.printStackTrace(); }
-				 */
+				try {
+					try {
+						User userConsult = controller.consultUsers(ciConsult);
+
+						if (userConsult != null) {
+							editConsult__panel.show(true);
+							infoUser__panel.show(true);
+							nameConsultUser__textField.setText(userConsult.getName());
+							lastNameConsultUser__textField.setText(userConsult.getLastName());
+							emailConsultUser__textField.setText(userConsult.getMail());
+							passwordConsultUser__textField.setText(userConsult.getPassword());
+							ciConsultUser__textField__textField.setText(userConsult.getCi() + "");
+							dateYearConsultUser__textField.setText(userConsult.getDateBirth().getYear() + "");
+							dateMonthConsultUser__textField.setText(userConsult.getDateBirth().getMonthValue() + "");
+							dateDayConsultUser__textField.setText(userConsult.getDateBirth().getDayOfMonth() + "");
+						} else if (userConsult == null) {
+							JOptionPane.showMessageDialog(null, "The USER doesnt exit !");
+						}
+						if (userConsult instanceof Student) {
+
+							addSubjectStudent__panel.show(true);
+
+						}
+					} catch (NumberFormatException e) {
+						// add a JoptionPane that says "You write someting wrong, Try Again !"
+					}
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Something went Wrong!");
+
+				}
+			}
+
+			/*
+			 * try { User user = db.recoverUser(ciConsult);
+			 * 
+			 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
+			 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
+			 * Teacher) {
+			 * 
+			 * } else { JOptionPane.showMessageDialog(null,
+			 * "Something went Wrong !, try again.");
+			 * 
+			 * } } } catch (Exception e) { e.printStackTrace(); }
+			 */
+
+		});
+
+		updateConsult__btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int ciConsult = Integer.parseInt(searchCiConsultUser__textField.getText());
+
+				String name = nameConsultUser__textField.getText();
+				String lastName = lastNameConsultUser__textField.getText();
+				String email = emailConsultUser__textField.getText();
+				String psswrd = passwordConsultUser__textField.getText();
+				int ci = Integer.parseInt(ciConsultUser__textField__textField.getText());
+				int year = Integer.parseInt(dateYearConsultUser__textField.getText());
+				int month = Integer.parseInt(dateMonthConsultUser__textField.getText());
+				int day = Integer.parseInt(dateDayConsultUser__textField.getText());
+
+				try {
+
+					User user = controller.consultUsers(ciConsult);
+
+					if (user instanceof Student) {
+
+						Student student = new Student(ci, name, lastName, ((Student) user).getOrientation(),
+								((Student) user).getStatus(), ((Student) user).getGeneration(), email, psswrd,
+								LocalDate.of(year, month, day));
+
+						controller.userUpdate(ciConsult, student);
+
+					} else if (user instanceof Teacher) {
+
+						Teacher teacher = new Teacher(ci, name, lastName, email, psswrd,
+								LocalDate.of(year, month, day));
+
+						controller.userUpdate(ciConsult, teacher);
+					} else if (user instanceof Functionary) {
+
+						Functionary functionary = new Functionary(ci, name, lastName, email, psswrd,
+								LocalDate.of(year, month, day));
+
+						controller.userUpdate(ciConsult, functionary);
+					} else {
+						throw new Exception();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		});

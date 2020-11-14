@@ -46,6 +46,16 @@ public class ControllerLogic {
 		return subject;
 	}
 
+	public void addTeacherToSubject(Subject subject) throws Exception {
+		try {
+
+			this.db.toPersistIntoTeaches(subject, subject.getTeacher());
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+	}
+
 	public Absence createAbsence(Absence absence) throws Exception {
 
 		try {

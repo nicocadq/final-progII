@@ -72,6 +72,13 @@ public class Screen extends JFrame {
 	private JTextField nameSubjectConsulted__textField;
 	private JTextField enrolledSubjectConsulted__textField;
 	private JTable table_3;
+	private JTextField textField_11;
+	private JTextField textField_12;
+	private JTextField textField_13;
+	private JTextField textField_14;
+	private JTextField textField_15;
+	private JTextField textField_16;
+	private JTable SubjectList__table;
 	private JTextField textField_17;
 	private JTextField textField_19;
 	private JTextField textField_20;
@@ -949,11 +956,26 @@ public class Screen extends JFrame {
 		lblNewLabel_28.setBounds(220, 74, 110, 14);
 		listSubject__panel.add(lblNewLabel_28);
 
-		table_3 = new JTable();
-		table_3.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
-				new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
-		table_3.setBounds(78, 150, 382, 174);
-		listSubject__panel.add(table_3);
+		SubjectList__table = new JTable();
+
+		try {
+
+			List<Subject> subjects = controller.subjectsList();
+			String[][] subjectsTemp = new String[subjects.size()][5];
+			for (int i = 0; i < subjects.size(); i++) {
+				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
+				subjectsTemp[i][1] = subjects.get(i).getName() + "";
+				subjectsTemp[i][3] = subjects.get(i).getOrientation() + "";
+				subjectsTemp[i][4] = subjects.get(i).getGeneration() + "";
+			}
+			SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
+					new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		SubjectList__table.setBounds(78, 150, 382, 174);
+		listSubject__panel.add(SubjectList__table);
 
 		JLabel lblNewLabel_29 = new JLabel("ID");
 		lblNewLabel_29.setBounds(86, 125, 46, 14);

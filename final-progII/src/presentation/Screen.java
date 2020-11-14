@@ -8,7 +8,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
-
+import logic.Absence;
+import logic.AbstenceType;
 import logic.ControllerLogic;
 import logic.Functionary;
 import logic.Generation;
@@ -75,12 +76,12 @@ public class Screen extends JFrame {
 	private JTextField textField_15;
 	private JTextField textField_16;
 	private JTable table_3;
-	private JTextField textField_17;
-	private JTextField textField_19;
-	private JTextField textField_20;
-	private JTextField textField_21;
-	private JTextField textField_18;
-	private JTextField textField_22;
+	private JTextField dayDateCreteAbsence__textField;
+	private JTextField amountHoursCreateAbsence__textField;
+	private JTextField studentCICreateAbsence__textField;
+	private JTextField subjectIDCreateAbsence__textField;
+	private JTextField monthDateCreateAbsence__textField;
+	private JTextField yearDateCreateAbsence__textField;
 	private JTextField textField_23;
 	private JTextField textField_24;
 	private JTextField textField_25;
@@ -669,54 +670,47 @@ public class Screen extends JFrame {
 		master__panel.add(listUsers__panel, "name_110770879092900");
 		Menu listUserss__panel = new Menu(listUsers__panel, master__panel, master__cardLayout);
 		listUsers__panel.setLayout(null);
-		
-				JPanel listOfFunctionary__panel = new JPanel();
-				listOfFunctionary__panel.setLayout(null);
-				listOfFunctionary__panel.setBounds(82, 205, 393, 225);
-				listUsers__panel.add(listOfFunctionary__panel);
-				listOfFunctionary__panel.show(false);
-				
-						functionaryList__table = new JTable();
-						functionaryList__table.setModel(
-								new DefaultTableModel(
-							new Object[][] {
-								{null, null, null, null, null},
-								{null, null, null, null, null},
-							},
-							new String[] {
-								"New column", "New column", "New column", "New column", "New column"
-							}
-						));
-						functionaryList__table.setBounds(10, 24, 373, 190);
-						listOfFunctionary__panel.add(functionaryList__table);
-						
-								JLabel lblNewLabel_10_2 = new JLabel("CI");
-								lblNewLabel_10_2.setBounds(30, 6, 46, 14);
-								listOfFunctionary__panel.add(lblNewLabel_10_2);
-								
-										JLabel lblNewLabel_11_2 = new JLabel("NAME");
-										lblNewLabel_11_2.setBounds(88, 0, 72, 27);
-										listOfFunctionary__panel.add(lblNewLabel_11_2);
-										
-												JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
-												lblNewLabel_12_2.setBounds(160, 6, 65, 14);
-												listOfFunctionary__panel.add(lblNewLabel_12_2);
-												
-														JLabel label_3 = new JLabel("New label");
-														label_3.setBounds(66, 108, 46, 14);
-														listOfFunctionary__panel.add(label_3);
-														
-																JLabel label_1_2 = new JLabel("New label");
-																label_1_2.setBounds(10, 119, 46, 14);
-																listOfFunctionary__panel.add(label_1_2);
-																
-																JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
-																lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
-																listOfFunctionary__panel.add(lblNewLabel_12_2_1);
-																
-																JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
-																lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
-																listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
+
+		JPanel listOfFunctionary__panel = new JPanel();
+		listOfFunctionary__panel.setLayout(null);
+		listOfFunctionary__panel.setBounds(82, 205, 393, 225);
+		listUsers__panel.add(listOfFunctionary__panel);
+		listOfFunctionary__panel.show(false);
+
+		functionaryList__table = new JTable();
+		functionaryList__table.setModel(new DefaultTableModel(
+				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		functionaryList__table.setBounds(10, 24, 373, 190);
+		listOfFunctionary__panel.add(functionaryList__table);
+
+		JLabel lblNewLabel_10_2 = new JLabel("CI");
+		lblNewLabel_10_2.setBounds(30, 6, 46, 14);
+		listOfFunctionary__panel.add(lblNewLabel_10_2);
+
+		JLabel lblNewLabel_11_2 = new JLabel("NAME");
+		lblNewLabel_11_2.setBounds(88, 0, 72, 27);
+		listOfFunctionary__panel.add(lblNewLabel_11_2);
+
+		JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
+		lblNewLabel_12_2.setBounds(160, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2);
+
+		JLabel label_3 = new JLabel("New label");
+		label_3.setBounds(66, 108, 46, 14);
+		listOfFunctionary__panel.add(label_3);
+
+		JLabel label_1_2 = new JLabel("New label");
+		label_1_2.setBounds(10, 119, 46, 14);
+		listOfFunctionary__panel.add(label_1_2);
+
+		JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
+		lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2_1);
+
+		JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
+		lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
 
 		JLabel lblNewLabel_8 = new JLabel("Liste Users");
 		lblNewLabel_8.setBounds(214, 86, 149, 14);
@@ -781,52 +775,46 @@ public class Screen extends JFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(366, 24, 17, 48);
 		listOfStudent__panel.add(scrollBar);
-		
-				JPanel listOfTeacher__panel = new JPanel();
-				listOfTeacher__panel.setLayout(null);
-				listOfTeacher__panel.setBounds(82, 205, 393, 225);
-				listUsers__panel.add(listOfTeacher__panel);
-				listOfTeacher__panel.show(false);
-				
-						listTeacher__table = new JTable();
-						listTeacher__table.setModel(new DefaultTableModel(
-							new Object[][] {
-								{null, null, null, null, null},
-							},
-							new String[] {
-								"New column", "New column", "New column", "New column", "New column"
-							}
-						));
-						listTeacher__table.setBounds(10, 24, 373, 190);
-						listOfTeacher__panel.add(listTeacher__table);
-						
-								JLabel lblNewLabel_10_1 = new JLabel("CI");
-								lblNewLabel_10_1.setBounds(33, 6, 46, 14);
-								listOfTeacher__panel.add(lblNewLabel_10_1);
-								
-										JLabel lblNewLabel_11_1 = new JLabel("NAME");
-										lblNewLabel_11_1.setBounds(89, 0, 72, 27);
-										listOfTeacher__panel.add(lblNewLabel_11_1);
-										
-												JLabel lblNewLabel_12_1 = new JLabel("MAIL");
-												lblNewLabel_12_1.setBounds(233, 6, 65, 14);
-												listOfTeacher__panel.add(lblNewLabel_12_1);
-												
-														JLabel label_2 = new JLabel("New label");
-														label_2.setBounds(66, 108, 46, 14);
-														listOfTeacher__panel.add(label_2);
-														
-																JLabel label_1_1 = new JLabel("New label");
-																label_1_1.setBounds(10, 119, 46, 14);
-																listOfTeacher__panel.add(label_1_1);
-																
-																JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
-																lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
-																listOfTeacher__panel.add(lblNewLabel_11_1_1);
-																
-																JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
-																lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
-																listOfTeacher__panel.add(lblNewLabel_12_1_1);
+
+		JPanel listOfTeacher__panel = new JPanel();
+		listOfTeacher__panel.setLayout(null);
+		listOfTeacher__panel.setBounds(82, 205, 393, 225);
+		listUsers__panel.add(listOfTeacher__panel);
+		listOfTeacher__panel.show(false);
+
+		listTeacher__table = new JTable();
+		listTeacher__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listTeacher__table.setBounds(10, 24, 373, 190);
+		listOfTeacher__panel.add(listTeacher__table);
+
+		JLabel lblNewLabel_10_1 = new JLabel("CI");
+		lblNewLabel_10_1.setBounds(33, 6, 46, 14);
+		listOfTeacher__panel.add(lblNewLabel_10_1);
+
+		JLabel lblNewLabel_11_1 = new JLabel("NAME");
+		lblNewLabel_11_1.setBounds(89, 0, 72, 27);
+		listOfTeacher__panel.add(lblNewLabel_11_1);
+
+		JLabel lblNewLabel_12_1 = new JLabel("MAIL");
+		lblNewLabel_12_1.setBounds(233, 6, 65, 14);
+		listOfTeacher__panel.add(lblNewLabel_12_1);
+
+		JLabel label_2 = new JLabel("New label");
+		label_2.setBounds(66, 108, 46, 14);
+		listOfTeacher__panel.add(label_2);
+
+		JLabel label_1_1 = new JLabel("New label");
+		label_1_1.setBounds(10, 119, 46, 14);
+		listOfTeacher__panel.add(label_1_1);
+
+		JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
+		lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
+		listOfTeacher__panel.add(lblNewLabel_11_1_1);
+
+		JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
+		lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
+		listOfTeacher__panel.add(lblNewLabel_12_1_1);
 
 		JPanel createSubject_panel = new JPanel();
 		master__panel.add(createSubject_panel, "name_113009623994000");
@@ -1016,7 +1004,7 @@ public class Screen extends JFrame {
 		lblNewLabel_36.setBounds(134, 175, 84, 14);
 		createAbsences__panel.add(lblNewLabel_36);
 
-		JLabel lblNewLabel_37 = new JLabel("Student Ci");
+		JLabel lblNewLabel_37 = new JLabel("Student CI");
 		lblNewLabel_37.setBounds(134, 205, 64, 14);
 		createAbsences__panel.add(lblNewLabel_37);
 
@@ -1024,44 +1012,45 @@ public class Screen extends JFrame {
 		lblNewLabel_38.setBounds(134, 236, 64, 14);
 		createAbsences__panel.add(lblNewLabel_38);
 
-		textField_17 = new JTextField();
-		textField_17.setBounds(239, 116, 28, 20);
-		createAbsences__panel.add(textField_17);
-		textField_17.setColumns(10);
+		dayDateCreteAbsence__textField = new JTextField();
+		dayDateCreteAbsence__textField.setBounds(239, 116, 28, 20);
+		createAbsences__panel.add(dayDateCreteAbsence__textField);
+		dayDateCreteAbsence__textField.setColumns(10);
 
-		textField_19 = new JTextField();
-		textField_19.setBounds(239, 172, 86, 20);
-		createAbsences__panel.add(textField_19);
-		textField_19.setColumns(10);
+		amountHoursCreateAbsence__textField = new JTextField();
+		amountHoursCreateAbsence__textField.setBounds(239, 172, 86, 20);
+		createAbsences__panel.add(amountHoursCreateAbsence__textField);
+		amountHoursCreateAbsence__textField.setColumns(10);
 
-		textField_20 = new JTextField();
-		textField_20.setBounds(239, 202, 86, 20);
-		createAbsences__panel.add(textField_20);
-		textField_20.setColumns(10);
+		studentCICreateAbsence__textField = new JTextField();
+		studentCICreateAbsence__textField.setBounds(239, 202, 86, 20);
+		createAbsences__panel.add(studentCICreateAbsence__textField);
+		studentCICreateAbsence__textField.setColumns(10);
 
-		textField_21 = new JTextField();
-		textField_21.setBounds(239, 233, 86, 20);
-		createAbsences__panel.add(textField_21);
-		textField_21.setColumns(10);
+		subjectIDCreateAbsence__textField = new JTextField();
+		subjectIDCreateAbsence__textField.setBounds(239, 233, 86, 20);
+		createAbsences__panel.add(subjectIDCreateAbsence__textField);
+		subjectIDCreateAbsence__textField.setColumns(10);
 
-		JButton btnNewButton_2 = new JButton("Create");
-		btnNewButton_2.setBounds(308, 279, 89, 23);
-		createAbsences__panel.add(btnNewButton_2);
+		JButton submitCreateAbsence__button = new JButton("Create");
+		submitCreateAbsence__button.setBounds(308, 279, 89, 23);
+		createAbsences__panel.add(submitCreateAbsence__button);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "JUSTIFY", "UNJUSTIFY", "LATER" }));
-		comboBox.setBounds(239, 146, 86, 22);
-		createAbsences__panel.add(comboBox);
+		JComboBox typeCreateAbsence__comboBox = new JComboBox();
+		typeCreateAbsence__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { "JUSTIFY", "UNJUSTIFY", "LATER" }));
+		typeCreateAbsence__comboBox.setBounds(239, 146, 86, 22);
+		createAbsences__panel.add(typeCreateAbsence__comboBox);
 
-		textField_18 = new JTextField();
-		textField_18.setBounds(277, 116, 46, 20);
-		createAbsences__panel.add(textField_18);
-		textField_18.setColumns(10);
+		monthDateCreateAbsence__textField = new JTextField();
+		monthDateCreateAbsence__textField.setBounds(277, 116, 46, 20);
+		createAbsences__panel.add(monthDateCreateAbsence__textField);
+		monthDateCreateAbsence__textField.setColumns(10);
 
-		textField_22 = new JTextField();
-		textField_22.setBounds(333, 116, 64, 20);
-		createAbsences__panel.add(textField_22);
-		textField_22.setColumns(10);
+		yearDateCreateAbsence__textField = new JTextField();
+		yearDateCreateAbsence__textField.setBounds(333, 116, 64, 20);
+		createAbsences__panel.add(yearDateCreateAbsence__textField);
+		yearDateCreateAbsence__textField.setColumns(10);
 
 		JPanel consultAbsences__panel = new JPanel();
 		master__panel.add(consultAbsences__panel, "name_117345618880400");
@@ -1325,8 +1314,8 @@ public class Screen extends JFrame {
 				listOfFunctionary__panel.show(true);
 				listOfStudent__panel.show(false);
 				listOfTeacher__panel.show(false);
-				
-				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD" , "MAIL"};
+
+				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD", "MAIL" };
 				try {
 					List<Functionary> functionary = controller.functionariesList();
 
@@ -1363,14 +1352,12 @@ public class Screen extends JFrame {
 					List<Teacher> teachers = controller.teachersList();
 					String[][] teacherTemp = new String[teachers.size()][5];
 
-
 					for (int i = 0; i < teachers.size(); i++) {
 						teacherTemp[i][0] = teachers.get(i).getCi() + "";
 						teacherTemp[i][1] = teachers.get(i).getName();
 						teacherTemp[i][2] = teachers.get(i).getLastName();
 						teacherTemp[i][3] = teachers.get(i).getMail();
 						teacherTemp[i][4] = teachers.get(i).getPassword();
-
 
 					}
 					listTeacher__table.setModel(new DefaultTableModel(teacherTemp, infoListTeacher));
@@ -1460,32 +1447,32 @@ public class Screen extends JFrame {
 
 		submitLogin__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
-				
-				int ci = Integer.parseInt(ciLogin__textField.getText());
-				String password = passwordLogin__textField.getText();
 
 				try {
 
-					controller.login(ci, password);
+					int ci = Integer.parseInt(ciLogin__textField.getText());
+					String password = passwordLogin__textField.getText();
 
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
+					try {
+
+						controller.login(ci, password);
+
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
+
+					}
+
+					if (controller.getUserLoggedIn() != null) {
+						master__cardLayout.show(master__panel, "WELCOME_PANEL");
+					}
+
+				} catch (NumberFormatException exc) {
+					JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
 
 				}
-
-				if (controller.getUserLoggedIn() != null) {
-					master__cardLayout.show(master__panel, "WELCOME_PANEL");
-				}
-
-			}catch(NumberFormatException exc) {
-				JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
-
 			}
-				}
 		});
-		
+
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1583,6 +1570,33 @@ public class Screen extends JFrame {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+
+			}
+		});
+
+		submitCreateAbsence__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int day = Integer.valueOf(dayDateCreteAbsence__textField.getText());
+				int month = Integer.valueOf(monthDateCreateAbsence__textField.getText());
+				int year = Integer.valueOf(yearDateCreateAbsence__textField.getText());
+				String type = typeCreateAbsence__comboBox.getSelectedItem().toString();
+				int amountHours = Integer.valueOf(amountHoursCreateAbsence__textField.getText());
+				int studentCI = Integer.valueOf(studentCICreateAbsence__textField.getText());
+				String subjectID = subjectIDCreateAbsence__textField.getText();
+
+				try {
+
+					Absence absence = new Absence(0, LocalDate.of(year, month, day), AbstenceType.valueOf(type),
+							amountHours, new Student(studentCI), new Subject(subjectID));
+
+					controller.createAbsence(absence);
+
+				} catch (Exception ex) {
+
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+
 				}
 
 			}

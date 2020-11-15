@@ -33,6 +33,18 @@ public class ControllerLogic {
 		return user;
 	}
 
+	public Exam createExam(Exam exam) throws Exception {
+
+		try {
+			this.db.toPersistExam(exam);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(errorMessage);
+		}
+
+		return exam;
+	}
+
 	public Subject createSubject(Subject subject) throws Exception {
 
 		try {

@@ -12,6 +12,7 @@ import persistence.ControllerDB;
 import logic.Absence;
 import logic.AbstenceType;
 import logic.ControllerLogic;
+import logic.Exam;
 import logic.Functionary;
 import logic.Generation;
 import logic.Orientation;
@@ -94,6 +95,13 @@ public class Screen extends JFrame {
 	private JTextField textField_27;
 	private JTextField textField_28;
 	private JTable table_4;
+	private JTable table_5;
+	private JTextField subjectStudentExam__textField;
+	private JTextField noteStudentExam__textField;
+	private JTextField yearDateExam__textField;
+	private JTextField ciStudentExam__textField;
+	private JTextField monthDateExam__textField;
+	private JTextField dayDateExam__textField;
 	private JTable SubjectList__table;
 	private JTextField textField_17;
 	private JTextField textField_19;
@@ -1233,7 +1241,7 @@ public class Screen extends JFrame {
 		createExam__panel.add(lblNewLabel_55);
 
 		JLabel lblNewLabel_56 = new JLabel("Ci Student");
-		lblNewLabel_56.setBounds(153, 113, 46, 14);
+		lblNewLabel_56.setBounds(153, 113, 72, 14);
 		createExam__panel.add(lblNewLabel_56);
 
 		JLabel lblNewLabel_57 = new JLabel("Date");
@@ -1244,39 +1252,39 @@ public class Screen extends JFrame {
 		lblNewLabel_58.setBounds(153, 193, 46, 14);
 		createExam__panel.add(lblNewLabel_58);
 
-		JLabel lblNewLabel_59 = new JLabel("Subject");
-		lblNewLabel_59.setBounds(153, 230, 46, 14);
+		JLabel lblNewLabel_59 = new JLabel("Subject Id");
+		lblNewLabel_59.setBounds(153, 230, 86, 14);
 		createExam__panel.add(lblNewLabel_59);
 
-		textField_29 = new JTextField();
-		textField_29.setBounds(235, 227, 86, 20);
-		createExam__panel.add(textField_29);
-		textField_29.setColumns(10);
+		subjectStudentExam__textField = new JTextField();
+		subjectStudentExam__textField.setBounds(235, 227, 86, 20);
+		createExam__panel.add(subjectStudentExam__textField);
+		subjectStudentExam__textField.setColumns(10);
 
-		textField_30 = new JTextField();
-		textField_30.setBounds(235, 190, 86, 20);
-		createExam__panel.add(textField_30);
-		textField_30.setColumns(10);
+		noteStudentExam__textField = new JTextField();
+		noteStudentExam__textField.setBounds(235, 190, 86, 20);
+		createExam__panel.add(noteStudentExam__textField);
+		noteStudentExam__textField.setColumns(10);
 
-		textField_31 = new JTextField();
-		textField_31.setBounds(235, 147, 38, 20);
-		createExam__panel.add(textField_31);
-		textField_31.setColumns(10);
+		yearDateExam__textField = new JTextField();
+		yearDateExam__textField.setBounds(235, 147, 38, 20);
+		createExam__panel.add(yearDateExam__textField);
+		yearDateExam__textField.setColumns(10);
 
-		textField_32 = new JTextField();
-		textField_32.setBounds(235, 110, 86, 20);
-		createExam__panel.add(textField_32);
-		textField_32.setColumns(10);
+		ciStudentExam__textField = new JTextField();
+		ciStudentExam__textField.setBounds(235, 110, 86, 20);
+		createExam__panel.add(ciStudentExam__textField);
+		ciStudentExam__textField.setColumns(10);
 
-		textField_33 = new JTextField();
-		textField_33.setColumns(10);
-		textField_33.setBounds(283, 147, 52, 20);
-		createExam__panel.add(textField_33);
+		monthDateExam__textField = new JTextField();
+		monthDateExam__textField.setColumns(10);
+		monthDateExam__textField.setBounds(283, 147, 38, 20);
+		createExam__panel.add(monthDateExam__textField);
 
-		textField_34 = new JTextField();
-		textField_34.setColumns(10);
-		textField_34.setBounds(345, 147, 52, 20);
-		createExam__panel.add(textField_34);
+		dayDateExam__textField = new JTextField();
+		dayDateExam__textField.setColumns(10);
+		dayDateExam__textField.setBounds(330, 147, 52, 20);
+		createExam__panel.add(dayDateExam__textField);
 
 		submitCreateStudent__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1306,10 +1314,6 @@ public class Screen extends JFrame {
 		});
 
 		JButton btnNewButton_5 = new JButton("Create");
-		btnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnNewButton_5.setBounds(321, 275, 89, 23);
 		createExam__panel.add(btnNewButton_5);
 
@@ -1573,15 +1577,12 @@ public class Screen extends JFrame {
 					}
 
 
-					}
-
 					if (controller.getUserLoggedIn() != null) {
 						master__cardLayout.show(master__panel, "WELCOME_PANEL");
 					}
 
 				} catch (NumberFormatException exc) {
 					JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
-
 				}
 			}
 		});
@@ -1674,6 +1675,30 @@ public class Screen extends JFrame {
 
 			}
 		});
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int ciStudentExam = Integer.parseInt(ciStudentExam__textField.getText());
+				int yearDateExam = Integer.parseInt(yearDateExam__textField.getText());
+				int monthDateExam = Integer.parseInt(monthDateExam__textField.getText());
+				int dayDateExam = Integer.parseInt(dayDateExam__textField.getText());
+				int noteExam = Integer.parseInt(noteStudentExam__textField.getText());
+				String subjectExam = subjectStudentExam__textField.getText();
+
+				try {
+
+					Exam exam = new Exam(LocalDate.of(yearDateExam, monthDateExam, dayDateExam), noteExam,
+							new Student(ciStudentExam), new Subject(subjectExam));
+
+					controller.createExam(exam);
+					
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+        }
+      }
+    )};
 
 		submitCreateAbsence__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.event.*;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -990,8 +991,8 @@ public class Screen extends JFrame {
 				subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
 				subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
 			}
-			SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
-					new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+			SubjectList__table.setModel(
+					new DefaultTableModel(subjectsTemp, new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1294,13 +1295,16 @@ public class Screen extends JFrame {
 						Orientation.valueOf(orientationStudent), Status.ACTIVE, Generation.valueOf(generationStudent),
 						mailCreateStudent, passwordStudent, LocalDate.of(year, month, day));
 
-				try {
-					controller.createUser(student);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				// SQLIntegrityConstraintViolationException
+				// NumberFormatException
 
+				try {
+
+					controller.createUser(student);
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, " The CI already exits");
+				}
 			}
 		});
 
@@ -1319,7 +1323,8 @@ public class Screen extends JFrame {
 				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT" };
 
 				try {
-					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation), Generation.valueOf(generation));
+					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation),
+							Generation.valueOf(generation));
 
 					String[][] absencesTemp = new String[absences.size()][3];
 					for (int i = 0; i < absences.size(); i++) {
@@ -1395,7 +1400,7 @@ public class Screen extends JFrame {
 						nameSubjectConsulted__textField.setText(subject.getName());
 						orientationSubjectConsult__comboBox.setSelectedItem(subject.getOrientation() + "");
 						generationSubjectConsult__comboBox.setSelectedItem(subject.getGeneration() + "");
-						//to Implement
+						// to Implement
 						enrolledSubjectConsulted__textField.setText("");
 
 					}
@@ -1564,7 +1569,6 @@ public class Screen extends JFrame {
 
 					}
 
-
 					if (controller.getUserLoggedIn() != null) {
 						master__cardLayout.show(master__panel, "WELCOME_PANEL");
 					}
@@ -1679,14 +1683,13 @@ public class Screen extends JFrame {
 							new Student(ciStudentExam), new Subject(subjectExam));
 
 					controller.createExam(exam);
-					
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-        }
-      }
-    });
+				}
+			}
+		});
 
 		submitCreateAbsence__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

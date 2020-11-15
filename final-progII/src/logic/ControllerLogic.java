@@ -1,5 +1,6 @@
 package logic;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +27,9 @@ public class ControllerLogic {
 
 			this.db.toPersistUser(user);
 
-		} catch (Exception ex) {
-			throw new Exception(errorMessage);
+		} catch (SQLIntegrityConstraintViolationException ex) {
+			
+			throw new Exception("The user already Exits");
 		}
 
 		return user;
@@ -233,9 +235,9 @@ public class ControllerLogic {
 				studentsMatched.add(student.getCi());
 			}
 		}
-		
-		for(Absence absence : absences) {
-			if(studentsMatched.contains(absence.getStudent().getCi())) {
+
+		for (Absence absence : absences) {
+			if (studentsMatched.contains(absence.getStudent().getCi())) {
 				absencesFiltered.add(absence);
 			}
 		}

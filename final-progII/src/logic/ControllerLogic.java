@@ -96,6 +96,16 @@ public class ControllerLogic {
 		return user;
 	}
 
+	public void addSubjectToStudent(Subject subject, Student student, int mark) throws Exception {
+		try {
+
+			this.db.toPersistIntoTeakes(subject, student, mark);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+	}
+
 	public Subject consultSubject(String code) throws Exception {
 
 		Subject subject = null;
@@ -243,9 +253,9 @@ public class ControllerLogic {
 				studentsMatched.add(student.getCi());
 			}
 		}
-		
-		for(Absence absence : absences) {
-			if(studentsMatched.contains(absence.getStudent().getCi())) {
+
+		for (Absence absence : absences) {
+			if (studentsMatched.contains(absence.getStudent().getCi())) {
 				absencesFiltered.add(absence);
 			}
 		}

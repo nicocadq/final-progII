@@ -181,6 +181,32 @@ public class ControllerDB extends Conn {
 		}
 
 	}
+	
+	public void toPersistIntoTeakes(Subject subject, Student student, int mark) throws Exception {
+		try {
+			System.out.println("Creting a connection object");
+			this.MySQLconnection();
+
+			System.out.println("Created PreparedStatement for teakes");
+
+			PreparedStatement takesSt = this.conn
+					.prepareStatement("INSERT INTO TAKES(IDSUBJECT, CISTUDENT, MARK) VALUES(?,?,?)");
+
+			takesSt.setString(1, subject.getCode());
+			takesSt.setInt(2, student.getCi());
+			takesSt.setInt(3, mark);
+			
+
+			System.out.println("Execut Update");
+
+			int updateTeakesRows = takesSt.executeUpdate();
+
+			System.out.println("Update teakes rows: " + updateTeakesRows);
+
+		} catch (SQLException ex) {
+			throw ex;
+		}
+	}
 
 	public void toPersistAbsence(Absence absence) throws Exception {
 

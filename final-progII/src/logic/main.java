@@ -35,7 +35,7 @@ public class main {
 			// db.toPersistSubject(subject);
 			// db.toPersistAbsence(absence);
 			// db.toPersistExam(exam);
-			 con.createExam(exam);
+			// con.createExam(exam);
 			// db.toPersistIntoTeaches(subject, teacher);
 
 			// System.out.println(db.recoverSubject("123").getCode());
@@ -60,6 +60,10 @@ public class main {
 				System.out.println( (Teacher)fun);
 			}*/
 
+			 for(Student stu : con.listStudentsWithSubjToDo()) {
+				 System.out.println(stu.getCi());
+			 }
+			 
 
 //			for(Absence absenceFromDB : db.recoverAbsences()) {
 //				System.out.println(absenceFromDB.getSubject().getCode());

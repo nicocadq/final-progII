@@ -193,6 +193,56 @@ public class ControllerLogic {
 		return absencesBetweenTwoDates;
 	}
 
+	public List<Absence> absenceList(Orientation orientation, Generation generation) throws Exception {
+		List<Absence> absences = null;
+		List<User> users = null;
+		List<Student> students = new ArrayList<Student>();
+		List<Absence> absencesFiltered = new ArrayList<Absence>();
+		List<Integer> studentsMatched = new ArrayList<Integer>();
+
+		try {
+
+			users = this.db.recoverUsers();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			absences = this.db.recoverAbsences();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			for (User user : users) {
+				if (user instanceof Student) {
+					students.add((Student) user);
+				}
+			}
+
+		} catch (ClassCastException castEx) {
+
+		}
+
+		for (Student student : students) {
+			if (student.getOrientation() == orientation && student.getGeneration() == generation) {
+				studentsMatched.add(student.getCi());
+			}
+		}
+		
+		for(Absence absence : absences) {
+			if(studentsMatched.contains(absence.getStudent().getCi())) {
+				absencesFiltered.add(absence);
+			}
+		}
+
+		return absencesFiltered;
+	}
+
 	public User userUpdate(int ci, User user) throws Exception {
 
 		try {
@@ -378,6 +428,7 @@ public class ControllerLogic {
 	}
 
 	public List<User> listClass(Generation generation, Orientation orientation) {
+
 		return null;
 	}
 

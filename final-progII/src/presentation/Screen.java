@@ -3,12 +3,14 @@ package presentation;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
-
+import logic.Absence;
+import logic.AbstenceType;
 import logic.ControllerLogic;
 import logic.Exam;
 import logic.Functionary;
@@ -69,6 +71,10 @@ public class Screen extends JFrame {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
+	private JTextField idConsulSubject__textField;
+	private JTextField nameSubjectConsulted__textField;
+	private JTextField enrolledSubjectConsulted__textField;
+	private JTable table_3;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
@@ -76,12 +82,12 @@ public class Screen extends JFrame {
 	private JTextField textField_15;
 	private JTextField textField_16;
 	private JTable table_3;
-	private JTextField textField_17;
-	private JTextField textField_19;
-	private JTextField textField_20;
-	private JTextField textField_21;
-	private JTextField textField_18;
-	private JTextField textField_22;
+	private JTextField dayDateCreteAbsence__textField;
+	private JTextField amountHoursCreateAbsence__textField;
+	private JTextField studentCICreateAbsence__textField;
+	private JTextField subjectIDCreateAbsence__textField;
+	private JTextField monthDateCreateAbsence__textField;
+	private JTextField yearDateCreateAbsence__textField;
 	private JTextField textField_23;
 	private JTextField textField_24;
 	private JTextField textField_25;
@@ -96,6 +102,26 @@ public class Screen extends JFrame {
 	private JTextField ciStudentExam__textField;
 	private JTextField monthDateExam__textField;
 	private JTextField dayDateExam__textField;
+	private JTable SubjectList__table;
+	private JTextField textField_17;
+	private JTextField textField_19;
+	private JTextField textField_20;
+	private JTextField textField_21;
+	private JTextField textField_18;
+	private JTextField textField_22;
+	private JTextField startYearConsult__textField;
+	private JTextField startMonthConsult__textField;
+	private JTextField startDayConsult__textField;
+	private JTextField endMonthConsult__textField;
+	private JTextField endDayConsult__textField;
+	private JTable listAbsences__table;
+	private JTable listAbsencess__table;
+	private JTextField textField_29;
+	private JTextField textField_30;
+	private JTextField textField_31;
+	private JTextField textField_32;
+	private JTextField textField_33;
+	private JTextField textField_34;
 	private JTextField dateMonthCreateFunctionary__textField;
 	private JTextField dateDayCreateFunctionary__textField;
 	private JTextField dateMonthCreateTeacher__textField;
@@ -894,59 +920,51 @@ public class Screen extends JFrame {
 		infoConsultSubject__panel.setLayout(null);
 		infoConsultSubject__panel.show(false);
 
-		JLabel lblNewLabel_23 = new JLabel("ID");
-		lblNewLabel_23.setBounds(29, 26, 46, 14);
-		infoConsultSubject__panel.add(lblNewLabel_23);
-
 		JLabel lblNewLabel_24 = new JLabel("Name");
-		lblNewLabel_24.setBounds(29, 58, 46, 14);
+		lblNewLabel_24.setBounds(24, 14, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_24);
 
 		JLabel lblNewLabel_25 = new JLabel("Orientation");
-		lblNewLabel_25.setBounds(29, 93, 70, 14);
+		lblNewLabel_25.setBounds(24, 49, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_25);
 
 		JLabel lblNewLabel_26 = new JLabel("Generation");
-		lblNewLabel_26.setBounds(29, 126, 70, 14);
+		lblNewLabel_26.setBounds(24, 82, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_26);
 
 		JLabel lblNewLabel_27 = new JLabel("Enrolled");
-		lblNewLabel_27.setBounds(29, 158, 46, 14);
+		lblNewLabel_27.setBounds(24, 114, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_27);
 
-		textField_12 = new JTextField();
-		textField_12.setBounds(109, 23, 86, 20);
-		infoConsultSubject__panel.add(textField_12);
-		textField_12.setColumns(10);
+		nameSubjectConsulted__textField = new JTextField();
+		nameSubjectConsulted__textField.setBounds(104, 11, 86, 20);
+		infoConsultSubject__panel.add(nameSubjectConsulted__textField);
+		nameSubjectConsulted__textField.setColumns(10);
 
-		textField_13 = new JTextField();
-		textField_13.setBounds(109, 55, 86, 20);
-		infoConsultSubject__panel.add(textField_13);
-		textField_13.setColumns(10);
-
-		textField_14 = new JTextField();
-		textField_14.setBounds(109, 90, 86, 20);
-		infoConsultSubject__panel.add(textField_14);
-		textField_14.setColumns(10);
-
-		textField_15 = new JTextField();
-		textField_15.setBounds(109, 123, 86, 20);
-		infoConsultSubject__panel.add(textField_15);
-		textField_15.setColumns(10);
-
-		textField_16 = new JTextField();
-		textField_16.setBounds(109, 155, 86, 20);
-		infoConsultSubject__panel.add(textField_16);
-		textField_16.setColumns(10);
+		enrolledSubjectConsulted__textField = new JTextField();
+		enrolledSubjectConsulted__textField.setBounds(104, 111, 86, 20);
+		infoConsultSubject__panel.add(enrolledSubjectConsulted__textField);
+		enrolledSubjectConsulted__textField.setColumns(10);
 
 		JButton btnNewButton_1 = new JButton("Update");
-		btnNewButton_1.setBounds(54, 197, 89, 23);
+		btnNewButton_1.setBounds(49, 153, 89, 23);
 		infoConsultSubject__panel.add(btnNewButton_1);
 
-		textField_11 = new JTextField();
-		textField_11.setBounds(200, 113, 94, 20);
-		consultSubject__panel.add(textField_11);
-		textField_11.setColumns(10);
+		JComboBox orientationSubjectConsult__comboBox = new JComboBox();
+		orientationSubjectConsult__comboBox.setModel(new DefaultComboBoxModel(new String[] { "TIC", "ADM" }));
+		orientationSubjectConsult__comboBox.setBounds(104, 45, 86, 22);
+		infoConsultSubject__panel.add(orientationSubjectConsult__comboBox);
+
+		JComboBox generationSubjectConsult__comboBox = new JComboBox();
+		generationSubjectConsult__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { " FIRST", "SECOND", "THIRD" }));
+		generationSubjectConsult__comboBox.setBounds(104, 78, 86, 22);
+		infoConsultSubject__panel.add(generationSubjectConsult__comboBox);
+
+		idConsulSubject__textField = new JTextField();
+		idConsulSubject__textField.setBounds(200, 113, 94, 20);
+		consultSubject__panel.add(idConsulSubject__textField);
+		idConsulSubject__textField.setColumns(10);
 
 		JButton consultSearchSubject__button = new JButton("Search");
 		consultSearchSubject__button.setBounds(304, 112, 89, 23);
@@ -961,11 +979,26 @@ public class Screen extends JFrame {
 		lblNewLabel_28.setBounds(220, 74, 110, 14);
 		listSubject__panel.add(lblNewLabel_28);
 
-		table_3 = new JTable();
-		table_3.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
-				new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
-		table_3.setBounds(78, 150, 382, 174);
-		listSubject__panel.add(table_3);
+		SubjectList__table = new JTable();
+
+		try {
+
+			List<Subject> subjects = controller.subjectsList();
+			String[][] subjectsTemp = new String[subjects.size()][5];
+			for (int i = 0; i < subjects.size(); i++) {
+				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
+				subjectsTemp[i][1] = subjects.get(i).getName() + "";
+				subjectsTemp[i][3] = subjects.get(i).getOrientation() + "";
+				subjectsTemp[i][4] = subjects.get(i).getGeneration() + "";
+			}
+			SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
+					new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		SubjectList__table.setBounds(78, 150, 382, 174);
+		listSubject__panel.add(SubjectList__table);
 
 		JLabel lblNewLabel_29 = new JLabel("ID");
 		lblNewLabel_29.setBounds(86, 125, 46, 14);
@@ -1004,7 +1037,7 @@ public class Screen extends JFrame {
 		lblNewLabel_36.setBounds(134, 175, 84, 14);
 		createAbsences__panel.add(lblNewLabel_36);
 
-		JLabel lblNewLabel_37 = new JLabel("Student Ci");
+		JLabel lblNewLabel_37 = new JLabel("Student CI");
 		lblNewLabel_37.setBounds(134, 205, 64, 14);
 		createAbsences__panel.add(lblNewLabel_37);
 
@@ -1012,44 +1045,45 @@ public class Screen extends JFrame {
 		lblNewLabel_38.setBounds(134, 236, 64, 14);
 		createAbsences__panel.add(lblNewLabel_38);
 
-		textField_17 = new JTextField();
-		textField_17.setBounds(239, 116, 28, 20);
-		createAbsences__panel.add(textField_17);
-		textField_17.setColumns(10);
+		dayDateCreteAbsence__textField = new JTextField();
+		dayDateCreteAbsence__textField.setBounds(239, 116, 28, 20);
+		createAbsences__panel.add(dayDateCreteAbsence__textField);
+		dayDateCreteAbsence__textField.setColumns(10);
 
-		textField_19 = new JTextField();
-		textField_19.setBounds(239, 172, 86, 20);
-		createAbsences__panel.add(textField_19);
-		textField_19.setColumns(10);
+		amountHoursCreateAbsence__textField = new JTextField();
+		amountHoursCreateAbsence__textField.setBounds(239, 172, 86, 20);
+		createAbsences__panel.add(amountHoursCreateAbsence__textField);
+		amountHoursCreateAbsence__textField.setColumns(10);
 
-		textField_20 = new JTextField();
-		textField_20.setBounds(239, 202, 86, 20);
-		createAbsences__panel.add(textField_20);
-		textField_20.setColumns(10);
+		studentCICreateAbsence__textField = new JTextField();
+		studentCICreateAbsence__textField.setBounds(239, 202, 86, 20);
+		createAbsences__panel.add(studentCICreateAbsence__textField);
+		studentCICreateAbsence__textField.setColumns(10);
 
-		textField_21 = new JTextField();
-		textField_21.setBounds(239, 233, 86, 20);
-		createAbsences__panel.add(textField_21);
-		textField_21.setColumns(10);
+		subjectIDCreateAbsence__textField = new JTextField();
+		subjectIDCreateAbsence__textField.setBounds(239, 233, 86, 20);
+		createAbsences__panel.add(subjectIDCreateAbsence__textField);
+		subjectIDCreateAbsence__textField.setColumns(10);
 
-		JButton btnNewButton_2 = new JButton("Create");
-		btnNewButton_2.setBounds(308, 279, 89, 23);
-		createAbsences__panel.add(btnNewButton_2);
+		JButton submitCreateAbsence__button = new JButton("Create");
+		submitCreateAbsence__button.setBounds(308, 279, 89, 23);
+		createAbsences__panel.add(submitCreateAbsence__button);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "JUSTIFY", "UNJUSTIFY", "LATER" }));
-		comboBox.setBounds(239, 146, 86, 22);
-		createAbsences__panel.add(comboBox);
+		JComboBox typeCreateAbsence__comboBox = new JComboBox();
+		typeCreateAbsence__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { "JUSTIFY", "UNJUSTIFY", "LATER" }));
+		typeCreateAbsence__comboBox.setBounds(239, 146, 86, 22);
+		createAbsences__panel.add(typeCreateAbsence__comboBox);
 
-		textField_18 = new JTextField();
-		textField_18.setBounds(277, 116, 46, 20);
-		createAbsences__panel.add(textField_18);
-		textField_18.setColumns(10);
+		monthDateCreateAbsence__textField = new JTextField();
+		monthDateCreateAbsence__textField.setBounds(277, 116, 46, 20);
+		createAbsences__panel.add(monthDateCreateAbsence__textField);
+		monthDateCreateAbsence__textField.setColumns(10);
 
-		textField_22 = new JTextField();
-		textField_22.setBounds(333, 116, 64, 20);
-		createAbsences__panel.add(textField_22);
-		textField_22.setColumns(10);
+		yearDateCreateAbsence__textField = new JTextField();
+		yearDateCreateAbsence__textField.setBounds(333, 116, 64, 20);
+		createAbsences__panel.add(yearDateCreateAbsence__textField);
+		yearDateCreateAbsence__textField.setColumns(10);
 
 		JPanel consultAbsences__panel = new JPanel();
 		master__panel.add(consultAbsences__panel, "name_117345618880400");
@@ -1064,10 +1098,10 @@ public class Screen extends JFrame {
 		lblNewLabel_40.setBounds(115, 106, 62, 14);
 		consultAbsences__panel.add(lblNewLabel_40);
 
-		textField_23 = new JTextField();
-		textField_23.setBounds(197, 103, 53, 20);
-		consultAbsences__panel.add(textField_23);
-		textField_23.setColumns(10);
+		startYearConsult__textField = new JTextField();
+		startYearConsult__textField.setBounds(197, 103, 53, 20);
+		consultAbsences__panel.add(startYearConsult__textField);
+		startYearConsult__textField.setColumns(10);
 
 		JButton btnNewButton_3 = new JButton("Consult");
 		btnNewButton_3.setBounds(389, 156, 89, 23);
@@ -1077,30 +1111,30 @@ public class Screen extends JFrame {
 		lblNewLabel_41.setBounds(115, 139, 46, 14);
 		consultAbsences__panel.add(lblNewLabel_41);
 
-		textField_24 = new JTextField();
-		textField_24.setColumns(10);
-		textField_24.setBounds(260, 103, 53, 20);
-		consultAbsences__panel.add(textField_24);
+		startMonthConsult__textField = new JTextField();
+		startMonthConsult__textField.setColumns(10);
+		startMonthConsult__textField.setBounds(260, 103, 53, 20);
+		consultAbsences__panel.add(startMonthConsult__textField);
 
-		textField_25 = new JTextField();
-		textField_25.setColumns(10);
-		textField_25.setBounds(323, 103, 62, 20);
-		consultAbsences__panel.add(textField_25);
+		startDayConsult__textField = new JTextField();
+		startDayConsult__textField.setColumns(10);
+		startDayConsult__textField.setBounds(323, 103, 62, 20);
+		consultAbsences__panel.add(startDayConsult__textField);
 
-		textField_26 = new JTextField();
-		textField_26.setColumns(10);
-		textField_26.setBounds(197, 136, 53, 20);
-		consultAbsences__panel.add(textField_26);
+		JTextField endYearConsult__textField = new JTextField();
+		endYearConsult__textField.setColumns(10);
+		endYearConsult__textField.setBounds(197, 136, 53, 20);
+		consultAbsences__panel.add(endYearConsult__textField);
 
-		textField_27 = new JTextField();
-		textField_27.setColumns(10);
-		textField_27.setBounds(270, 136, 43, 20);
-		consultAbsences__panel.add(textField_27);
+		endMonthConsult__textField = new JTextField();
+		endMonthConsult__textField.setColumns(10);
+		endMonthConsult__textField.setBounds(270, 136, 43, 20);
+		consultAbsences__panel.add(endMonthConsult__textField);
 
-		textField_28 = new JTextField();
-		textField_28.setColumns(10);
-		textField_28.setBounds(323, 136, 62, 20);
-		consultAbsences__panel.add(textField_28);
+		endDayConsult__textField = new JTextField();
+		endDayConsult__textField.setColumns(10);
+		endDayConsult__textField.setBounds(323, 136, 62, 20);
+		consultAbsences__panel.add(endDayConsult__textField);
 
 		JPanel infoConsultAbsences__panel = new JPanel();
 		infoConsultAbsences__panel.setBounds(70, 181, 427, 257);
@@ -1108,11 +1142,11 @@ public class Screen extends JFrame {
 		infoConsultAbsences__panel.setLayout(null);
 		infoConsultAbsences__panel.show(false);
 
-		table_4 = new JTable();
-		table_4.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "SUBJECT", "NAME", "DATE", "TYPE", "HOURS" }));
-		table_4.setBounds(10, 43, 407, 203);
-		infoConsultAbsences__panel.add(table_4);
+		listAbsences__table = new JTable();
+		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listAbsences__table.setBounds(10, 43, 407, 203);
+		infoConsultAbsences__panel.add(listAbsences__table);
 
 		JLabel lblNewLabel_42 = new JLabel("MATERIA");
 		lblNewLabel_42.setBounds(10, 28, 46, 14);
@@ -1151,15 +1185,15 @@ public class Screen extends JFrame {
 		lblNewLabel_49.setBounds(130, 132, 75, 14);
 		listAbsences__panel.add(lblNewLabel_49);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "ADM", "TIC" }));
-		comboBox_1.setBounds(215, 92, 85, 22);
-		listAbsences__panel.add(comboBox_1);
+		JComboBox orientationAbsenceList__comboBox = new JComboBox();
+		orientationAbsenceList__comboBox.setModel(new DefaultComboBoxModel(new String[] { "ADM", "TIC" }));
+		orientationAbsenceList__comboBox.setBounds(215, 92, 85, 22);
+		listAbsences__panel.add(orientationAbsenceList__comboBox);
 
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
-		comboBox_2.setBounds(215, 132, 85, 22);
-		listAbsences__panel.add(comboBox_2);
+		JComboBox generationAbsenceList__comboBox = new JComboBox();
+		generationAbsenceList__comboBox.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
+		generationAbsenceList__comboBox.setBounds(215, 132, 85, 22);
+		listAbsences__panel.add(generationAbsenceList__comboBox);
 
 		JButton btnNewButton_4 = new JButton("List");
 		btnNewButton_4.setBounds(321, 111, 89, 23);
@@ -1171,11 +1205,11 @@ public class Screen extends JFrame {
 		infoListAbsences__panel.setLayout(null);
 		infoListAbsences__panel.show(false);
 
-		table_5 = new JTable();
-		table_5.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "IDABSENCE", "ID STUDENT", "ID SUBJECT", "GENERATION", "ORIENTATION" }));
-		table_5.setBounds(10, 58, 392, 172);
-		infoListAbsences__panel.add(table_5);
+		listAbsencess__table = new JTable();
+		listAbsencess__table.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listAbsencess__table.setBounds(10, 58, 392, 172);
+		infoListAbsences__panel.add(listAbsencess__table);
 
 		JLabel lblNewLabel_50 = new JLabel("ID ABSENCE");
 		lblNewLabel_50.setBounds(22, 33, 59, 14);
@@ -1285,19 +1319,104 @@ public class Screen extends JFrame {
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				infoListAbsences__panel.show(true);
+
+				String orientation = orientationAbsenceList__comboBox.getSelectedItem() + "";
+				String generation = generationAbsenceList__comboBox.getSelectedItem() + "";
+				System.out.println(orientation);
+				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT", "GENERATION", "ORIENTATION", };
+
+				try {
+					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation), Generation.valueOf(generation));
+
+					String[][] absencesTemp = new String[absences.size()][5];
+					for (int i = 0; i < absences.size(); i++) {
+
+						System.out.println(absences.get(i).getStudent().getOrientation());
+
+						System.out.println("si");
+						absencesTemp[i][0] = absences.get(i).getId() + "";
+						absencesTemp[i][1] = absences.get(i).getStudent().getCi() + "";
+						absencesTemp[i][2] = absences.get(i).getSubject().getCode();
+						absencesTemp[i][3] = absences.get(i).getStudent().getGeneration() + "";
+						absencesTemp[i][4] = absences.get(i).getStudent().getOrientation() + "";
+
+					}
+					listAbsencess__table.setModel(new DefaultTableModel(absencesTemp, infoAbsences));
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				infoConsultAbsences__panel.show(true);
+
+				int fromYearDate = Integer.parseInt(startYearConsult__textField.getText() + "");
+				int fromMonthDate = Integer.parseInt(startMonthConsult__textField.getText() + "");
+				int fromDayDate = Integer.parseInt(startDayConsult__textField.getText() + "");
+
+				int tillYearDate = Integer.parseInt(endYearConsult__textField.getText() + "");
+				int tillMonthDate = Integer.parseInt(endMonthConsult__textField.getText() + "");
+				int tillDayDate = Integer.parseInt(endDayConsult__textField.getText() + "");
+
+				LocalDate fromDate = LocalDate.of(fromYearDate, fromMonthDate, fromDayDate);
+				LocalDate tillDate = LocalDate.of(tillYearDate, tillMonthDate, tillDayDate);
+
+				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
+				try {
+					List<Absence> absence = controller.absencesList(fromDate, tillDate);
+
+					String[][] listAbsenceTemp = new String[absence.size()][5];
+					for (int i = 0; i < absence.size(); i++) {
+						listAbsenceTemp[i][0] = absence.get(i).getId() + "";
+						listAbsenceTemp[i][1] = absence.get(i).getSubject().getCode();
+						listAbsenceTemp[i][2] = absence.get(i).getDate() + "";
+						listAbsenceTemp[i][3] = absence.get(i).getType() + "";
+						listAbsenceTemp[i][4] = absence.get(i).getAmountHours() + "";
+
+					}
+
+					listAbsences__table.setModel(new DefaultTableModel(listAbsenceTemp, infolistAbsences));
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
 		consultSearchSubject__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				infoConsultSubject__panel.show(true);
+
+				String idSubject = idConsulSubject__textField.getText();
+
+				try {
+					Subject subject = controller.consultSubject(idSubject);
+
+					if (subject != null) {
+
+						nameSubjectConsulted__textField.setText(subject.getName());
+						orientationSubjectConsult__comboBox.setSelectedItem(subject.getOrientation() + "");
+						generationSubjectConsult__comboBox.setSelectedItem(subject.getGeneration() + "");
+						//to Implement
+						enrolledSubjectConsulted__textField.setText("");
+
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1457,13 +1576,13 @@ public class Screen extends JFrame {
 
 					}
 
+
 					if (controller.getUserLoggedIn() != null) {
 						master__cardLayout.show(master__panel, "WELCOME_PANEL");
 					}
 
 				} catch (NumberFormatException exc) {
 					JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
-
 				}
 			}
 		});
@@ -1505,19 +1624,6 @@ public class Screen extends JFrame {
 
 				}
 			}
-
-			/*
-			 * try { User user = db.recoverUser(ciConsult);
-			 * 
-			 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
-			 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
-			 * Teacher) {
-			 * 
-			 * } else { JOptionPane.showMessageDialog(null,
-			 * "Something went Wrong !, try again.");
-			 * 
-			 * } } } catch (Exception e) { e.printStackTrace(); }
-			 */
 
 		});
 
@@ -1590,6 +1696,32 @@ public class Screen extends JFrame {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+        }
+      }
+    )};
+
+		submitCreateAbsence__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int day = Integer.valueOf(dayDateCreteAbsence__textField.getText());
+				int month = Integer.valueOf(monthDateCreateAbsence__textField.getText());
+				int year = Integer.valueOf(yearDateCreateAbsence__textField.getText());
+				String type = typeCreateAbsence__comboBox.getSelectedItem().toString();
+				int amountHours = Integer.valueOf(amountHoursCreateAbsence__textField.getText());
+				int studentCI = Integer.valueOf(studentCICreateAbsence__textField.getText());
+				String subjectID = subjectIDCreateAbsence__textField.getText();
+
+				try {
+
+					Absence absence = new Absence(0, LocalDate.of(year, month, day), AbstenceType.valueOf(type),
+							amountHours, new Student(studentCI), new Subject(subjectID));
+
+					controller.createAbsence(absence);
+
+				} catch (Exception ex) {
+
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+
 				}
 
 			}

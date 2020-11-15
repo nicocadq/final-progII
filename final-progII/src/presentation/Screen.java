@@ -3,6 +3,7 @@ package presentation;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.*;
 import javax.swing.*;
@@ -69,6 +70,10 @@ public class Screen extends JFrame {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
+	private JTextField idConsulSubject__textField;
+	private JTextField nameSubjectConsulted__textField;
+	private JTextField enrolledSubjectConsulted__textField;
+	private JTable table_3;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
@@ -89,6 +94,19 @@ public class Screen extends JFrame {
 	private JTextField textField_27;
 	private JTextField textField_28;
 	private JTable table_4;
+	private JTable SubjectList__table;
+	private JTextField textField_17;
+	private JTextField textField_19;
+	private JTextField textField_20;
+	private JTextField textField_21;
+	private JTextField textField_18;
+	private JTextField textField_22;
+	private JTextField startYearConsult__textField;
+	private JTextField startMonthConsult__textField;
+	private JTextField startDayConsult__textField;
+	private JTextField endMonthConsult__textField;
+	private JTextField endDayConsult__textField;
+	private JTable listAbsences__table;
 	private JTable table_5;
 	private JTextField textField_29;
 	private JTextField textField_30;
@@ -894,59 +912,51 @@ public class Screen extends JFrame {
 		infoConsultSubject__panel.setLayout(null);
 		infoConsultSubject__panel.show(false);
 
-		JLabel lblNewLabel_23 = new JLabel("ID");
-		lblNewLabel_23.setBounds(29, 26, 46, 14);
-		infoConsultSubject__panel.add(lblNewLabel_23);
-
 		JLabel lblNewLabel_24 = new JLabel("Name");
-		lblNewLabel_24.setBounds(29, 58, 46, 14);
+		lblNewLabel_24.setBounds(24, 14, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_24);
 
 		JLabel lblNewLabel_25 = new JLabel("Orientation");
-		lblNewLabel_25.setBounds(29, 93, 70, 14);
+		lblNewLabel_25.setBounds(24, 49, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_25);
 
 		JLabel lblNewLabel_26 = new JLabel("Generation");
-		lblNewLabel_26.setBounds(29, 126, 70, 14);
+		lblNewLabel_26.setBounds(24, 82, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_26);
 
 		JLabel lblNewLabel_27 = new JLabel("Enrolled");
-		lblNewLabel_27.setBounds(29, 158, 46, 14);
+		lblNewLabel_27.setBounds(24, 114, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_27);
 
-		textField_12 = new JTextField();
-		textField_12.setBounds(109, 23, 86, 20);
-		infoConsultSubject__panel.add(textField_12);
-		textField_12.setColumns(10);
+		nameSubjectConsulted__textField = new JTextField();
+		nameSubjectConsulted__textField.setBounds(104, 11, 86, 20);
+		infoConsultSubject__panel.add(nameSubjectConsulted__textField);
+		nameSubjectConsulted__textField.setColumns(10);
 
-		textField_13 = new JTextField();
-		textField_13.setBounds(109, 55, 86, 20);
-		infoConsultSubject__panel.add(textField_13);
-		textField_13.setColumns(10);
-
-		textField_14 = new JTextField();
-		textField_14.setBounds(109, 90, 86, 20);
-		infoConsultSubject__panel.add(textField_14);
-		textField_14.setColumns(10);
-
-		textField_15 = new JTextField();
-		textField_15.setBounds(109, 123, 86, 20);
-		infoConsultSubject__panel.add(textField_15);
-		textField_15.setColumns(10);
-
-		textField_16 = new JTextField();
-		textField_16.setBounds(109, 155, 86, 20);
-		infoConsultSubject__panel.add(textField_16);
-		textField_16.setColumns(10);
+		enrolledSubjectConsulted__textField = new JTextField();
+		enrolledSubjectConsulted__textField.setBounds(104, 111, 86, 20);
+		infoConsultSubject__panel.add(enrolledSubjectConsulted__textField);
+		enrolledSubjectConsulted__textField.setColumns(10);
 
 		JButton btnNewButton_1 = new JButton("Update");
-		btnNewButton_1.setBounds(54, 197, 89, 23);
+		btnNewButton_1.setBounds(49, 153, 89, 23);
 		infoConsultSubject__panel.add(btnNewButton_1);
 
-		textField_11 = new JTextField();
-		textField_11.setBounds(200, 113, 94, 20);
-		consultSubject__panel.add(textField_11);
-		textField_11.setColumns(10);
+		JComboBox orientationSubjectConsult__comboBox = new JComboBox();
+		orientationSubjectConsult__comboBox.setModel(new DefaultComboBoxModel(new String[] { "TIC", "ADM" }));
+		orientationSubjectConsult__comboBox.setBounds(104, 45, 86, 22);
+		infoConsultSubject__panel.add(orientationSubjectConsult__comboBox);
+
+		JComboBox generationSubjectConsult__comboBox = new JComboBox();
+		generationSubjectConsult__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { " FIRST", "SECOND", "THIRD" }));
+		generationSubjectConsult__comboBox.setBounds(104, 78, 86, 22);
+		infoConsultSubject__panel.add(generationSubjectConsult__comboBox);
+
+		idConsulSubject__textField = new JTextField();
+		idConsulSubject__textField.setBounds(200, 113, 94, 20);
+		consultSubject__panel.add(idConsulSubject__textField);
+		idConsulSubject__textField.setColumns(10);
 
 		JButton consultSearchSubject__button = new JButton("Search");
 		consultSearchSubject__button.setBounds(304, 112, 89, 23);
@@ -961,11 +971,26 @@ public class Screen extends JFrame {
 		lblNewLabel_28.setBounds(220, 74, 110, 14);
 		listSubject__panel.add(lblNewLabel_28);
 
-		table_3 = new JTable();
-		table_3.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null }, },
-				new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
-		table_3.setBounds(78, 150, 382, 174);
-		listSubject__panel.add(table_3);
+		SubjectList__table = new JTable();
+
+		try {
+
+			List<Subject> subjects = controller.subjectsList();
+			String[][] subjectsTemp = new String[subjects.size()][5];
+			for (int i = 0; i < subjects.size(); i++) {
+				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
+				subjectsTemp[i][1] = subjects.get(i).getName() + "";
+				subjectsTemp[i][3] = subjects.get(i).getOrientation() + "";
+				subjectsTemp[i][4] = subjects.get(i).getGeneration() + "";
+			}
+			SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
+					new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		SubjectList__table.setBounds(78, 150, 382, 174);
+		listSubject__panel.add(SubjectList__table);
 
 		JLabel lblNewLabel_29 = new JLabel("ID");
 		lblNewLabel_29.setBounds(86, 125, 46, 14);
@@ -1065,10 +1090,10 @@ public class Screen extends JFrame {
 		lblNewLabel_40.setBounds(115, 106, 62, 14);
 		consultAbsences__panel.add(lblNewLabel_40);
 
-		textField_23 = new JTextField();
-		textField_23.setBounds(197, 103, 53, 20);
-		consultAbsences__panel.add(textField_23);
-		textField_23.setColumns(10);
+		startYearConsult__textField = new JTextField();
+		startYearConsult__textField.setBounds(197, 103, 53, 20);
+		consultAbsences__panel.add(startYearConsult__textField);
+		startYearConsult__textField.setColumns(10);
 
 		JButton btnNewButton_3 = new JButton("Consult");
 		btnNewButton_3.setBounds(389, 156, 89, 23);
@@ -1078,30 +1103,30 @@ public class Screen extends JFrame {
 		lblNewLabel_41.setBounds(115, 139, 46, 14);
 		consultAbsences__panel.add(lblNewLabel_41);
 
-		textField_24 = new JTextField();
-		textField_24.setColumns(10);
-		textField_24.setBounds(260, 103, 53, 20);
-		consultAbsences__panel.add(textField_24);
+		startMonthConsult__textField = new JTextField();
+		startMonthConsult__textField.setColumns(10);
+		startMonthConsult__textField.setBounds(260, 103, 53, 20);
+		consultAbsences__panel.add(startMonthConsult__textField);
 
-		textField_25 = new JTextField();
-		textField_25.setColumns(10);
-		textField_25.setBounds(323, 103, 62, 20);
-		consultAbsences__panel.add(textField_25);
+		startDayConsult__textField = new JTextField();
+		startDayConsult__textField.setColumns(10);
+		startDayConsult__textField.setBounds(323, 103, 62, 20);
+		consultAbsences__panel.add(startDayConsult__textField);
 
-		textField_26 = new JTextField();
-		textField_26.setColumns(10);
-		textField_26.setBounds(197, 136, 53, 20);
-		consultAbsences__panel.add(textField_26);
+		JTextField endYearConsult__textField = new JTextField();
+		endYearConsult__textField.setColumns(10);
+		endYearConsult__textField.setBounds(197, 136, 53, 20);
+		consultAbsences__panel.add(endYearConsult__textField);
 
-		textField_27 = new JTextField();
-		textField_27.setColumns(10);
-		textField_27.setBounds(270, 136, 43, 20);
-		consultAbsences__panel.add(textField_27);
+		endMonthConsult__textField = new JTextField();
+		endMonthConsult__textField.setColumns(10);
+		endMonthConsult__textField.setBounds(270, 136, 43, 20);
+		consultAbsences__panel.add(endMonthConsult__textField);
 
-		textField_28 = new JTextField();
-		textField_28.setColumns(10);
-		textField_28.setBounds(323, 136, 62, 20);
-		consultAbsences__panel.add(textField_28);
+		endDayConsult__textField = new JTextField();
+		endDayConsult__textField.setColumns(10);
+		endDayConsult__textField.setBounds(323, 136, 62, 20);
+		consultAbsences__panel.add(endDayConsult__textField);
 
 		JPanel infoConsultAbsences__panel = new JPanel();
 		infoConsultAbsences__panel.setBounds(70, 181, 427, 257);
@@ -1109,11 +1134,11 @@ public class Screen extends JFrame {
 		infoConsultAbsences__panel.setLayout(null);
 		infoConsultAbsences__panel.show(false);
 
-		table_4 = new JTable();
-		table_4.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "SUBJECT", "NAME", "DATE", "TYPE", "HOURS" }));
-		table_4.setBounds(10, 43, 407, 203);
-		infoConsultAbsences__panel.add(table_4);
+		listAbsences__table = new JTable();
+		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listAbsences__table.setBounds(10, 43, 407, 203);
+		infoConsultAbsences__panel.add(listAbsences__table);
 
 		JLabel lblNewLabel_42 = new JLabel("MATERIA");
 		lblNewLabel_42.setBounds(10, 28, 46, 14);
@@ -1297,12 +1322,68 @@ public class Screen extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				infoConsultAbsences__panel.show(true);
+
+				int fromYearDate = Integer.parseInt(startYearConsult__textField.getText() + "");
+				int fromMonthDate = Integer.parseInt(startMonthConsult__textField.getText() + "");
+				int fromDayDate = Integer.parseInt(startDayConsult__textField.getText() + "");
+
+				int tillYearDate = Integer.parseInt(endYearConsult__textField.getText() + "");
+				int tillMonthDate = Integer.parseInt(endMonthConsult__textField.getText() + "");
+				int tillDayDate = Integer.parseInt(endDayConsult__textField.getText() + "");
+
+				LocalDate fromDate = LocalDate.of(fromYearDate, fromMonthDate, fromDayDate);
+				LocalDate tillDate = LocalDate.of(tillYearDate, tillMonthDate, tillDayDate);
+
+
+				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
+				try {
+					List<Absence> absence = controller.absencesList(fromDate, tillDate);
+
+					String[][] listAbsenceTemp = new String[absence.size()][5];
+					for (int i = 0; i < absence.size(); i++) {
+						listAbsenceTemp[i][0] = absence.get(i).getId() + "";
+						listAbsenceTemp[i][1] = absence.get(i).getSubject().getCode();
+						listAbsenceTemp[i][2] = absence.get(i).getDate() + "";
+						listAbsenceTemp[i][3] = absence.get(i).getType() + "";
+						listAbsenceTemp[i][4] = absence.get(i).getAmountHours() + "";
+
+					}
+
+					listAbsences__table.setModel(new DefaultTableModel(listAbsenceTemp,infolistAbsences));
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
 		consultSearchSubject__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				infoConsultSubject__panel.show(true);
+
+				String idSubject = idConsulSubject__textField.getText();
+
+				try {
+					Subject subject = controller.consultSubject(idSubject);
+
+					if (subject != null) {
+
+						nameSubjectConsulted__textField.setText(subject.getName());
+						orientationSubjectConsult__comboBox.setSelectedItem(subject.getOrientation() + "");
+						generationSubjectConsult__comboBox.setSelectedItem(subject.getGeneration() + "");
+						//to Implement
+						enrolledSubjectConsulted__textField.setText("");
+
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1462,6 +1543,9 @@ public class Screen extends JFrame {
 
 					}
 
+
+					}
+
 					if (controller.getUserLoggedIn() != null) {
 						master__cardLayout.show(master__panel, "WELCOME_PANEL");
 					}
@@ -1510,19 +1594,6 @@ public class Screen extends JFrame {
 
 				}
 			}
-
-			/*
-			 * try { User user = db.recoverUser(ciConsult);
-			 * 
-			 * if (user instanceof Student) { addSubjectStudent__panel.show(true);
-			 * addSubjectConsultUser__btnNewButton.show(true); } else { if (user instanceof
-			 * Teacher) {
-			 * 
-			 * } else { JOptionPane.showMessageDialog(null,
-			 * "Something went Wrong !, try again.");
-			 * 
-			 * } } } catch (Exception e) { e.printStackTrace(); }
-			 */
 
 		});
 

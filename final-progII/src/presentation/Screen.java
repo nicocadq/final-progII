@@ -703,6 +703,7 @@ public class Screen extends JFrame {
 		listOfFunctionary__panel.show(false);
 
 		functionaryList__table = new JTable();
+		functionaryList__table.setEnabled(false);
 		functionaryList__table.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "New column", "New column", "New column", "New column", "New column" }));
@@ -979,6 +980,8 @@ public class Screen extends JFrame {
 		listSubject__panel.add(lblNewLabel_28);
 
 		SubjectList__table = new JTable();
+		SubjectList__table.setEnabled(false);
+		SubjectList__table.setFillsViewportHeight(true);
 
 		try {
 
@@ -1142,6 +1145,7 @@ public class Screen extends JFrame {
 		infoConsultAbsences__panel.show(false);
 
 		listAbsences__table = new JTable();
+		listAbsences__table.setEnabled(false);
 		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
 				new String[] { "New column", "New column", "New column", "New column", "New column" }));
 		listAbsences__table.setBounds(10, 43, 407, 203);
@@ -1205,6 +1209,7 @@ public class Screen extends JFrame {
 		infoListAbsences__panel.show(false);
 
 		listAbsencess__table = new JTable();
+		listAbsencess__table.setEnabled(false);
 		listAbsencess__table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "New column", "New column", "New column", "New column", "New column" }));
 		listAbsencess__table.setBounds(10, 58, 392, 172);

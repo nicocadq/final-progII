@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
 import logic.Absence;
+import logic.AbstenceType;
 import logic.ControllerLogic;
 import logic.Functionary;
 import logic.Generation;
@@ -79,6 +80,20 @@ public class Screen extends JFrame {
 	private JTextField textField_14;
 	private JTextField textField_15;
 	private JTextField textField_16;
+	private JTable table_3;
+	private JTextField dayDateCreteAbsence__textField;
+	private JTextField amountHoursCreateAbsence__textField;
+	private JTextField studentCICreateAbsence__textField;
+	private JTextField subjectIDCreateAbsence__textField;
+	private JTextField monthDateCreateAbsence__textField;
+	private JTextField yearDateCreateAbsence__textField;
+	private JTextField textField_23;
+	private JTextField textField_24;
+	private JTextField textField_25;
+	private JTextField textField_26;
+	private JTextField textField_27;
+	private JTextField textField_28;
+	private JTable table_4;
 	private JTable SubjectList__table;
 	private JTextField textField_17;
 	private JTextField textField_19;
@@ -1014,7 +1029,7 @@ public class Screen extends JFrame {
 		lblNewLabel_36.setBounds(134, 175, 84, 14);
 		createAbsences__panel.add(lblNewLabel_36);
 
-		JLabel lblNewLabel_37 = new JLabel("Student Ci");
+		JLabel lblNewLabel_37 = new JLabel("Student CI");
 		lblNewLabel_37.setBounds(134, 205, 64, 14);
 		createAbsences__panel.add(lblNewLabel_37);
 
@@ -1022,44 +1037,45 @@ public class Screen extends JFrame {
 		lblNewLabel_38.setBounds(134, 236, 64, 14);
 		createAbsences__panel.add(lblNewLabel_38);
 
-		textField_17 = new JTextField();
-		textField_17.setBounds(239, 116, 28, 20);
-		createAbsences__panel.add(textField_17);
-		textField_17.setColumns(10);
+		dayDateCreteAbsence__textField = new JTextField();
+		dayDateCreteAbsence__textField.setBounds(239, 116, 28, 20);
+		createAbsences__panel.add(dayDateCreteAbsence__textField);
+		dayDateCreteAbsence__textField.setColumns(10);
 
-		textField_19 = new JTextField();
-		textField_19.setBounds(239, 172, 86, 20);
-		createAbsences__panel.add(textField_19);
-		textField_19.setColumns(10);
+		amountHoursCreateAbsence__textField = new JTextField();
+		amountHoursCreateAbsence__textField.setBounds(239, 172, 86, 20);
+		createAbsences__panel.add(amountHoursCreateAbsence__textField);
+		amountHoursCreateAbsence__textField.setColumns(10);
 
-		textField_20 = new JTextField();
-		textField_20.setBounds(239, 202, 86, 20);
-		createAbsences__panel.add(textField_20);
-		textField_20.setColumns(10);
+		studentCICreateAbsence__textField = new JTextField();
+		studentCICreateAbsence__textField.setBounds(239, 202, 86, 20);
+		createAbsences__panel.add(studentCICreateAbsence__textField);
+		studentCICreateAbsence__textField.setColumns(10);
 
-		textField_21 = new JTextField();
-		textField_21.setBounds(239, 233, 86, 20);
-		createAbsences__panel.add(textField_21);
-		textField_21.setColumns(10);
+		subjectIDCreateAbsence__textField = new JTextField();
+		subjectIDCreateAbsence__textField.setBounds(239, 233, 86, 20);
+		createAbsences__panel.add(subjectIDCreateAbsence__textField);
+		subjectIDCreateAbsence__textField.setColumns(10);
 
-		JButton btnNewButton_2 = new JButton("Create");
-		btnNewButton_2.setBounds(308, 279, 89, 23);
-		createAbsences__panel.add(btnNewButton_2);
+		JButton submitCreateAbsence__button = new JButton("Create");
+		submitCreateAbsence__button.setBounds(308, 279, 89, 23);
+		createAbsences__panel.add(submitCreateAbsence__button);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "JUSTIFY", "UNJUSTIFY", "LATER" }));
-		comboBox.setBounds(239, 146, 86, 22);
-		createAbsences__panel.add(comboBox);
+		JComboBox typeCreateAbsence__comboBox = new JComboBox();
+		typeCreateAbsence__comboBox
+				.setModel(new DefaultComboBoxModel(new String[] { "JUSTIFY", "UNJUSTIFY", "LATER" }));
+		typeCreateAbsence__comboBox.setBounds(239, 146, 86, 22);
+		createAbsences__panel.add(typeCreateAbsence__comboBox);
 
-		textField_18 = new JTextField();
-		textField_18.setBounds(277, 116, 46, 20);
-		createAbsences__panel.add(textField_18);
-		textField_18.setColumns(10);
+		monthDateCreateAbsence__textField = new JTextField();
+		monthDateCreateAbsence__textField.setBounds(277, 116, 46, 20);
+		createAbsences__panel.add(monthDateCreateAbsence__textField);
+		monthDateCreateAbsence__textField.setColumns(10);
 
-		textField_22 = new JTextField();
-		textField_22.setBounds(333, 116, 64, 20);
-		createAbsences__panel.add(textField_22);
-		textField_22.setColumns(10);
+		yearDateCreateAbsence__textField = new JTextField();
+		yearDateCreateAbsence__textField.setBounds(333, 116, 64, 20);
+		createAbsences__panel.add(yearDateCreateAbsence__textField);
+		yearDateCreateAbsence__textField.setColumns(10);
 
 		JPanel consultAbsences__panel = new JPanel();
 		master__panel.add(consultAbsences__panel, "name_117345618880400");
@@ -1527,6 +1543,9 @@ public class Screen extends JFrame {
 
 					}
 
+
+					}
+
 					if (controller.getUserLoggedIn() != null) {
 						master__cardLayout.show(master__panel, "WELCOME_PANEL");
 					}
@@ -1626,26 +1645,32 @@ public class Screen extends JFrame {
 
 			}
 		});
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
 
-				String idSubject = idConsulSubject__textField.getText();
-				String newNameSubject = nameSubjectConsulted__textField.getText();
-				String newOrientationSubject = orientationSubjectConsult__comboBox.getSelectedItem() + "";
-				String newGenerationSubject = generationSubjectConsult__comboBox.getSelectedItem() + "";
+		submitCreateAbsence__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-				Subject subject = new Subject(idSubject, newNameSubject, Orientation.valueOf(newOrientationSubject),
-						Generation.valueOf(newGenerationSubject), null);
+				int day = Integer.valueOf(dayDateCreteAbsence__textField.getText());
+				int month = Integer.valueOf(monthDateCreateAbsence__textField.getText());
+				int year = Integer.valueOf(yearDateCreateAbsence__textField.getText());
+				String type = typeCreateAbsence__comboBox.getSelectedItem().toString();
+				int amountHours = Integer.valueOf(amountHoursCreateAbsence__textField.getText());
+				int studentCI = Integer.valueOf(studentCICreateAbsence__textField.getText());
+				String subjectID = subjectIDCreateAbsence__textField.getText();
 
 				try {
-					controller.subjectUpdate(idSubject, subject);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+					Absence absence = new Absence(0, LocalDate.of(year, month, day), AbstenceType.valueOf(type),
+							amountHours, new Student(studentCI), new Subject(subjectID));
+
+					controller.createAbsence(absence);
+
+				} catch (Exception ex) {
+
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+
 				}
 
 			}
 		});
-
 	}
 }

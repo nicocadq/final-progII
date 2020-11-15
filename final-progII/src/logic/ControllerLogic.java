@@ -33,6 +33,18 @@ public class ControllerLogic {
 		return user;
 	}
 
+	public Exam createExam(Exam exam) throws Exception {
+
+		try {
+			this.db.toPersistExam(exam);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(errorMessage);
+		}
+
+		return exam;
+	}
+
 	public Subject createSubject(Subject subject) throws Exception {
 
 		try {
@@ -189,6 +201,56 @@ public class ControllerLogic {
 		}
 
 		return absencesBetweenTwoDates;
+	}
+
+	public List<Absence> absenceList(Orientation orientation, Generation generation) throws Exception {
+		List<Absence> absences = null;
+		List<User> users = null;
+		List<Student> students = new ArrayList<Student>();
+		List<Absence> absencesFiltered = new ArrayList<Absence>();
+		List<Integer> studentsMatched = new ArrayList<Integer>();
+
+		try {
+
+			users = this.db.recoverUsers();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			absences = this.db.recoverAbsences();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			for (User user : users) {
+				if (user instanceof Student) {
+					students.add((Student) user);
+				}
+			}
+
+		} catch (ClassCastException castEx) {
+
+		}
+
+		for (Student student : students) {
+			if (student.getOrientation() == orientation && student.getGeneration() == generation) {
+				studentsMatched.add(student.getCi());
+			}
+		}
+		
+		for(Absence absence : absences) {
+			if(studentsMatched.contains(absence.getStudent().getCi())) {
+				absencesFiltered.add(absence);
+			}
+		}
+
+		return absencesFiltered;
 	}
 
 	public User userUpdate(int ci, User user) throws Exception {
@@ -372,10 +434,11 @@ public class ControllerLogic {
 	public void logout() {
 
 		this.userLoggedIn = null;
-		
+
 	}
 
 	public List<User> listClass(Generation generation, Orientation orientation) {
+
 		return null;
 	}
 
@@ -393,8 +456,8 @@ public class ControllerLogic {
 		try {
 
 			for (User user : users) {
-				if(user instanceof Teacher) {
-					teachers.add((Teacher) user);	
+				if (user instanceof Teacher) {
+					teachers.add((Teacher) user);
 				}
 			}
 
@@ -419,10 +482,10 @@ public class ControllerLogic {
 		try {
 
 			for (User user : users) {
-				if(user instanceof Functionary) {
-					functionaries.add((Functionary) user);	
+				if (user instanceof Functionary) {
+					functionaries.add((Functionary) user);
 				}
-				
+
 			}
 
 		} catch (ClassCastException castEx) {

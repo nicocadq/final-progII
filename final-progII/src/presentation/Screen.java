@@ -3,12 +3,13 @@ package presentation;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
-
+import logic.Absence;
 import logic.ControllerLogic;
 import logic.Functionary;
 import logic.Generation;
@@ -85,13 +86,12 @@ public class Screen extends JFrame {
 	private JTextField textField_21;
 	private JTextField textField_18;
 	private JTextField textField_22;
-	private JTextField textField_23;
-	private JTextField textField_24;
-	private JTextField textField_25;
-	private JTextField textField_26;
-	private JTextField textField_27;
-	private JTextField textField_28;
-	private JTable table_4;
+	private JTextField startYearConsult__textField;
+	private JTextField startMonthConsult__textField;
+	private JTextField startDayConsult__textField;
+	private JTextField endMonthConsult__textField;
+	private JTextField endDayConsult__textField;
+	private JTable listAbsences__table;
 	private JTable table_5;
 	private JTextField textField_29;
 	private JTextField textField_30;
@@ -1074,10 +1074,10 @@ public class Screen extends JFrame {
 		lblNewLabel_40.setBounds(115, 106, 62, 14);
 		consultAbsences__panel.add(lblNewLabel_40);
 
-		textField_23 = new JTextField();
-		textField_23.setBounds(197, 103, 53, 20);
-		consultAbsences__panel.add(textField_23);
-		textField_23.setColumns(10);
+		startYearConsult__textField = new JTextField();
+		startYearConsult__textField.setBounds(197, 103, 53, 20);
+		consultAbsences__panel.add(startYearConsult__textField);
+		startYearConsult__textField.setColumns(10);
 
 		JButton btnNewButton_3 = new JButton("Consult");
 		btnNewButton_3.setBounds(389, 156, 89, 23);
@@ -1087,30 +1087,30 @@ public class Screen extends JFrame {
 		lblNewLabel_41.setBounds(115, 139, 46, 14);
 		consultAbsences__panel.add(lblNewLabel_41);
 
-		textField_24 = new JTextField();
-		textField_24.setColumns(10);
-		textField_24.setBounds(260, 103, 53, 20);
-		consultAbsences__panel.add(textField_24);
+		startMonthConsult__textField = new JTextField();
+		startMonthConsult__textField.setColumns(10);
+		startMonthConsult__textField.setBounds(260, 103, 53, 20);
+		consultAbsences__panel.add(startMonthConsult__textField);
 
-		textField_25 = new JTextField();
-		textField_25.setColumns(10);
-		textField_25.setBounds(323, 103, 62, 20);
-		consultAbsences__panel.add(textField_25);
+		startDayConsult__textField = new JTextField();
+		startDayConsult__textField.setColumns(10);
+		startDayConsult__textField.setBounds(323, 103, 62, 20);
+		consultAbsences__panel.add(startDayConsult__textField);
 
-		textField_26 = new JTextField();
-		textField_26.setColumns(10);
-		textField_26.setBounds(197, 136, 53, 20);
-		consultAbsences__panel.add(textField_26);
+		JTextField endYearConsult__textField = new JTextField();
+		endYearConsult__textField.setColumns(10);
+		endYearConsult__textField.setBounds(197, 136, 53, 20);
+		consultAbsences__panel.add(endYearConsult__textField);
 
-		textField_27 = new JTextField();
-		textField_27.setColumns(10);
-		textField_27.setBounds(270, 136, 43, 20);
-		consultAbsences__panel.add(textField_27);
+		endMonthConsult__textField = new JTextField();
+		endMonthConsult__textField.setColumns(10);
+		endMonthConsult__textField.setBounds(270, 136, 43, 20);
+		consultAbsences__panel.add(endMonthConsult__textField);
 
-		textField_28 = new JTextField();
-		textField_28.setColumns(10);
-		textField_28.setBounds(323, 136, 62, 20);
-		consultAbsences__panel.add(textField_28);
+		endDayConsult__textField = new JTextField();
+		endDayConsult__textField.setColumns(10);
+		endDayConsult__textField.setBounds(323, 136, 62, 20);
+		consultAbsences__panel.add(endDayConsult__textField);
 
 		JPanel infoConsultAbsences__panel = new JPanel();
 		infoConsultAbsences__panel.setBounds(70, 181, 427, 257);
@@ -1118,11 +1118,11 @@ public class Screen extends JFrame {
 		infoConsultAbsences__panel.setLayout(null);
 		infoConsultAbsences__panel.show(false);
 
-		table_4 = new JTable();
-		table_4.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "SUBJECT", "NAME", "DATE", "TYPE", "HOURS" }));
-		table_4.setBounds(10, 43, 407, 203);
-		infoConsultAbsences__panel.add(table_4);
+		listAbsences__table = new JTable();
+		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listAbsences__table.setBounds(10, 43, 407, 203);
+		infoConsultAbsences__panel.add(listAbsences__table);
 
 		JLabel lblNewLabel_42 = new JLabel("MATERIA");
 		lblNewLabel_42.setBounds(10, 28, 46, 14);
@@ -1306,6 +1306,40 @@ public class Screen extends JFrame {
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				infoConsultAbsences__panel.show(true);
+
+				int fromYearDate = Integer.parseInt(startYearConsult__textField.getText() + "");
+				int fromMonthDate = Integer.parseInt(startMonthConsult__textField.getText() + "");
+				int fromDayDate = Integer.parseInt(startDayConsult__textField.getText() + "");
+
+				int tillYearDate = Integer.parseInt(endYearConsult__textField.getText() + "");
+				int tillMonthDate = Integer.parseInt(endMonthConsult__textField.getText() + "");
+				int tillDayDate = Integer.parseInt(endDayConsult__textField.getText() + "");
+
+				LocalDate fromDate = LocalDate.of(fromYearDate, fromMonthDate, fromDayDate);
+				LocalDate tillDate = LocalDate.of(tillYearDate, tillMonthDate, tillDayDate);
+
+
+				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
+				try {
+					List<Absence> absence = controller.absencesList(fromDate, tillDate);
+
+					String[][] listAbsenceTemp = new String[absence.size()][5];
+					for (int i = 0; i < absence.size(); i++) {
+						listAbsenceTemp[i][0] = absence.get(i).getId() + "";
+						listAbsenceTemp[i][1] = absence.get(i).getSubject().getCode();
+						listAbsenceTemp[i][2] = absence.get(i).getDate() + "";
+						listAbsenceTemp[i][3] = absence.get(i).getType() + "";
+						listAbsenceTemp[i][4] = absence.get(i).getAmountHours() + "";
+
+					}
+
+					listAbsences__table.setModel(new DefaultTableModel(listAbsenceTemp,infolistAbsences));
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 

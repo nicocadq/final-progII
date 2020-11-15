@@ -18,6 +18,6 @@ CREATE TABLE Exam( idExam INT NOT NULL AUTO_INCREMENT, ciStudent INT NOT NULL, i
 
 CREATE TABLE Absence(idAbsence INT NOT NULL AUTO_INCREMENT, ciStudent INT NOT NULL, idSubject VARCHAR(64) , type VARCHAR(64), date DATE, amountOfHours INT,  PRIMARY KEY (idAbsence, ciStudent), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject));
 
-CREATE TABLE Takes(ciStudent INT NOT NULL, idSubject VARCHAR(64), PRIMARY KEY (ciStudent, idSubject), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject));
+CREATE TABLE Takes(ciStudent INT NOT NULL, idSubject VARCHAR(64), mark INT NOT NULL, PRIMARY KEY (ciStudent, idSubject), FOREIGN KEY (ciStudent) REFERENCES Student(ciUser), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject));
 
 CREATE TABLE Teaches(idSubject VARCHAR(64), ciTeacher INT, PRIMARY KEY (idSubject), FOREIGN KEY (idSubject) REFERENCES Subject(idSubject), FOREIGN KEY (ciTeacher) REFERENCES Teacher(ciUser));

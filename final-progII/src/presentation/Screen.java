@@ -107,7 +107,7 @@ public class Screen extends JFrame {
 	private JTextField endMonthConsult__textField;
 	private JTextField endDayConsult__textField;
 	private JTable listAbsences__table;
-	private JTable table_5;
+	private JTable listAbsencess__table;
 	private JTextField textField_29;
 	private JTextField textField_30;
 	private JTextField textField_31;
@@ -1177,15 +1177,15 @@ public class Screen extends JFrame {
 		lblNewLabel_49.setBounds(130, 132, 75, 14);
 		listAbsences__panel.add(lblNewLabel_49);
 
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "ADM", "TIC" }));
-		comboBox_1.setBounds(215, 92, 85, 22);
-		listAbsences__panel.add(comboBox_1);
+		JComboBox orientationAbsenceList__comboBox = new JComboBox();
+		orientationAbsenceList__comboBox.setModel(new DefaultComboBoxModel(new String[] { "ADM", "TIC" }));
+		orientationAbsenceList__comboBox.setBounds(215, 92, 85, 22);
+		listAbsences__panel.add(orientationAbsenceList__comboBox);
 
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
-		comboBox_2.setBounds(215, 132, 85, 22);
-		listAbsences__panel.add(comboBox_2);
+		JComboBox generationAbsenceList__comboBox = new JComboBox();
+		generationAbsenceList__comboBox.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
+		generationAbsenceList__comboBox.setBounds(215, 132, 85, 22);
+		listAbsences__panel.add(generationAbsenceList__comboBox);
 
 		JButton btnNewButton_4 = new JButton("List");
 		btnNewButton_4.setBounds(321, 111, 89, 23);
@@ -1197,11 +1197,11 @@ public class Screen extends JFrame {
 		infoListAbsences__panel.setLayout(null);
 		infoListAbsences__panel.show(false);
 
-		table_5 = new JTable();
-		table_5.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "IDABSENCE", "ID STUDENT", "ID SUBJECT", "GENERATION", "ORIENTATION" }));
-		table_5.setBounds(10, 58, 392, 172);
-		infoListAbsences__panel.add(table_5);
+		listAbsencess__table = new JTable();
+		listAbsencess__table.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listAbsencess__table.setBounds(10, 58, 392, 172);
+		infoListAbsences__panel.add(listAbsencess__table);
 
 		JLabel lblNewLabel_50 = new JLabel("ID ABSENCE");
 		lblNewLabel_50.setBounds(22, 33, 59, 14);
@@ -1315,7 +1315,37 @@ public class Screen extends JFrame {
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				infoListAbsences__panel.show(true);
+
+				String orientation = orientationAbsenceList__comboBox.getSelectedItem() + "";
+				String generation = generationAbsenceList__comboBox.getSelectedItem() + "";
+				System.out.println(orientation);
+				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT", "GENERATION", "ORIENTATION", };
+
+				try {
+					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation), Generation.valueOf(generation));
+
+					String[][] absencesTemp = new String[absences.size()][5];
+					for (int i = 0; i < absences.size(); i++) {
+
+						System.out.println(absences.get(i).getStudent().getOrientation());
+
+						System.out.println("si");
+						absencesTemp[i][0] = absences.get(i).getId() + "";
+						absencesTemp[i][1] = absences.get(i).getStudent().getCi() + "";
+						absencesTemp[i][2] = absences.get(i).getSubject().getCode();
+						absencesTemp[i][3] = absences.get(i).getStudent().getGeneration() + "";
+						absencesTemp[i][4] = absences.get(i).getStudent().getOrientation() + "";
+
+					}
+					listAbsencess__table.setModel(new DefaultTableModel(absencesTemp, infoAbsences));
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -1334,7 +1364,6 @@ public class Screen extends JFrame {
 				LocalDate fromDate = LocalDate.of(fromYearDate, fromMonthDate, fromDayDate);
 				LocalDate tillDate = LocalDate.of(tillYearDate, tillMonthDate, tillDayDate);
 
-
 				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
 				try {
 					List<Absence> absence = controller.absencesList(fromDate, tillDate);
@@ -1349,7 +1378,7 @@ public class Screen extends JFrame {
 
 					}
 
-					listAbsences__table.setModel(new DefaultTableModel(listAbsenceTemp,infolistAbsences));
+					listAbsences__table.setModel(new DefaultTableModel(listAbsenceTemp, infolistAbsences));
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

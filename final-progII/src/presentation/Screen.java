@@ -74,7 +74,6 @@ public class Screen extends JFrame {
 	private JTextField idConsulSubject__textField;
 	private JTextField nameSubjectConsulted__textField;
 	private JTextField enrolledSubjectConsulted__textField;
-	private JTable table_3;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
@@ -984,12 +983,12 @@ public class Screen extends JFrame {
 		try {
 
 			List<Subject> subjects = controller.subjectsList();
-			String[][] subjectsTemp = new String[subjects.size()][5];
+			String[][] subjectsTemp = new String[subjects.size()][4];
 			for (int i = 0; i < subjects.size(); i++) {
 				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
 				subjectsTemp[i][1] = subjects.get(i).getName() + "";
-				subjectsTemp[i][3] = subjects.get(i).getOrientation() + "";
-				subjectsTemp[i][4] = subjects.get(i).getGeneration() + "";
+				subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
+				subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
 			}
 			SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
 					new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
@@ -1216,20 +1215,12 @@ public class Screen extends JFrame {
 		infoListAbsences__panel.add(lblNewLabel_50);
 
 		JLabel lblNewLabel_51 = new JLabel("CI STUDENT");
-		lblNewLabel_51.setBounds(91, 33, 70, 14);
+		lblNewLabel_51.setBounds(168, 33, 70, 14);
 		infoListAbsences__panel.add(lblNewLabel_51);
 
 		JLabel lblNewLabel_52 = new JLabel("ID SUBJECT");
-		lblNewLabel_52.setBounds(171, 33, 74, 14);
+		lblNewLabel_52.setBounds(310, 33, 74, 14);
 		infoListAbsences__panel.add(lblNewLabel_52);
-
-		JLabel lblNewLabel_53 = new JLabel("GENERATION");
-		lblNewLabel_53.setBounds(242, 33, 86, 14);
-		infoListAbsences__panel.add(lblNewLabel_53);
-
-		JLabel lblNewLabel_54 = new JLabel("ORIENTATION");
-		lblNewLabel_54.setBounds(325, 33, 77, 14);
-		infoListAbsences__panel.add(lblNewLabel_54);
 
 		JPanel createExam__panel = new JPanel();
 		master__panel.add(createExam__panel, "name_120052289757000");
@@ -1325,12 +1316,12 @@ public class Screen extends JFrame {
 				String orientation = orientationAbsenceList__comboBox.getSelectedItem() + "";
 				String generation = generationAbsenceList__comboBox.getSelectedItem() + "";
 				System.out.println(orientation);
-				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT", "GENERATION", "ORIENTATION", };
+				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT" };
 
 				try {
 					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation), Generation.valueOf(generation));
 
-					String[][] absencesTemp = new String[absences.size()][5];
+					String[][] absencesTemp = new String[absences.size()][3];
 					for (int i = 0; i < absences.size(); i++) {
 
 						System.out.println(absences.get(i).getStudent().getOrientation());
@@ -1339,9 +1330,6 @@ public class Screen extends JFrame {
 						absencesTemp[i][0] = absences.get(i).getId() + "";
 						absencesTemp[i][1] = absences.get(i).getStudent().getCi() + "";
 						absencesTemp[i][2] = absences.get(i).getSubject().getCode();
-						absencesTemp[i][3] = absences.get(i).getStudent().getGeneration() + "";
-						absencesTemp[i][4] = absences.get(i).getStudent().getOrientation() + "";
-
 					}
 					listAbsencess__table.setModel(new DefaultTableModel(absencesTemp, infoAbsences));
 
@@ -1698,7 +1686,7 @@ public class Screen extends JFrame {
 					e.printStackTrace();
         }
       }
-    )};
+    });
 
 		submitCreateAbsence__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

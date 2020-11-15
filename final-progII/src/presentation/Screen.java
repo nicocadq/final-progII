@@ -1615,6 +1615,7 @@ public class Screen extends JFrame {
 					JOptionPane.showMessageDialog(null, ex.getMessage());
 
 				}
+			}
 
 		});
 
@@ -1706,6 +1707,7 @@ public class Screen extends JFrame {
 
 			}
 		});
+		
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1757,5 +1759,5 @@ public class Screen extends JFrame {
 
 			}
 		});
-	}
-}
+	
+}}

@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import persistence.ControllerDB;
 
 import logic.ControllerLogic;
+import logic.Exam;
 import logic.Functionary;
 import logic.Generation;
 import logic.Orientation;
@@ -89,12 +90,12 @@ public class Screen extends JFrame {
 	private JTextField textField_28;
 	private JTable table_4;
 	private JTable table_5;
-	private JTextField textField_29;
-	private JTextField textField_30;
-	private JTextField textField_31;
-	private JTextField textField_32;
-	private JTextField textField_33;
-	private JTextField textField_34;
+	private JTextField subjectStudentExam__textField;
+	private JTextField noteStudentExam__textField;
+	private JTextField yearDateExam__textField;
+	private JTextField ciStudentExam__textField;
+	private JTextField monthDateExam__textField;
+	private JTextField dayDateExam__textField;
 	private JTextField dateMonthCreateFunctionary__textField;
 	private JTextField dateDayCreateFunctionary__textField;
 	private JTextField dateMonthCreateTeacher__textField;
@@ -669,54 +670,47 @@ public class Screen extends JFrame {
 		master__panel.add(listUsers__panel, "name_110770879092900");
 		Menu listUserss__panel = new Menu(listUsers__panel, master__panel, master__cardLayout);
 		listUsers__panel.setLayout(null);
-		
-				JPanel listOfFunctionary__panel = new JPanel();
-				listOfFunctionary__panel.setLayout(null);
-				listOfFunctionary__panel.setBounds(82, 205, 393, 225);
-				listUsers__panel.add(listOfFunctionary__panel);
-				listOfFunctionary__panel.show(false);
-				
-						functionaryList__table = new JTable();
-						functionaryList__table.setModel(
-								new DefaultTableModel(
-							new Object[][] {
-								{null, null, null, null, null},
-								{null, null, null, null, null},
-							},
-							new String[] {
-								"New column", "New column", "New column", "New column", "New column"
-							}
-						));
-						functionaryList__table.setBounds(10, 24, 373, 190);
-						listOfFunctionary__panel.add(functionaryList__table);
-						
-								JLabel lblNewLabel_10_2 = new JLabel("CI");
-								lblNewLabel_10_2.setBounds(30, 6, 46, 14);
-								listOfFunctionary__panel.add(lblNewLabel_10_2);
-								
-										JLabel lblNewLabel_11_2 = new JLabel("NAME");
-										lblNewLabel_11_2.setBounds(88, 0, 72, 27);
-										listOfFunctionary__panel.add(lblNewLabel_11_2);
-										
-												JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
-												lblNewLabel_12_2.setBounds(160, 6, 65, 14);
-												listOfFunctionary__panel.add(lblNewLabel_12_2);
-												
-														JLabel label_3 = new JLabel("New label");
-														label_3.setBounds(66, 108, 46, 14);
-														listOfFunctionary__panel.add(label_3);
-														
-																JLabel label_1_2 = new JLabel("New label");
-																label_1_2.setBounds(10, 119, 46, 14);
-																listOfFunctionary__panel.add(label_1_2);
-																
-																JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
-																lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
-																listOfFunctionary__panel.add(lblNewLabel_12_2_1);
-																
-																JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
-																lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
-																listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
+
+		JPanel listOfFunctionary__panel = new JPanel();
+		listOfFunctionary__panel.setLayout(null);
+		listOfFunctionary__panel.setBounds(82, 205, 393, 225);
+		listUsers__panel.add(listOfFunctionary__panel);
+		listOfFunctionary__panel.show(false);
+
+		functionaryList__table = new JTable();
+		functionaryList__table.setModel(new DefaultTableModel(
+				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		functionaryList__table.setBounds(10, 24, 373, 190);
+		listOfFunctionary__panel.add(functionaryList__table);
+
+		JLabel lblNewLabel_10_2 = new JLabel("CI");
+		lblNewLabel_10_2.setBounds(30, 6, 46, 14);
+		listOfFunctionary__panel.add(lblNewLabel_10_2);
+
+		JLabel lblNewLabel_11_2 = new JLabel("NAME");
+		lblNewLabel_11_2.setBounds(88, 0, 72, 27);
+		listOfFunctionary__panel.add(lblNewLabel_11_2);
+
+		JLabel lblNewLabel_12_2 = new JLabel("LASTNAME");
+		lblNewLabel_12_2.setBounds(160, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2);
+
+		JLabel label_3 = new JLabel("New label");
+		label_3.setBounds(66, 108, 46, 14);
+		listOfFunctionary__panel.add(label_3);
+
+		JLabel label_1_2 = new JLabel("New label");
+		label_1_2.setBounds(10, 119, 46, 14);
+		listOfFunctionary__panel.add(label_1_2);
+
+		JLabel lblNewLabel_12_2_1 = new JLabel("MAIL");
+		lblNewLabel_12_2_1.setBounds(235, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2_1);
+
+		JLabel lblNewLabel_12_2_1_1 = new JLabel("PASSWORD");
+		lblNewLabel_12_2_1_1.setBounds(310, 6, 65, 14);
+		listOfFunctionary__panel.add(lblNewLabel_12_2_1_1);
 
 		JLabel lblNewLabel_8 = new JLabel("Liste Users");
 		lblNewLabel_8.setBounds(214, 86, 149, 14);
@@ -781,52 +775,46 @@ public class Screen extends JFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(366, 24, 17, 48);
 		listOfStudent__panel.add(scrollBar);
-		
-				JPanel listOfTeacher__panel = new JPanel();
-				listOfTeacher__panel.setLayout(null);
-				listOfTeacher__panel.setBounds(82, 205, 393, 225);
-				listUsers__panel.add(listOfTeacher__panel);
-				listOfTeacher__panel.show(false);
-				
-						listTeacher__table = new JTable();
-						listTeacher__table.setModel(new DefaultTableModel(
-							new Object[][] {
-								{null, null, null, null, null},
-							},
-							new String[] {
-								"New column", "New column", "New column", "New column", "New column"
-							}
-						));
-						listTeacher__table.setBounds(10, 24, 373, 190);
-						listOfTeacher__panel.add(listTeacher__table);
-						
-								JLabel lblNewLabel_10_1 = new JLabel("CI");
-								lblNewLabel_10_1.setBounds(33, 6, 46, 14);
-								listOfTeacher__panel.add(lblNewLabel_10_1);
-								
-										JLabel lblNewLabel_11_1 = new JLabel("NAME");
-										lblNewLabel_11_1.setBounds(89, 0, 72, 27);
-										listOfTeacher__panel.add(lblNewLabel_11_1);
-										
-												JLabel lblNewLabel_12_1 = new JLabel("MAIL");
-												lblNewLabel_12_1.setBounds(233, 6, 65, 14);
-												listOfTeacher__panel.add(lblNewLabel_12_1);
-												
-														JLabel label_2 = new JLabel("New label");
-														label_2.setBounds(66, 108, 46, 14);
-														listOfTeacher__panel.add(label_2);
-														
-																JLabel label_1_1 = new JLabel("New label");
-																label_1_1.setBounds(10, 119, 46, 14);
-																listOfTeacher__panel.add(label_1_1);
-																
-																JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
-																lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
-																listOfTeacher__panel.add(lblNewLabel_11_1_1);
-																
-																JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
-																lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
-																listOfTeacher__panel.add(lblNewLabel_12_1_1);
+
+		JPanel listOfTeacher__panel = new JPanel();
+		listOfTeacher__panel.setLayout(null);
+		listOfTeacher__panel.setBounds(82, 205, 393, 225);
+		listUsers__panel.add(listOfTeacher__panel);
+		listOfTeacher__panel.show(false);
+
+		listTeacher__table = new JTable();
+		listTeacher__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column" }));
+		listTeacher__table.setBounds(10, 24, 373, 190);
+		listOfTeacher__panel.add(listTeacher__table);
+
+		JLabel lblNewLabel_10_1 = new JLabel("CI");
+		lblNewLabel_10_1.setBounds(33, 6, 46, 14);
+		listOfTeacher__panel.add(lblNewLabel_10_1);
+
+		JLabel lblNewLabel_11_1 = new JLabel("NAME");
+		lblNewLabel_11_1.setBounds(89, 0, 72, 27);
+		listOfTeacher__panel.add(lblNewLabel_11_1);
+
+		JLabel lblNewLabel_12_1 = new JLabel("MAIL");
+		lblNewLabel_12_1.setBounds(233, 6, 65, 14);
+		listOfTeacher__panel.add(lblNewLabel_12_1);
+
+		JLabel label_2 = new JLabel("New label");
+		label_2.setBounds(66, 108, 46, 14);
+		listOfTeacher__panel.add(label_2);
+
+		JLabel label_1_1 = new JLabel("New label");
+		label_1_1.setBounds(10, 119, 46, 14);
+		listOfTeacher__panel.add(label_1_1);
+
+		JLabel lblNewLabel_11_1_1 = new JLabel("LASTNAME");
+		lblNewLabel_11_1_1.setBounds(163, 0, 72, 27);
+		listOfTeacher__panel.add(lblNewLabel_11_1_1);
+
+		JLabel lblNewLabel_12_1_1 = new JLabel("PASSWORD");
+		lblNewLabel_12_1_1.setBounds(308, 6, 65, 14);
+		listOfTeacher__panel.add(lblNewLabel_12_1_1);
 
 		JPanel createSubject_panel = new JPanel();
 		master__panel.add(createSubject_panel, "name_113009623994000");
@@ -1219,7 +1207,7 @@ public class Screen extends JFrame {
 		createExam__panel.add(lblNewLabel_55);
 
 		JLabel lblNewLabel_56 = new JLabel("Ci Student");
-		lblNewLabel_56.setBounds(153, 113, 46, 14);
+		lblNewLabel_56.setBounds(153, 113, 72, 14);
 		createExam__panel.add(lblNewLabel_56);
 
 		JLabel lblNewLabel_57 = new JLabel("Date");
@@ -1230,39 +1218,39 @@ public class Screen extends JFrame {
 		lblNewLabel_58.setBounds(153, 193, 46, 14);
 		createExam__panel.add(lblNewLabel_58);
 
-		JLabel lblNewLabel_59 = new JLabel("Subject");
-		lblNewLabel_59.setBounds(153, 230, 46, 14);
+		JLabel lblNewLabel_59 = new JLabel("Subject Id");
+		lblNewLabel_59.setBounds(153, 230, 86, 14);
 		createExam__panel.add(lblNewLabel_59);
 
-		textField_29 = new JTextField();
-		textField_29.setBounds(235, 227, 86, 20);
-		createExam__panel.add(textField_29);
-		textField_29.setColumns(10);
+		subjectStudentExam__textField = new JTextField();
+		subjectStudentExam__textField.setBounds(235, 227, 86, 20);
+		createExam__panel.add(subjectStudentExam__textField);
+		subjectStudentExam__textField.setColumns(10);
 
-		textField_30 = new JTextField();
-		textField_30.setBounds(235, 190, 86, 20);
-		createExam__panel.add(textField_30);
-		textField_30.setColumns(10);
+		noteStudentExam__textField = new JTextField();
+		noteStudentExam__textField.setBounds(235, 190, 86, 20);
+		createExam__panel.add(noteStudentExam__textField);
+		noteStudentExam__textField.setColumns(10);
 
-		textField_31 = new JTextField();
-		textField_31.setBounds(235, 147, 38, 20);
-		createExam__panel.add(textField_31);
-		textField_31.setColumns(10);
+		yearDateExam__textField = new JTextField();
+		yearDateExam__textField.setBounds(235, 147, 38, 20);
+		createExam__panel.add(yearDateExam__textField);
+		yearDateExam__textField.setColumns(10);
 
-		textField_32 = new JTextField();
-		textField_32.setBounds(235, 110, 86, 20);
-		createExam__panel.add(textField_32);
-		textField_32.setColumns(10);
+		ciStudentExam__textField = new JTextField();
+		ciStudentExam__textField.setBounds(235, 110, 86, 20);
+		createExam__panel.add(ciStudentExam__textField);
+		ciStudentExam__textField.setColumns(10);
 
-		textField_33 = new JTextField();
-		textField_33.setColumns(10);
-		textField_33.setBounds(283, 147, 52, 20);
-		createExam__panel.add(textField_33);
+		monthDateExam__textField = new JTextField();
+		monthDateExam__textField.setColumns(10);
+		monthDateExam__textField.setBounds(283, 147, 38, 20);
+		createExam__panel.add(monthDateExam__textField);
 
-		textField_34 = new JTextField();
-		textField_34.setColumns(10);
-		textField_34.setBounds(345, 147, 52, 20);
-		createExam__panel.add(textField_34);
+		dayDateExam__textField = new JTextField();
+		dayDateExam__textField.setColumns(10);
+		dayDateExam__textField.setBounds(330, 147, 52, 20);
+		createExam__panel.add(dayDateExam__textField);
 
 		submitCreateStudent__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1292,10 +1280,6 @@ public class Screen extends JFrame {
 		});
 
 		JButton btnNewButton_5 = new JButton("Create");
-		btnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnNewButton_5.setBounds(321, 275, 89, 23);
 		createExam__panel.add(btnNewButton_5);
 
@@ -1325,8 +1309,8 @@ public class Screen extends JFrame {
 				listOfFunctionary__panel.show(true);
 				listOfStudent__panel.show(false);
 				listOfTeacher__panel.show(false);
-				
-				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD" , "MAIL"};
+
+				String[] infoListFunctionary = { "CI", "NAME", "LASTNAME", "PASSWORD", "MAIL" };
 				try {
 					List<Functionary> functionary = controller.functionariesList();
 
@@ -1363,14 +1347,12 @@ public class Screen extends JFrame {
 					List<Teacher> teachers = controller.teachersList();
 					String[][] teacherTemp = new String[teachers.size()][5];
 
-
 					for (int i = 0; i < teachers.size(); i++) {
 						teacherTemp[i][0] = teachers.get(i).getCi() + "";
 						teacherTemp[i][1] = teachers.get(i).getName();
 						teacherTemp[i][2] = teachers.get(i).getLastName();
 						teacherTemp[i][3] = teachers.get(i).getMail();
 						teacherTemp[i][4] = teachers.get(i).getPassword();
-
 
 					}
 					listTeacher__table.setModel(new DefaultTableModel(teacherTemp, infoListTeacher));
@@ -1460,32 +1442,32 @@ public class Screen extends JFrame {
 
 		submitLogin__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
-				
-				int ci = Integer.parseInt(ciLogin__textField.getText());
-				String password = passwordLogin__textField.getText();
 
 				try {
 
-					controller.login(ci, password);
+					int ci = Integer.parseInt(ciLogin__textField.getText());
+					String password = passwordLogin__textField.getText();
 
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
+					try {
+
+						controller.login(ci, password);
+
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, " The User is not found as a Functionary, Try Again ! ");
+
+					}
+
+					if (controller.getUserLoggedIn() != null) {
+						master__cardLayout.show(master__panel, "WELCOME_PANEL");
+					}
+
+				} catch (NumberFormatException exc) {
+					JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
 
 				}
-
-				if (controller.getUserLoggedIn() != null) {
-					master__cardLayout.show(master__panel, "WELCOME_PANEL");
-				}
-
-			}catch(NumberFormatException exc) {
-				JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
-
 			}
-				}
 		});
-		
+
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1580,6 +1562,31 @@ public class Screen extends JFrame {
 					} else {
 						throw new Exception();
 					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int ciStudentExam = Integer.parseInt(ciStudentExam__textField.getText());
+				int yearDateExam = Integer.parseInt(yearDateExam__textField.getText());
+				int monthDateExam = Integer.parseInt(monthDateExam__textField.getText());
+				int dayDateExam = Integer.parseInt(dayDateExam__textField.getText());
+				int noteExam = Integer.parseInt(noteStudentExam__textField.getText());
+				String subjectExam = subjectStudentExam__textField.getText();
+
+				try {
+
+					Exam exam = new Exam(LocalDate.of(yearDateExam, monthDateExam, dayDateExam), noteExam,
+							new Student(ciStudentExam), new Subject(subjectExam));
+
+					controller.createExam(exam);
+					
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

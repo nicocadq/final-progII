@@ -33,6 +33,18 @@ public class ControllerLogic {
 		return user;
 	}
 
+	public Exam createExam(Exam exam) throws Exception {
+
+		try {
+			this.db.toPersistExam(exam);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(errorMessage);
+		}
+
+		return exam;
+	}
+
 	public Subject createSubject(Subject subject) throws Exception {
 
 		try {
@@ -362,7 +374,7 @@ public class ControllerLogic {
 	public void logout() {
 
 		this.userLoggedIn = null;
-		
+
 	}
 
 	public List<User> listClass(Generation generation, Orientation orientation) {
@@ -383,8 +395,8 @@ public class ControllerLogic {
 		try {
 
 			for (User user : users) {
-				if(user instanceof Teacher) {
-					teachers.add((Teacher) user);	
+				if (user instanceof Teacher) {
+					teachers.add((Teacher) user);
 				}
 			}
 
@@ -409,10 +421,10 @@ public class ControllerLogic {
 		try {
 
 			for (User user : users) {
-				if(user instanceof Functionary) {
-					functionaries.add((Functionary) user);	
+				if (user instanceof Functionary) {
+					functionaries.add((Functionary) user);
 				}
-				
+
 			}
 
 		} catch (ClassCastException castEx) {

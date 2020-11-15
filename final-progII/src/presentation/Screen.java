@@ -1297,29 +1297,20 @@ public class Screen extends JFrame {
 				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT", "GENERATION", "ORIENTATION", };
 
 				try {
-					List<Absence> absences = controller.abstencesList();
+					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation), Generation.valueOf(generation));
 
 					String[][] absencesTemp = new String[absences.size()][5];
-
 					for (int i = 0; i < absences.size(); i++) {
-						
-						
-						System.out.println(absences.get(i).getStudent().getOrientation());
-						
-						//Implement the condioton
-						if (absences.get(i).getStudent().getOrientation() + "" == orientation
-								&& absences.get(i).getStudent().getGeneration() + "" == generation) {
-							System.out.println("si");
-							absencesTemp[i][0] = absences.get(i).getId() + "";
-							absencesTemp[i][1] = absences.get(i).getStudent().getCi() + "";
-							absencesTemp[i][2] = absences.get(i).getSubject().getCode();
-							absencesTemp[i][3] = absences.get(i).getStudent().getGeneration() + "";
-							absencesTemp[i][4] = absences.get(i).getStudent().getOrientation() + "";
 
-						} else {
-							System.out.println("no");
-							
-						}
+						System.out.println(absences.get(i).getStudent().getOrientation());
+
+						System.out.println("si");
+						absencesTemp[i][0] = absences.get(i).getId() + "";
+						absencesTemp[i][1] = absences.get(i).getStudent().getCi() + "";
+						absencesTemp[i][2] = absences.get(i).getSubject().getCode();
+						absencesTemp[i][3] = absences.get(i).getStudent().getGeneration() + "";
+						absencesTemp[i][4] = absences.get(i).getStudent().getOrientation() + "";
+
 					}
 					listAbsencess__table.setModel(new DefaultTableModel(absencesTemp, infoAbsences));
 

@@ -161,7 +161,7 @@ public class Screen extends JFrame {
 	@SuppressWarnings("deprecation")
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 859, 570);
+		setBounds(100, 100, 561, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -219,6 +219,17 @@ public class Screen extends JFrame {
 		JLabel DescriptionWelcome__Label = new JLabel("Choose the optiones above to start\n");
 		DescriptionWelcome__Label.setBounds(168, 176, 177, 16);
 		welcome__panel.add(DescriptionWelcome__Label);
+
+		JButton logOut__button = new JButton("Log out");
+		logOut__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				controller.logout();
+				master__cardLayout.show(master__panel, "LOGIN_PANEL");
+			}
+		});
+		logOut__button.setBounds(210, 248, 89, 23);
+		welcome__panel.add(logOut__button);
 
 		JPanel createUser__panel = new JPanel();
 		master__panel.add(createUser__panel, "CREATE_USER_PANEL");
@@ -1002,8 +1013,8 @@ public class Screen extends JFrame {
 				subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
 				subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
 			}
-			SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
-					new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+			SubjectList__table.setModel(
+					new DefaultTableModel(subjectsTemp, new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1333,7 +1344,8 @@ public class Screen extends JFrame {
 				String[] infoAbsences = { "IDABSENCE", "IDSUBJECT", "IDSUBJECT" };
 
 				try {
-					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation), Generation.valueOf(generation));
+					List<Absence> absences = controller.absenceList(Orientation.valueOf(orientation),
+							Generation.valueOf(generation));
 
 					String[][] absencesTemp = new String[absences.size()][3];
 					for (int i = 0; i < absences.size(); i++) {
@@ -1409,7 +1421,7 @@ public class Screen extends JFrame {
 						nameSubjectConsulted__textField.setText(subject.getName());
 						orientationSubjectConsult__comboBox.setSelectedItem(subject.getOrientation() + "");
 						generationSubjectConsult__comboBox.setSelectedItem(subject.getGeneration() + "");
-						//to Implement
+						// to Implement
 						enrolledSubjectConsulted__textField.setText("");
 
 					}
@@ -1729,14 +1741,13 @@ public class Screen extends JFrame {
 							new Student(ciStudentExam), new Subject(subjectExam));
 
 					controller.createExam(exam);
-					
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-        }
-      }
-    });
+				}
+			}
+		});
 
 		submitCreateAbsence__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

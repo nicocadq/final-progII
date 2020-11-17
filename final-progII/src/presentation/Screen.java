@@ -1522,7 +1522,7 @@ public class Screen extends JFrame {
 				try {
 					controller.createUser(teacher);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, " The CI already exits");
+					JOptionPane.showMessageDialog(null, e1.getMessage()	);
 				}
 			}
 		});

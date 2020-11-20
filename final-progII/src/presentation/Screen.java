@@ -136,6 +136,7 @@ public class Screen extends JFrame {
 	private JTextField dateDayConsultUser__textField;
 	private JTextField monthStudent__textField;
 	private JTextField dayStudent__textField;
+	private JTextField idtDelete__textField;
 
 	/**
 	 * Launch the application.
@@ -1126,7 +1127,7 @@ public class Screen extends JFrame {
 		startYearConsult__textField.setColumns(10);
 
 		JButton btnNewButton_3 = new JButton("Consult");
-		btnNewButton_3.setBounds(389, 156, 89, 23);
+		btnNewButton_3.setBounds(395, 118, 89, 23);
 		consultAbsences__panel.add(btnNewButton_3);
 
 		JLabel lblNewLabel_41 = new JLabel("Fecha fin");
@@ -1150,7 +1151,7 @@ public class Screen extends JFrame {
 
 		endMonthConsult__textField = new JTextField();
 		endMonthConsult__textField.setColumns(10);
-		endMonthConsult__textField.setBounds(270, 136, 43, 20);
+		endMonthConsult__textField.setBounds(260, 136, 53, 20);
 		consultAbsences__panel.add(endMonthConsult__textField);
 
 		endDayConsult__textField = new JTextField();
@@ -1159,38 +1160,54 @@ public class Screen extends JFrame {
 		consultAbsences__panel.add(endDayConsult__textField);
 
 		JPanel infoConsultAbsences__panel = new JPanel();
-		infoConsultAbsences__panel.setBounds(70, 181, 427, 257);
+		infoConsultAbsences__panel.setBounds(70, 180, 427, 330);
 		consultAbsences__panel.add(infoConsultAbsences__panel);
 		infoConsultAbsences__panel.setLayout(null);
 		infoConsultAbsences__panel.show(false);
 
 		listAbsences__table = new JTable();
-		listAbsences__table.setEnabled(false);
-		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null }, },
-				new String[] { "New column", "New column", "New column", "New column", "New column" }));
-		listAbsences__table.setBounds(10, 43, 407, 203);
+
+		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
+				new String[] { "New column", "New column", "New column", "New column", "New column", "New column" }));
+		listAbsences__table.setBounds(10, 26, 407, 203);
 		infoConsultAbsences__panel.add(listAbsences__table);
 
-		JLabel lblNewLabel_42 = new JLabel("MATERIA");
-		lblNewLabel_42.setBounds(10, 28, 46, 14);
+		JLabel lblNewLabel_42 = new JLabel("ID Subejct");
+		lblNewLabel_42.setBounds(80, 11, 57, 14);
 		infoConsultAbsences__panel.add(lblNewLabel_42);
 
-		JLabel lblNewLabel_43 = new JLabel("NAME");
-		lblNewLabel_43.setBounds(95, 28, 46, 14);
+		JLabel lblNewLabel_43 = new JLabel("ID Student");
+		lblNewLabel_43.setBounds(147, 11, 70, 14);
 		infoConsultAbsences__panel.add(lblNewLabel_43);
 
 		JLabel lblNewLabel_44 = new JLabel("DATE");
-		lblNewLabel_44.setBounds(177, 28, 46, 14);
+		lblNewLabel_44.setBounds(215, 11, 46, 14);
 		infoConsultAbsences__panel.add(lblNewLabel_44);
 
 		JLabel lblNewLabel_45 = new JLabel("TYPE");
-		lblNewLabel_45.setBounds(255, 28, 46, 14);
+		lblNewLabel_45.setBounds(282, 11, 46, 14);
 		infoConsultAbsences__panel.add(lblNewLabel_45);
 
 		JLabel lblNewLabel_46 = new JLabel("HOURS");
-		lblNewLabel_46.setBounds(337, 28, 46, 14);
+		lblNewLabel_46.setBounds(350, 11, 46, 14);
 		infoConsultAbsences__panel.add(lblNewLabel_46);
 
+		JLabel lblNewLabel_53 = new JLabel("IDAbsence");
+		lblNewLabel_53.setBounds(10, 11, 70, 14);
+		infoConsultAbsences__panel.add(lblNewLabel_53);
+
+		idtDelete__textField = new JTextField();
+		idtDelete__textField.setBounds(10, 260, 53, 20);
+		infoConsultAbsences__panel.add(idtDelete__textField);
+		idtDelete__textField.setColumns(10);
+
+		JLabel lblNewLabel_23 = new JLabel("ID Abscence");
+		lblNewLabel_23.setBounds(10, 240, 70, 14);
+		infoConsultAbsences__panel.add(lblNewLabel_23);
+
+		JButton deleteAbsence__btnNewButton = new JButton("Delete");
+		deleteAbsence__btnNewButton.setBounds(10, 283, 89, 23);
+		infoConsultAbsences__panel.add(deleteAbsence__btnNewButton);
 		JPanel listAbsences__panel = new JPanel();
 		master__panel.add(listAbsences__panel, "name_118124424073500");
 		listAbsences__panel.setLayout(null);
@@ -1382,17 +1399,18 @@ public class Screen extends JFrame {
 				LocalDate fromDate = LocalDate.of(fromYearDate, fromMonthDate, fromDayDate);
 				LocalDate tillDate = LocalDate.of(tillYearDate, tillMonthDate, tillDayDate);
 
-				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "DATE", "TYPE", "HOURS" };
+				String[] infolistAbsences = { "IDABSENCE", "IDSUBJECT", "IDSTUDENT", "HOURS", "TYPE", "HOURS" };
 				try {
 					List<Absence> absence = controller.absencesList(fromDate, tillDate);
 
-					String[][] listAbsenceTemp = new String[absence.size()][5];
+					String[][] listAbsenceTemp = new String[absence.size()][6];
 					for (int i = 0; i < absence.size(); i++) {
 						listAbsenceTemp[i][0] = absence.get(i).getId() + "";
-						listAbsenceTemp[i][1] = absence.get(i).getSubject().getCode();
-						listAbsenceTemp[i][2] = absence.get(i).getDate() + "";
-						listAbsenceTemp[i][3] = absence.get(i).getType() + "";
-						listAbsenceTemp[i][4] = absence.get(i).getAmountHours() + "";
+						listAbsenceTemp[i][1] = absence.get(i).getSubject().getCode() + "";
+						listAbsenceTemp[i][2] = absence.get(i).getStudent().getCi() + "";
+						listAbsenceTemp[i][3] = absence.get(i).getDate() + "";
+						listAbsenceTemp[i][4] = absence.get(i).getType() + "";
+						listAbsenceTemp[i][5] = absence.get(i).getAmountHours() + "";
 
 					}
 
@@ -1719,7 +1737,7 @@ public class Screen extends JFrame {
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Something went Wrong!");
 				}
 
 			}
@@ -1775,5 +1793,24 @@ public class Screen extends JFrame {
 
 			}
 		});
-	
+		deleteAbsence__btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				int idAbsence = Integer.parseInt(idtDelete__textField.getText());
+
+				try {
+					
+					Absence absence = new Absence(idAbsence);
+					controller.deleteAbsence(absence);
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+
+			}
+		});
+
+	}
+}	
 }}

@@ -484,6 +484,7 @@ public class ControllerDB extends Conn {
 			absenceSt.execute();
 
 		} catch (SQLException ex) {
+			ex.printStackTrace();
 			throw ex;
 		}
 

@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.event.*;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -456,7 +457,7 @@ public class Screen extends JFrame {
 					controller.createUser(functionary);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, " The CI already exits");
 				}
 
 			}
@@ -1336,13 +1337,16 @@ public class Screen extends JFrame {
 						Orientation.valueOf(orientationStudent), Status.ACTIVE, Generation.valueOf(generationStudent),
 						mailCreateStudent, passwordStudent, LocalDate.of(year, month, day));
 
-				try {
-					controller.createUser(student);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				// SQLIntegrityConstraintViolationException
+				// NumberFormatException
 
+				try {
+
+					controller.createUser(student);
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, " The CI already exits");
+				}
 			}
 		});
 
@@ -1561,8 +1565,7 @@ public class Screen extends JFrame {
 				try {
 					controller.createUser(teacher);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1.getMessage()	);
 				}
 			}
 		});

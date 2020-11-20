@@ -66,6 +66,11 @@ public class Screen extends JFrame {
 	private JTable StudentList__table;
 	private JTable listTeacher__table;
 	private JTable functionaryList__table;
+	private JTextField codeCreateSubject__textField;
+	private JTextField nameCreateSubject__textField;
+	private JTextField orientationCreateSubject__textField;
+	private JTextField generationCreateSubject__textField;
+	private JTextField teacherCreateSubject__textField;
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
@@ -157,7 +162,7 @@ public class Screen extends JFrame {
 	@SuppressWarnings("deprecation")
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 859, 570);
+		setBounds(100, 100, 561, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -215,6 +220,17 @@ public class Screen extends JFrame {
 		JLabel DescriptionWelcome__Label = new JLabel("Choose the optiones above to start\n");
 		DescriptionWelcome__Label.setBounds(168, 176, 177, 16);
 		welcome__panel.add(DescriptionWelcome__Label);
+
+		JButton logOut__button = new JButton("Log out");
+		logOut__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				controller.logout();
+				master__cardLayout.show(master__panel, "LOGIN_PANEL");
+			}
+		});
+		logOut__button.setBounds(210, 248, 89, 23);
+		welcome__panel.add(logOut__button);
 
 		JPanel createUser__panel = new JPanel();
 		master__panel.add(createUser__panel, "CREATE_USER_PANEL");
@@ -704,6 +720,7 @@ public class Screen extends JFrame {
 		listOfFunctionary__panel.show(false);
 
 		functionaryList__table = new JTable();
+		functionaryList__table.setEnabled(false);
 		functionaryList__table.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null }, },
 				new String[] { "New column", "New column", "New column", "New column", "New column" }));
@@ -851,25 +868,25 @@ public class Screen extends JFrame {
 		lblNewLabel_15.setBounds(228, 67, 86, 14);
 		createSubject_panel.add(lblNewLabel_15);
 
-		textField_6 = new JTextField();
-		textField_6.setBounds(260, 115, 86, 20);
-		createSubject_panel.add(textField_6);
-		textField_6.setColumns(10);
+		codeCreateSubject__textField = new JTextField();
+		codeCreateSubject__textField.setBounds(260, 115, 86, 20);
+		createSubject_panel.add(codeCreateSubject__textField);
+		codeCreateSubject__textField.setColumns(10);
 
-		textField_7 = new JTextField();
-		textField_7.setBounds(260, 146, 86, 20);
-		createSubject_panel.add(textField_7);
-		textField_7.setColumns(10);
+		nameCreateSubject__textField = new JTextField();
+		nameCreateSubject__textField.setBounds(260, 146, 86, 20);
+		createSubject_panel.add(nameCreateSubject__textField);
+		nameCreateSubject__textField.setColumns(10);
 
-		textField_8 = new JTextField();
-		textField_8.setBounds(260, 177, 86, 20);
-		createSubject_panel.add(textField_8);
-		textField_8.setColumns(10);
+		orientationCreateSubject__textField = new JTextField();
+		orientationCreateSubject__textField.setBounds(260, 177, 86, 20);
+		createSubject_panel.add(orientationCreateSubject__textField);
+		orientationCreateSubject__textField.setColumns(10);
 
-		textField_9 = new JTextField();
-		textField_9.setBounds(260, 208, 86, 20);
-		createSubject_panel.add(textField_9);
-		textField_9.setColumns(10);
+		generationCreateSubject__textField = new JTextField();
+		generationCreateSubject__textField.setBounds(260, 208, 86, 20);
+		createSubject_panel.add(generationCreateSubject__textField);
+		generationCreateSubject__textField.setColumns(10);
 
 		JLabel lblNewLabel_16 = new JLabel("Code");
 		lblNewLabel_16.setBounds(168, 118, 46, 14);
@@ -887,19 +904,23 @@ public class Screen extends JFrame {
 		lblNewLabel_19.setBounds(168, 211, 67, 14);
 		createSubject_panel.add(lblNewLabel_19);
 
-		JButton btnNewButton = new JButton("Create");
-		btnNewButton.setBounds(322, 286, 89, 23);
-		createSubject_panel.add(btnNewButton);
+		JButton submitCreateSubject__button = new JButton("Create");
+		submitCreateSubject__button.setBounds(349, 372, 89, 23);
+		createSubject_panel.add(submitCreateSubject__button);
 
-		textField_10 = new JTextField();
-		textField_10.setText("");
-		textField_10.setBounds(260, 239, 86, 20);
-		createSubject_panel.add(textField_10);
-		textField_10.setColumns(10);
+		teacherCreateSubject__textField = new JTextField();
+		teacherCreateSubject__textField.setText("");
+		teacherCreateSubject__textField.setBounds(260, 303, 86, 20);
+		createSubject_panel.add(teacherCreateSubject__textField);
+		teacherCreateSubject__textField.setColumns(10);
 
 		JLabel lblNewLabel_20 = new JLabel("Teacher CI");
-		lblNewLabel_20.setBounds(168, 236, 67, 14);
+		lblNewLabel_20.setBounds(168, 306, 67, 14);
 		createSubject_panel.add(lblNewLabel_20);
+
+		JCheckBox addTeacherCreateSubject__chckbxNewCheckBox = new JCheckBox("Add teacher");
+		addTeacherCreateSubject__chckbxNewCheckBox.setBounds(168, 273, 97, 23);
+		createSubject_panel.add(addTeacherCreateSubject__chckbxNewCheckBox);
 
 		JPanel consultSubject__panel = new JPanel();
 		master__panel.add(consultSubject__panel, "name_114186707320200");
@@ -980,6 +1001,8 @@ public class Screen extends JFrame {
 		listSubject__panel.add(lblNewLabel_28);
 
 		SubjectList__table = new JTable();
+		SubjectList__table.setEnabled(false);
+		SubjectList__table.setFillsViewportHeight(true);
 
 		try {
 
@@ -1143,6 +1166,7 @@ public class Screen extends JFrame {
 		infoConsultAbsences__panel.show(false);
 
 		listAbsences__table = new JTable();
+
 		listAbsences__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null }, },
 				new String[] { "New column", "New column", "New column", "New column", "New column", "New column" }));
 		listAbsences__table.setBounds(10, 26, 407, 203);
@@ -1222,6 +1246,7 @@ public class Screen extends JFrame {
 		infoListAbsences__panel.show(false);
 
 		listAbsencess__table = new JTable();
+		listAbsencess__table.setEnabled(false);
 		listAbsencess__table.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "New column", "New column", "New column", "New column", "New column" }));
 		listAbsencess__table.setBounds(10, 58, 392, 172);
@@ -1589,8 +1614,44 @@ public class Screen extends JFrame {
 
 				} catch (NumberFormatException exc) {
 					JOptionPane.showMessageDialog(null, " You may writed somethign wrong, Check it ! ");
+
+				}
+
+			}
+		});
+
+		submitCreateSubject__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String code = codeCreateSubject__textField.getText();
+				String name = nameCreateSubject__textField.getText();
+				String orientation = orientationCreateSubject__textField.getText();
+				String generation = generationCreateSubject__textField.getText();
+				Boolean isSelectedAddTeacher = addTeacherCreateSubject__chckbxNewCheckBox.isSelected();
+
+				try {
+
+					Subject subject = new Subject(code, name, Orientation.valueOf(orientation),
+							Generation.valueOf(generation), null);
+
+					controller.createSubject(subject);
+
+					if (isSelectedAddTeacher) {
+						int teacherCI = Integer.valueOf(teacherCreateSubject__textField.getText());
+
+						subject.setTeacher(new Teacher(teacherCI));
+
+						controller.addTeacherToSubject(subject);
+
+					}
+
+				} catch (Exception ex) {
+
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+
 				}
 			}
+
 		});
 
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
@@ -1681,6 +1742,7 @@ public class Screen extends JFrame {
 
 			}
 		});
+		
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1750,4 +1812,5 @@ public class Screen extends JFrame {
 		});
 
 	}
-}
+}	
+}}

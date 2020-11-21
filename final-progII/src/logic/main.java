@@ -37,7 +37,6 @@ public class main {
 			// db.toPersistSubject(subject);
 			// db.toPersistAbsence(absence);
 			// db.toPersistExam(exam);
-//			 con.createExam(exam);
 			// db.toPersistIntoTeaches(subject, teacher);
 
 			// System.out.println(db.recoverSubject("123").getCode());
@@ -63,6 +62,15 @@ public class main {
 
 			System.out.println(con.getUserLoggedIn() + " has to be null");
 			
+
+			/*for (User fun : db.recoverUsers()) {
+				System.out.println( (Teacher)fun);
+			}*/
+
+			 for(Student stu : con.listStudentsWithSubjToDo()) {
+				 System.out.println(stu.getCi());
+			 }
+			 
 			con.login(01, "fun");
 			System.out.println(con.getUserLoggedIn() + " has to be user");
 			

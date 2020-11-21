@@ -98,6 +98,16 @@ public class ControllerLogic {
 		return user;
 	}
 
+	public void addSubjectToStudent(Subject subject, Student student, int mark) throws Exception {
+		try {
+
+			this.db.toPersistIntoTakes(subject, student, mark);
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+	}
+
 	public Subject consultSubject(String code) throws Exception {
 
 		Subject subject = null;

@@ -131,14 +131,13 @@ public class Screen extends JFrame {
 	private JTextField dateDayCreateFunctionary__textField;
 	private JTextField dateMonthCreateTeacher__textField;
 	private JTextField dateDayCreateTeacher__textField;
-	private JTextField nameConsultUserSubject__textField;
+	private JTextField codeConsultUserSubject__textField;
 	private JTextField markConsultUserSubject__textField;
 	private JTextField dateMonthConsultUser__textField;
 	private JTextField dateDayConsultUser__textField;
 	private JTextField monthStudent__textField;
 	private JTextField dayStudent__textField;
-	private JTextField idtDelete__textField;
-
+	private JTable listStudentsPendings__table;
 	/**
 	 * Launch the application.
 	 */
@@ -652,37 +651,39 @@ public class Screen extends JFrame {
 		addSubjectConsultUser__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				String nameConsultSubjectdAdd = nameConsultUserSubject__textField.getText();
-				String orientationConsultSubjectAdd = orientationConsultUserSubject__comboBox.getSelectedItem()
-						.toString();
-				String generationConsultSubjectAdd = generationConsultUserSubject__comboBox.getSelectedItem()
-						.toString();
-				String markConsultSubjectAdd = markConsultUserSubject__textField.getText();
+				String codeConsultSubjectdAdd = codeConsultUserSubject__textField.getText();
+
+				int markConsultSubjectAdd = Integer.valueOf(markConsultUserSubject__textField.getText());
+
+				int studentCI = Integer.valueOf(ciConsultUser__textField__textField.getText());
+
+				Subject subject = new Subject(codeConsultSubjectdAdd);
+				Student student = new Student(studentCI);
 
 				try {
 
+					controller.addSubjectToStudent(subject, student, markConsultSubjectAdd);
+
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 
 			}
 		});
 		addSubjectConsultUser__btnNewButton.setBounds(351, 123, 89, 23);
 		addSubjectStudent__panel.add(addSubjectConsultUser__btnNewButton);
-		addSubjectConsultUser__btnNewButton.show(false);
 
-		nameConsultUserSubject__textField = new JTextField();
-		nameConsultUserSubject__textField.setBounds(174, 11, 86, 20);
-		addSubjectStudent__panel.add(nameConsultUserSubject__textField);
-		nameConsultUserSubject__textField.setColumns(10);
+		codeConsultUserSubject__textField = new JTextField();
+		codeConsultUserSubject__textField.setBounds(174, 11, 86, 20);
+		addSubjectStudent__panel.add(codeConsultUserSubject__textField);
+		codeConsultUserSubject__textField.setColumns(10);
 
 		markConsultUserSubject__textField = new JTextField();
 		markConsultUserSubject__textField.setBounds(174, 105, 86, 20);
 		addSubjectStudent__panel.add(markConsultUserSubject__textField);
 		markConsultUserSubject__textField.setColumns(10);
 
-		JLabel lblNewLabel_60 = new JLabel("Name");
+		JLabel lblNewLabel_60 = new JLabel("Code");
 		lblNewLabel_60.setBounds(85, 11, 46, 14);
 		addSubjectStudent__panel.add(lblNewLabel_60);
 
@@ -1354,6 +1355,34 @@ public class Screen extends JFrame {
 		btnNewButton_5.setBounds(321, 275, 89, 23);
 		createExam__panel.add(btnNewButton_5);
 
+		JPanel listStudentsPendings__panel = new JPanel();
+		master__panel.add(listStudentsPendings__panel, "name_120454282608500");
+		listStudentsPendings__panel.setLayout(null);
+
+		JLabel lblNewLabel_23 = new JLabel("Students with Pendings");
+		lblNewLabel_23.setBounds(358, 34, 112, 14);
+		listStudentsPendings__panel.add(lblNewLabel_23);
+
+		listStudentsPendings__table = new JTable();
+		try {
+
+			List<Subject> subjects = controller.subjectsList();
+			String[][] subjectsTemp = new String[subjects.size()][4];
+			for (int i = 0; i < subjects.size(); i++) {
+				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
+				subjectsTemp[i][1] = subjects.get(i).getName() + "";
+				subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
+				subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
+			}
+			SubjectList__table.setModel(
+					new DefaultTableModel(subjectsTemp, new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		listStudentsPendings__table.setBounds(168, 75, 523, 413);
+		listStudentsPendings__panel.add(listStudentsPendings__table);
+
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1745,7 +1774,7 @@ public class Screen extends JFrame {
 
 			}
 		});
-		
+
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1796,6 +1825,7 @@ public class Screen extends JFrame {
 
 			}
 		});
+
 		deleteAbsence__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 

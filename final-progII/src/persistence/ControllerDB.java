@@ -12,6 +12,7 @@ import logic.Subject;
 import logic.Absence;
 import logic.AbstenceType;
 import logic.Exam;
+import logic.FinishedSubject;
 import logic.Functionary;
 import logic.Generation;
 import logic.Orientation;
@@ -181,7 +182,7 @@ public class ControllerDB extends Conn {
 		}
 
 	}
-	
+
 	public void toPersistIntoTakes(Subject subject, Student student, int mark) throws Exception {
 		try {
 			System.out.println("Creting a connection object");
@@ -195,7 +196,6 @@ public class ControllerDB extends Conn {
 			takesSt.setString(1, subject.getCode());
 			takesSt.setInt(2, student.getCi());
 			takesSt.setInt(3, mark);
-			
 
 			System.out.println("Execut Update");
 
@@ -436,11 +436,10 @@ public class ControllerDB extends Conn {
 		return subject;
 
 	}
-	
-	
-	public void updateUser(int ci, User user) throws Exception{
+
+	public void updateUser(int ci, User user) throws Exception {
 		try {
-			
+
 			System.out.println("Creating a connection for a updateUser method");
 			this.MySQLconnection();
 
@@ -449,7 +448,7 @@ public class ControllerDB extends Conn {
 			PreparedStatement userSt = this.conn.prepareStatement(
 					"UPDATE User SET NAME = ?, LASTNAME = ?, BIRTH = ?, MAIL = ?, PASSWORD =? WHERE CI = ?");
 
-			userSt.setString(1,  user.getName());
+			userSt.setString(1, user.getName());
 			userSt.setString(2, user.getLastName());
 			userSt.setDate(3, java.sql.Date.valueOf(user.getDateBirth()));
 			userSt.setString(4, user.getMail());
@@ -608,7 +607,7 @@ public class ControllerDB extends Conn {
 
 			while (subjectRs.next()) {
 				Teacher teacher = null;
-				
+
 				PreparedStatement teachesSt = this.conn.prepareStatement("SELECT * FROM teaches WHERE IDSUBJECT = ?");
 
 				teachesSt.setString(1, subjectRs.getString("IDSUBJECT"));
@@ -635,10 +634,10 @@ public class ControllerDB extends Conn {
 		return subjects;
 
 	}
-	
-	//this method must be tested in database environment
-	public Map<Integer,String> recoverTakes() throws Exception{
-		Map<Integer, String> studentCIandSubjectCode = new HashMap<Integer, String>();
+
+
+	public Map<Integer, FinishedSubject> recoverTakes() throws Exception {
+		Map<Integer, FinishedSubject> studentCIandSubjectCode = new HashMap<Integer, FinishedSubject>();
 
 		try {
 
@@ -652,7 +651,8 @@ public class ControllerDB extends Conn {
 			ResultSet takesRs = takesSt.executeQuery();
 
 			while (takesRs.next()) {
-				studentCIandSubjectCode.put(takesRs.getInt("CISTUDENT"), takesRs.getString("IDSUBJECT"));
+				studentCIandSubjectCode.put(takesRs.getInt("CISTUDENT"),
+						new FinishedSubject(takesRs.getInt("MARK"), takesRs.getString("IDSUBJECT")));
 			}
 
 		} catch (Exception ex) {

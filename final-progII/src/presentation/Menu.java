@@ -72,8 +72,6 @@ public class Menu {
 		JMenuItem listAbsence_menuItem = new JMenuItem("List Absences");
 		menu_Absence.add(listAbsence_menuItem);
 
-		ControllerLogic c = new ControllerLogic();
-
 		exit__menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				master__cardLayout.show(master__panel, "WELCOME_PANEL");
@@ -151,7 +149,7 @@ public class Menu {
 		
 		listPendings_menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				master__cardLayout.show(master__panel, "LIST_STUDENTS_PENDINGS");
+				master__cardLayout.show(master__panel, "name_120454282608500");
 			}
 		});
 	}

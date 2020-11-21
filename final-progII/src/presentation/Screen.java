@@ -138,6 +138,8 @@ public class Screen extends JFrame {
 	private JTextField monthStudent__textField;
 	private JTextField dayStudent__textField;
 	private JTable listStudentsPendings__table;
+	private JTextField idtDelete__textField;
+
 	/**
 	 * Launch the application.
 	 */
@@ -1210,6 +1212,11 @@ public class Screen extends JFrame {
 		JButton deleteAbsence__btnNewButton = new JButton("Delete");
 		deleteAbsence__btnNewButton.setBounds(10, 283, 89, 23);
 		infoConsultAbsences__panel.add(deleteAbsence__btnNewButton);
+		
+		idtDelete__textField = new JTextField();
+		idtDelete__textField.setBounds(10, 262, 86, 20);
+		infoConsultAbsences__panel.add(idtDelete__textField);
+		idtDelete__textField.setColumns(10);
 		JPanel listAbsences__panel = new JPanel();
 		master__panel.add(listAbsences__panel, "name_118124424073500");
 		listAbsences__panel.setLayout(null);
@@ -1358,12 +1365,22 @@ public class Screen extends JFrame {
 		JPanel listStudentsPendings__panel = new JPanel();
 		master__panel.add(listStudentsPendings__panel, "name_120454282608500");
 		listStudentsPendings__panel.setLayout(null);
+		Menu createExamm__panell = new Menu(listStudentsPendings__panel, master__panel, master__cardLayout);
 
-		JLabel lblNewLabel_23 = new JLabel("Students with Pendings");
-		lblNewLabel_23.setBounds(358, 34, 112, 14);
-		listStudentsPendings__panel.add(lblNewLabel_23);
+
+		JLabel lblNewLabel_231 = new JLabel("Students with Pendings");
+		lblNewLabel_231.setBounds(221, 40, 112, 14);
+		listStudentsPendings__panel.add(lblNewLabel_231);
 
 		listStudentsPendings__table = new JTable();
+		listStudentsPendings__table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column"
+			}
+		));
 		try {
 
 			List<Subject> subjects = controller.subjectsList();
@@ -1380,8 +1397,39 @@ public class Screen extends JFrame {
 			e.printStackTrace();
 		}
 
-		listStudentsPendings__table.setBounds(168, 75, 523, 413);
+		listStudentsPendings__table.setBounds(58, 103, 429, 293);
 		listStudentsPendings__panel.add(listStudentsPendings__table);
+		
+		JButton studentPendingsList__btnNewButton = new JButton("List Students");
+		studentPendingsList__btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String[] infoPendings = { "MARK", "NAMESTUDENT", "SUBJECTCODE" };
+
+				try {
+					
+					List<Student> pendings = controller.listStudentsWithSubjToDo();
+					
+					String[][] pendingsTemp = new String [pendings.size()][5];
+					
+					for(int i=0; i< pendings.size(); i++) {
+						
+						pendingsTemp[i][0] = pendings.get(i).getCi()+"";
+						pendingsTemp[i][1] = pendings.get(i).getLastName();
+						pendingsTemp[i][2] = pendings.get(i).getName();
+						pendingsTemp[i][3] = pendings.get(i).getFinishedSubjects().get(i).getMark()+"";
+						pendingsTemp[i][4] = pendings.get(i).getFinishedSubjects().get(i).getSubjectCode();
+					}
+					listStudentsPendings__table.setModel(new DefaultTableModel(pendingsTemp,infoPendings));
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}//listStudentsPendings__table.setModel(new DefaultTableModel(
+		});
+		studentPendingsList__btnNewButton.setBounds(231, 69, 89, 23);
+		listStudentsPendings__panel.add(studentPendingsList__btnNewButton);
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1594,7 +1642,7 @@ public class Screen extends JFrame {
 				try {
 					controller.createUser(teacher);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage()	);
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
@@ -1832,7 +1880,7 @@ public class Screen extends JFrame {
 				int idAbsence = Integer.parseInt(idtDelete__textField.getText());
 
 				try {
-					
+
 					Absence absence = new Absence(idAbsence);
 					controller.deleteAbsence(absence);
 
@@ -1845,5 +1893,4 @@ public class Screen extends JFrame {
 		});
 
 	}
-}	
-}}
+}

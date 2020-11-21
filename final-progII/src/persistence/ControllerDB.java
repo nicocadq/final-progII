@@ -182,7 +182,7 @@ public class ControllerDB extends Conn {
 
 	}
 	
-	public void toPersistIntoTeakes(Subject subject, Student student, int mark) throws Exception {
+	public void toPersistIntoTakes(Subject subject, Student student, int mark) throws Exception {
 		try {
 			System.out.println("Creting a connection object");
 			this.MySQLconnection();

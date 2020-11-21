@@ -28,7 +28,7 @@ public class ControllerLogic {
 			this.db.toPersistUser(user);
 
 		} catch (SQLIntegrityConstraintViolationException ex) {
-			
+
 			throw new Exception("The user already Exits");
 		}
 
@@ -301,11 +301,10 @@ public class ControllerLogic {
 
 	}
 
-	// this method must be tested with a database enable
-	public List<Student> listStudentsWithSubjToDo() throws Exception {
+	public List<Student> listStudentPendings() throws Exception {
 		List<User> users = null;
-		List<Student> students = null;
-		Map<Integer, String> takes = null;
+		List<Student> students = new ArrayList<Student>();
+		Map<Integer, FinishedSubject> takes = null;
 		List<Student> studentsWithSubjectsToDo = new ArrayList<Student>();
 
 		try {
@@ -315,7 +314,7 @@ public class ControllerLogic {
 		}
 
 		try {
-			takes = this.db.recoverTakes();
+			takes = (HashMap<Integer, FinishedSubject>) this.db.recoverTakes();
 		} catch (Exception takesEx) {
 			throw new Exception(errorMessage);
 		}
@@ -333,12 +332,52 @@ public class ControllerLogic {
 		for (Student student : students) {
 			for (Map.Entry studentAndSubject : takes.entrySet()) {
 				if (((Integer) studentAndSubject.getKey()).intValue() == student.getCi()) {
-					studentsWithSubjectsToDo.add(student);
+					if (((FinishedSubject) studentAndSubject.getValue()).getMark() < 8) {
+						studentsWithSubjectsToDo.add(student);
+					}
+
 				}
 			}
 		}
 
 		return studentsWithSubjectsToDo;
+	}
+
+	public List<Subject> listStudentPendings(int ci) throws Exception {
+		Student student = null;
+		List<Subject> subjects = null;
+		Map<Integer, FinishedSubject> takes = null;
+		List<Subject> pendings = new ArrayList<Subject>();
+
+		try {
+			student = (Student) this.db.recoverUser(ci);
+		} catch (Exception studentEx) {
+			// Here we are handling SQLException and ClassCastException
+			throw new Exception(errorMessage);
+		}
+
+		try {
+			subjects = this.db.recoverSubjects();
+		} catch (Exception subjectsEx) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+			takes = this.db.recoverTakes();
+		} catch (Exception takesEx) {
+			throw new Exception(errorMessage);
+		}
+
+		for (Map.Entry studentAndSubject : takes.entrySet()) {
+			if (((Integer) studentAndSubject.getKey()).intValue() == student.getCi()) {
+				for (Subject subject : subjects) {
+					if (subject.getCode() == studentAndSubject.getValue())
+						pendings.add(subject);
+				}
+			}
+		}
+
+		return pendings;
 	}
 
 	public List<Exam> listHistoryExams() throws Exception {
@@ -372,43 +411,6 @@ public class ControllerLogic {
 
 		return examByStudent;
 
-	}
-
-	public List<Subject> listPendientings(int ci) throws Exception {
-		Student student = null;
-		List<Subject> subjects = null;
-		Map<Integer, String> takes = null;
-		List<Subject> pendings = new ArrayList<Subject>();
-
-		try {
-			student = (Student) this.db.recoverUser(ci);
-		} catch (Exception studentEx) {
-			// Here we are handling SQLException and ClassCastException
-			throw new Exception(errorMessage);
-		}
-
-		try {
-			subjects = this.db.recoverSubjects();
-		} catch (Exception subjectsEx) {
-			throw new Exception(errorMessage);
-		}
-
-		try {
-			takes = this.db.recoverTakes();
-		} catch (Exception takesEx) {
-			throw new Exception(errorMessage);
-		}
-
-		for (Map.Entry studentAndSubject : takes.entrySet()) {
-			if (((Integer) studentAndSubject.getKey()).intValue() == student.getCi()) {
-				for (Subject subject : subjects) {
-					if (subject.getCode() == studentAndSubject.getValue())
-						pendings.add(subject);
-				}
-			}
-		}
-
-		return pendings;
 	}
 
 	public User login(int ci, String password) throws Exception {

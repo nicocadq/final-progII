@@ -187,7 +187,7 @@ public class ControllerDB extends Conn {
 			System.out.println("Creting a connection object");
 			this.MySQLconnection();
 
-			System.out.println("Created PreparedStatement for teakes");
+			System.out.println("Created PreparedStatement for takes");
 
 			PreparedStatement takesSt = this.conn
 					.prepareStatement("INSERT INTO TAKES(IDSUBJECT, CISTUDENT, MARK) VALUES(?,?,?)");

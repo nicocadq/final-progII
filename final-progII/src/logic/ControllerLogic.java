@@ -99,7 +99,7 @@ public class ControllerLogic {
 	public void addSubjectToStudent(Subject subject, Student student, int mark) throws Exception {
 		try {
 
-			this.db.toPersistIntoTeakes(subject, student, mark);
+			this.db.toPersistIntoTakes(subject, student, mark);
 
 		} catch (Exception ex) {
 			throw new Exception(errorMessage);

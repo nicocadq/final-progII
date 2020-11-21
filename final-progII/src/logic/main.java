@@ -67,7 +67,7 @@ public class main {
 				System.out.println( (Teacher)fun);
 			}*/
 
-			 for(Student stu : con.listStudentsWithSubjToDo()) {
+			 for(Student stu : con.listStudentPendings()) {
 				 System.out.println(stu.getCi());
 			 }
 			 

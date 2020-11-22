@@ -1,6 +1,8 @@
 package logic;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import persistence.ControllerDB;
 
@@ -30,6 +32,13 @@ public class main {
 
 		Exam exam = new Exam(LocalDate.of(2015, 6, 3), 10, student, subject);
 		try {
+			/*
+			List<Subject> sub = con.teacherWithSubjects(321);
+			for (Subject subb : sub) {
+				System.out.println(subb.getCode());
+			}*/
+			
+			con.deleteTeacherFromSubject(777);
 			// Tested to persist
 			// db.toPersistUser(functionary);
 			// db.toPersistUser(student);
@@ -60,23 +69,21 @@ public class main {
 			 * /*for (User fun : db.recoverUsers()) { System.out.println( (Teacher)fun); }
 			 */
 
-			System.out.println(con.getUserLoggedIn() + " has to be null");
-			
+			// System.out.println(con.getUserLoggedIn() + " has to be null");
 
-			/*for (User fun : db.recoverUsers()) {
-				System.out.println( (Teacher)fun);
-			}*/
-
-			 for(Student stu : con.listStudentPendings()) {
-				 System.out.println(stu.getCi());
-			 }
-			 
-			con.login(01, "fun");
-			System.out.println(con.getUserLoggedIn() + " has to be user");
-			
-			con.logout();
-			System.out.println(con.getUserLoggedIn() + " has to be null");
-
+			/*
+			 * for (User fun : db.recoverUsers()) { System.out.println( (Teacher)fun); }
+			 */
+			/*
+			 * for(Student stu : con.listStudentPendings()) {
+			 * System.out.println(stu.getCi()); }
+			 * 
+			 * con.login(01, "fun"); System.out.println(con.getUserLoggedIn() +
+			 * " has to be user");
+			 * 
+			 * con.logout(); System.out.println(con.getUserLoggedIn() + " has to be null");
+			 */
+		
 //			for(Absence absenceFromDB : db.recoverAbsences()) {
 //				System.out.println(absenceFromDB.getSubject().getCode());
 //			}

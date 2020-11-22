@@ -635,7 +635,6 @@ public class ControllerDB extends Conn {
 
 	}
 
-
 	public Map<Integer, FinishedSubject> recoverTakes() throws Exception {
 		Map<Integer, FinishedSubject> studentCIandSubjectCode = new HashMap<Integer, FinishedSubject>();
 
@@ -716,4 +715,51 @@ public class ControllerDB extends Conn {
 
 		return absences;
 	}
+
+	public List<Subject> recoverTeaches(int ci) throws Exception {
+		List<Subject> teaches = new ArrayList<Subject>();
+
+		try {
+
+			this.MySQLconnection();
+
+			System.out.println("Creating a connection Object");
+			PreparedStatement teachesSt = this.conn.prepareStatement("SELECT * FROM teaches WHERE ciTeacher = ?");
+
+			teachesSt.setInt(1, ci);
+
+			System.out.println("Executing Query and creating ResultSet");
+			ResultSet teachesRs = teachesSt.executeQuery();
+
+			while (teachesRs.next()) {
+				teaches.add(new Subject(teachesRs.getString("idSubject")));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return teaches;
+
+	}
+
+	public void deleteTeacherFromTeaches(int id) throws Exception {
+
+		try {
+			System.out.println("Creating a connection");
+			this.MySQLconnection();
+
+			System.out.println("Creating a connection Object");
+			PreparedStatement deleteTeachesSt = this.conn.prepareStatement("DELETE FROM teaches WHERE idSubject = ?");
+
+			deleteTeachesSt.setInt(1, id);
+			
+			System.out.println("Execute Update");
+
+			deleteTeachesSt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

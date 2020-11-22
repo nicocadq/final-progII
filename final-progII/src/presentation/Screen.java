@@ -1324,7 +1324,7 @@ public class Screen extends JFrame {
 		listStudentsPendings__table.setEnabled(false);
 		listStudentsPendings__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, },
 				new String[] { "New column", "New column", "New column" }));
-		JButton listSubject__Button = new JButton("New button");
+		JButton listSubject__Button = new JButton("List Subjects");
 
 		listSubject__Button.setBounds(220, 98, 89, 23);
 		listSubject__panel.add(listSubject__Button);

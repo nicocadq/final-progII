@@ -1008,39 +1008,23 @@ public class Screen extends JFrame {
 		SubjectList__table.setEnabled(false);
 		SubjectList__table.setFillsViewportHeight(true);
 
-		try {
-
-			List<Subject> subjects = controller.subjectsList();
-			String[][] subjectsTemp = new String[subjects.size()][4];
-			for (int i = 0; i < subjects.size(); i++) {
-				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
-				subjectsTemp[i][1] = subjects.get(i).getName() + "";
-				subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
-				subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
-			}
-			SubjectList__table.setModel(
-					new DefaultTableModel(subjectsTemp, new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		SubjectList__table.setBounds(78, 150, 382, 174);
+		SubjectList__table.setBounds(77, 157, 382, 174);
 		listSubject__panel.add(SubjectList__table);
 
 		JLabel lblNewLabel_29 = new JLabel("ID");
-		lblNewLabel_29.setBounds(86, 125, 46, 14);
+		lblNewLabel_29.setBounds(85, 132, 46, 14);
 		listSubject__panel.add(lblNewLabel_29);
 
 		JLabel lblNewLabel_30 = new JLabel("NAME");
-		lblNewLabel_30.setBounds(204, 125, 46, 14);
+		lblNewLabel_30.setBounds(203, 132, 46, 14);
 		listSubject__panel.add(lblNewLabel_30);
 
 		JLabel lblNewLabel_31 = new JLabel("ORIENTATION");
-		lblNewLabel_31.setBounds(280, 125, 70, 14);
+		lblNewLabel_31.setBounds(279, 132, 70, 14);
 		listSubject__panel.add(lblNewLabel_31);
 
 		JLabel lblNewLabel_32 = new JLabel("GENERATION");
-		lblNewLabel_32.setBounds(378, 125, 65, 14);
+		lblNewLabel_32.setBounds(377, 132, 65, 14);
 		listSubject__panel.add(lblNewLabel_32);
 
 		JPanel createAbsences__panel = new JPanel();
@@ -1212,7 +1196,7 @@ public class Screen extends JFrame {
 		JButton deleteAbsence__btnNewButton = new JButton("Delete");
 		deleteAbsence__btnNewButton.setBounds(10, 283, 89, 23);
 		infoConsultAbsences__panel.add(deleteAbsence__btnNewButton);
-		
+
 		JPanel listAbsences__panel = new JPanel();
 		master__panel.add(listAbsences__panel, "name_118124424073500");
 		listAbsences__panel.setLayout(null);
@@ -1323,6 +1307,46 @@ public class Screen extends JFrame {
 		dayDateExam__textField.setColumns(10);
 		dayDateExam__textField.setBounds(330, 147, 52, 20);
 		createExam__panel.add(dayDateExam__textField);
+		JButton btnNewButton_5 = new JButton("Create");
+		btnNewButton_5.setBounds(321, 275, 89, 23);
+		createExam__panel.add(btnNewButton_5);
+
+		JPanel listStudentsPendings__panel = new JPanel();
+		master__panel.add(listStudentsPendings__panel, "name_120454282608500");
+		listStudentsPendings__panel.setLayout(null);
+		Menu createExam__menu = new Menu(listStudentsPendings__panel, master__panel, master__cardLayout);
+
+		JLabel lblNewLabel_231 = new JLabel("Students with Pendings");
+		lblNewLabel_231.setBounds(221, 40, 112, 14);
+		listStudentsPendings__panel.add(lblNewLabel_231);
+
+		listStudentsPendings__table = new JTable();
+		listStudentsPendings__table.setEnabled(false);
+		listStudentsPendings__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, },
+				new String[] { "New column", "New column", "New column" }));
+		JButton listSubject__Button = new JButton("New button");
+
+		listSubject__Button.setBounds(220, 98, 89, 23);
+		listSubject__panel.add(listSubject__Button);
+
+		listStudentsPendings__table.setBounds(58, 115, 467, 293);
+		listStudentsPendings__panel.add(listStudentsPendings__table);
+
+		JButton studentPendingsList__btnNewButton = new JButton("List Students");
+		studentPendingsList__btnNewButton.setBounds(221, 65, 102, 23);
+		listStudentsPendings__panel.add(studentPendingsList__btnNewButton);
+
+		JLabel lblNewLabel_54 = new JLabel("CI");
+		lblNewLabel_54.setBounds(58, 99, 36, 14);
+		listStudentsPendings__panel.add(lblNewLabel_54);
+
+		JLabel lblNewLabel_64 = new JLabel("LASTNAME");
+		lblNewLabel_64.setBounds(211, 99, 69, 14);
+		listStudentsPendings__panel.add(lblNewLabel_64);
+
+		JLabel lblNewLabel_65 = new JLabel("NAME");
+		lblNewLabel_65.setBounds(379, 99, 171, 14);
+		listStudentsPendings__panel.add(lblNewLabel_65);
 
 		submitCreateStudent__button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1354,49 +1378,6 @@ public class Screen extends JFrame {
 			}
 		});
 
-		JButton btnNewButton_5 = new JButton("Create");
-		btnNewButton_5.setBounds(321, 275, 89, 23);
-		createExam__panel.add(btnNewButton_5);
-
-		JPanel listStudentsPendings__panel = new JPanel();
-		master__panel.add(listStudentsPendings__panel, "name_120454282608500");
-		listStudentsPendings__panel.setLayout(null);
-		Menu createExam__menu = new Menu(listStudentsPendings__panel, master__panel, master__cardLayout);
-
-		JLabel lblNewLabel_231 = new JLabel("Students with Pendings");
-		lblNewLabel_231.setBounds(221, 40, 112, 14);
-		listStudentsPendings__panel.add(lblNewLabel_231);
-
-		listStudentsPendings__table = new JTable();
-		listStudentsPendings__table.setEnabled(false);
-		listStudentsPendings__table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column"
-			}
-		));
-		try {
-
-			List<Subject> subjects = controller.subjectsList();
-			String[][] subjectsTemp = new String[subjects.size()][4];
-			for (int i = 0; i < subjects.size(); i++) {
-				subjectsTemp[i][0] = subjects.get(i).getCode() + "";
-				subjectsTemp[i][1] = subjects.get(i).getName() + "";
-				subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
-				subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
-			}
-			SubjectList__table.setModel(
-					new DefaultTableModel(subjectsTemp, new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		listStudentsPendings__table.setBounds(58, 115, 467, 293);
-		listStudentsPendings__panel.add(listStudentsPendings__table);
-
-		JButton studentPendingsList__btnNewButton = new JButton("List Students");
 		studentPendingsList__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1424,21 +1405,6 @@ public class Screen extends JFrame {
 
 			}
 		});
-
-		studentPendingsList__btnNewButton.setBounds(221, 65, 102, 23);
-		listStudentsPendings__panel.add(studentPendingsList__btnNewButton);
-		
-		JLabel lblNewLabel_54 = new JLabel("CI");
-		lblNewLabel_54.setBounds(58, 99, 36, 14);
-		listStudentsPendings__panel.add(lblNewLabel_54);
-		
-		JLabel lblNewLabel_64 = new JLabel("LASTNAME");
-		lblNewLabel_64.setBounds(211, 99, 69, 14);
-		listStudentsPendings__panel.add(lblNewLabel_64);
-		
-		JLabel lblNewLabel_65 = new JLabel("NAME");
-		lblNewLabel_65.setBounds(379, 99, 171, 14);
-		listStudentsPendings__panel.add(lblNewLabel_65);
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1896,6 +1862,27 @@ public class Screen extends JFrame {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+
+			}
+		});
+		listSubject__Button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+
+					List<Subject> subjects = controller.subjectsList();
+					String[][] subjectsTemp = new String[subjects.size()][4];
+					for (int i = 0; i < subjects.size(); i++) {
+						subjectsTemp[i][0] = subjects.get(i).getCode() + "";
+						subjectsTemp[i][1] = subjects.get(i).getName() + "";
+						subjectsTemp[i][2] = subjects.get(i).getOrientation() + "";
+						subjectsTemp[i][3] = subjects.get(i).getGeneration() + "";
+					}
+					SubjectList__table.setModel(new DefaultTableModel(subjectsTemp,
+							new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 
 			}

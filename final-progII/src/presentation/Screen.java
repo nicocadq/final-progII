@@ -139,6 +139,7 @@ public class Screen extends JFrame {
 	private JTable listStudentsPendings__table;
 	private JTextField idtDelete__textField;
 	private JTable listStudentsFilter__table;
+	private JTextField subjectCodeAddTeacher__textField;
 
 	/**
 	 * Launch the application.
@@ -164,7 +165,7 @@ public class Screen extends JFrame {
 	@SuppressWarnings("deprecation")
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 561, 570);
+		setBounds(100, 100, 742, 570);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -438,32 +439,6 @@ public class Screen extends JFrame {
 		createFunctionary__panel.add(dateDayCreateFunctionary__textField);
 		dateDayCreateFunctionary__textField.setColumns(10);
 
-		submitCreateFunctionary__button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				int ciFunctionary = Integer.parseInt(ciCreateFunctionary__textField.getText());
-				String nameFunctionary = nameCreateFunctionary__textField.getText();
-				String lastNameFunctionary = lastNameCreateFunctionary__textField.getText();
-				String mailFunctionary = mailCreateFunctionary__textField.getText();
-				String psswdFunctionary = passwordCreateFunctionary__textField.getText();
-				int yearDateFunctionary = Integer.parseInt(dateYearCreateFunctionary__textField.getText());
-				int monthDateFunctionary = Integer.parseInt(dateMonthCreateFunctionary__textField.getText());
-				int dayDateFunctionary = Integer.parseInt(dateMonthCreateFunctionary__textField.getText());
-
-				Functionary functionary = new Functionary(ciFunctionary, nameFunctionary, lastNameFunctionary,
-						mailFunctionary, psswdFunctionary,
-						LocalDate.of(yearDateFunctionary, monthDateFunctionary, dayDateFunctionary));
-
-				try {
-					controller.createUser(functionary);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, " The CI already exits");
-				}
-
-			}
-		});
-
 		JPanel createTeacher__panel = new JPanel();
 		userType__panel.add(createTeacher__panel, "CREATE_TEACHER_PANEL");
 		createTeacher__panel.setLayout(null);
@@ -712,6 +687,24 @@ public class Screen extends JFrame {
 		generationConsultUserSubject__comboBox.setBounds(174, 72, 89, 22);
 		addSubjectStudent__panel.add(generationConsultUserSubject__comboBox);
 
+		JPanel teacherModify__panel = new JPanel();
+		teacherModify__panel.setBounds(10, 203, 450, 157);
+		editConsult__panel.add(teacherModify__panel);
+		teacherModify__panel.setLayout(null);
+		teacherModify__panel.show(false);
+
+		JLabel lblNewLabel_66 = new JLabel("Subjects ID");
+		lblNewLabel_66.setBounds(10, 25, 61, 14);
+		teacherModify__panel.add(lblNewLabel_66);
+
+		JComboBox subjectId__comboBox = new JComboBox();
+		subjectId__comboBox.setBounds(68, 21, 83, 22);
+		teacherModify__panel.add(subjectId__comboBox);
+
+		JButton DeleteSubject__Button = new JButton("Delete");
+		DeleteSubject__Button.setBounds(68, 71, 89, 23);
+		teacherModify__panel.add(DeleteSubject__Button);
+
 		JPanel listUsers__panel = new JPanel();
 		master__panel.add(listUsers__panel, "name_110770879092900");
 		Menu listUserss__panel = new Menu(listUsers__panel, master__panel, master__cardLayout);
@@ -909,7 +902,7 @@ public class Screen extends JFrame {
 		createSubject_panel.add(lblNewLabel_19);
 
 		JButton submitCreateSubject__button = new JButton("Create");
-		submitCreateSubject__button.setBounds(349, 372, 89, 23);
+		submitCreateSubject__button.setBounds(353, 242, 89, 23);
 		createSubject_panel.add(submitCreateSubject__button);
 
 		teacherCreateSubject__textField = new JTextField();
@@ -922,9 +915,19 @@ public class Screen extends JFrame {
 		lblNewLabel_20.setBounds(168, 306, 67, 14);
 		createSubject_panel.add(lblNewLabel_20);
 
-		JCheckBox addTeacherCreateSubject__chckbxNewCheckBox = new JCheckBox("Add teacher");
-		addTeacherCreateSubject__chckbxNewCheckBox.setBounds(168, 273, 97, 23);
-		createSubject_panel.add(addTeacherCreateSubject__chckbxNewCheckBox);
+		JButton addTeacherCreateSubject__btn = new JButton("Add TEacher");
+
+		addTeacherCreateSubject__btn.setBounds(353, 395, 151, 23);
+		createSubject_panel.add(addTeacherCreateSubject__btn);
+
+		JLabel lblNewLabel_70 = new JLabel("Subject Code");
+		lblNewLabel_70.setBounds(168, 341, 86, 14);
+		createSubject_panel.add(lblNewLabel_70);
+
+		subjectCodeAddTeacher__textField = new JTextField();
+		subjectCodeAddTeacher__textField.setBounds(260, 338, 86, 20);
+		createSubject_panel.add(subjectCodeAddTeacher__textField);
+		subjectCodeAddTeacher__textField.setColumns(10);
 
 		JPanel consultSubject__panel = new JPanel();
 		master__panel.add(consultSubject__panel, "name_114186707320200");
@@ -940,7 +943,7 @@ public class Screen extends JFrame {
 		consultSubject__panel.add(lblNewLabel_22);
 
 		JPanel infoConsultSubject__panel = new JPanel();
-		infoConsultSubject__panel.setBounds(153, 167, 223, 257);
+		infoConsultSubject__panel.setBounds(153, 169, 223, 257);
 		consultSubject__panel.add(infoConsultSubject__panel);
 		infoConsultSubject__panel.setLayout(null);
 		infoConsultSubject__panel.show(false);
@@ -1378,6 +1381,12 @@ public class Screen extends JFrame {
 			}
 		});
 
+		listStudentsPendings__table = new JTable();
+		listStudentsPendings__table.setEnabled(false);
+
+		listStudentsPendings__table.setBounds(58, 115, 467, 293);
+		listStudentsPendings__panel.add(listStudentsPendings__table);
+
 		studentPendingsList__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1408,13 +1417,14 @@ public class Screen extends JFrame {
 
 		studentPendingsList__btnNewButton.setBounds(221, 65, 102, 23);
 		listStudentsPendings__panel.add(studentPendingsList__btnNewButton);
+
 		JPanel listStudentsFilter__panel = new JPanel();
 		master__panel.add(listStudentsFilter__panel, "LIST_STUDENTS_FILTER_PANEL");
 		listStudentsFilter__panel.setLayout(null);
 
-		JLabel lblNewLabel_66 = new JLabel("List Students by Orientation and Genetation");
-		lblNewLabel_66.setBounds(149, 32, 257, 14);
-		listStudentsFilter__panel.add(lblNewLabel_66);
+		JLabel lblNewLabel_662 = new JLabel("List Students by Orientation and Genetation");
+		lblNewLabel_662.setBounds(149, 32, 257, 14);
+		listStudentsFilter__panel.add(lblNewLabel_662);
 
 		JComboBox orientationListStudentFilter__comboBox = new JComboBox();
 		orientationListStudentFilter__comboBox.setBounds(123, 94, 110, 22);
@@ -1484,6 +1494,18 @@ public class Screen extends JFrame {
 
 			}
 		});
+
+		JLabel lblNewLabel_541 = new JLabel("CI");
+		lblNewLabel_54.setBounds(58, 99, 36, 14);
+		listStudentsPendings__panel.add(lblNewLabel_54);
+
+		JLabel lblNewLabel_641 = new JLabel("LASTNAME");
+		lblNewLabel_64.setBounds(211, 99, 69, 14);
+		listStudentsPendings__panel.add(lblNewLabel_64);
+
+		JLabel lblNewLabel_652 = new JLabel("NAME");
+		lblNewLabel_65.setBounds(379, 99, 171, 14);
+		listStudentsPendings__panel.add(lblNewLabel_65);
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1763,7 +1785,6 @@ public class Screen extends JFrame {
 				String name = nameCreateSubject__textField.getText();
 				String orientation = orientationCreateSubject__textField.getText();
 				String generation = generationCreateSubject__textField.getText();
-				Boolean isSelectedAddTeacher = addTeacherCreateSubject__chckbxNewCheckBox.isSelected();
 
 				try {
 
@@ -1772,22 +1793,44 @@ public class Screen extends JFrame {
 
 					controller.createSubject(subject);
 
-					if (isSelectedAddTeacher) {
-						int teacherCI = Integer.valueOf(teacherCreateSubject__textField.getText());
+				} catch (Exception ex) {
 
-						subject.setTeacher(new Teacher(teacherCI));
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 
-						controller.addTeacherToSubject(subject);
+				}
 
-					}
+			}
+
+		});
+
+		addTeacherCreateSubject__btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int teacherCI = Integer.valueOf(teacherCreateSubject__textField.getText());
+				String subjectCode = subjectCodeAddTeacher__textField.getText();
+				Subject subject = null;
+
+				try {
+
+					subject = controller.consultSubject(subjectCode);
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "This subject doesn't exist.");
+				}
+
+				try {
+
+					subject.setTeacher(new Teacher(teacherCI));
+
+					controller.addTeacherToSubject(subject);
 
 				} catch (Exception ex) {
 
 					JOptionPane.showMessageDialog(null, ex.getMessage());
 
 				}
-			}
 
+			}
 		});
 
 		searchConsultUser__btnNewButton.addActionListener(new ActionListener() {
@@ -1813,12 +1856,35 @@ public class Screen extends JFrame {
 						} else if (userConsult == null) {
 							JOptionPane.showMessageDialog(null, "The USER doesnt exit !");
 						}
+
 						if (userConsult instanceof Student) {
 
+							teacherModify__panel.show(false);
 							addSubjectStudent__panel.show(true);
 
+						} else if (userConsult instanceof Teacher) {
+
+							teacherModify__panel.show(true);
+							int ciTeacher = Integer.parseInt(ciConsultUser__textField__textField.getText());
+							try {
+
+								List<Subject> subjects = controller.teacherWithSubjects(ciTeacher);
+								for (Subject subject : subjects) {
+									subjectId__comboBox.addItem(subject.getCode());
+								}
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						} else if (userConsult instanceof Functionary) {
+							teacherModify__panel.show(false);
+							addSubjectStudent__panel.show(false);
+
+						} else {
+							throw new Exception();
 						}
 					} catch (NumberFormatException e) {
+						JOptionPane.showConfirmDialog(null, "You write something wrong, Try Again !");
 						// add a JoptionPane that says "You write someting wrong, Try Again !"
 					}
 
@@ -1947,6 +2013,7 @@ public class Screen extends JFrame {
 
 			}
 		});
+
 		listSubject__Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -1964,6 +2031,32 @@ public class Screen extends JFrame {
 							new String[] { "ID", "NAME", "ORIENTATION", "GENERATION" }));
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+			}
+		});
+
+		submitCreateFunctionary__button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int ciFunctionary = Integer.parseInt(ciCreateFunctionary__textField.getText());
+				String nameFunctionary = nameCreateFunctionary__textField.getText();
+				String lastNameFunctionary = lastNameCreateFunctionary__textField.getText();
+				String mailFunctionary = mailCreateFunctionary__textField.getText();
+				String psswdFunctionary = passwordCreateFunctionary__textField.getText();
+				int yearDateFunctionary = Integer.parseInt(dateYearCreateFunctionary__textField.getText());
+				int monthDateFunctionary = Integer.parseInt(dateMonthCreateFunctionary__textField.getText());
+				int dayDateFunctionary = Integer.parseInt(dateMonthCreateFunctionary__textField.getText());
+
+				Functionary functionary = new Functionary(ciFunctionary, nameFunctionary, lastNameFunctionary,
+						mailFunctionary, psswdFunctionary,
+						LocalDate.of(yearDateFunctionary, monthDateFunctionary, dayDateFunctionary));
+
+				try {
+					controller.createUser(functionary);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, " The CI already exits");
+
 				}
 
 			}
@@ -1998,6 +2091,19 @@ public class Screen extends JFrame {
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
+			}
+		});
+
+		DeleteSubject__Button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int idSubject = Integer.parseInt((String) subjectId__comboBox.getSelectedItem());
+				try {
+
+					controller.deleteTeacherFromSubject(idSubject);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
 

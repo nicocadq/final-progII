@@ -43,10 +43,12 @@ public class Menu {
 
 		JMenuItem listUsers_menuItem = new JMenuItem("List Users");
 		menu_User.add(listUsers_menuItem);
-		
-		JMenuItem listPendings_menuItem =  new JMenuItem("List Students with Pendings");
+
+		JMenuItem listPendings_menuItem = new JMenuItem("List Students with Pendings");
 		menu_User.add(listPendings_menuItem);
-		
+
+		JMenuItem filterStudents_menuItem = new JMenuItem("Filter Students by O&G");
+		menu_User.add(filterStudents_menuItem);
 
 		/* Sub Menu of the JMenu Subject */
 
@@ -146,10 +148,16 @@ public class Menu {
 				master__cardLayout.show(master__panel, "name_120052289757000");
 			}
 		});
-		
+
 		listPendings_menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				master__cardLayout.show(master__panel, "name_120454282608500");
+			}
+		});
+
+		filterStudents_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "LIST_STUDENTS_FILTER_PANEL");
 			}
 		});
 	}

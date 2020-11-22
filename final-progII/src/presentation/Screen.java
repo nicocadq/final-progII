@@ -139,6 +139,7 @@ public class Screen extends JFrame {
 	private JTextField dayStudent__textField;
 	private JTable listStudentsPendings__table;
 	private JTextField idtDelete__textField;
+	private JTable listStudentsFilter__table;
 
 	/**
 	 * Launch the application.
@@ -1439,6 +1440,72 @@ public class Screen extends JFrame {
 		JLabel lblNewLabel_65 = new JLabel("NAME");
 		lblNewLabel_65.setBounds(379, 99, 171, 14);
 		listStudentsPendings__panel.add(lblNewLabel_65);
+		
+		JPanel listStudentsFilter__panel = new JPanel();
+		master__panel.add(listStudentsFilter__panel, "LIST_STUDENTS_FILTER_PANEL");
+		listStudentsFilter__panel.setLayout(null);
+		
+		JLabel lblNewLabel_66 = new JLabel("List Students by Orientation and Genetation");
+		lblNewLabel_66.setBounds(149, 32, 257, 14);
+		listStudentsFilter__panel.add(lblNewLabel_66);
+		
+		JComboBox orientationListStudentFilter__comboBox = new JComboBox();
+		orientationListStudentFilter__comboBox.setModel(new DefaultComboBoxModel(new String[] {"ADM", "TIC"}));
+		orientationListStudentFilter__comboBox.setBounds(123, 94, 110, 22);
+		listStudentsFilter__panel.add(orientationListStudentFilter__comboBox);
+		
+		JComboBox generationListStudentsFilter__comboBox = new JComboBox();
+		generationListStudentsFilter__comboBox.setModel(new DefaultComboBoxModel(new String[] {"FIRST", "SECOND", "THIRD"}));
+		generationListStudentsFilter__comboBox.setBounds(301, 94, 105, 22);
+		listStudentsFilter__panel.add(generationListStudentsFilter__comboBox);
+		
+		JButton listStudentsFileter__btn = new JButton("LIST");
+		
+		listStudentsFileter__btn.setBounds(212, 127, 89, 23);
+		listStudentsFilter__panel.add(listStudentsFileter__btn);
+		
+		listStudentsFilter__table = new JTable();
+		listStudentsFilter__table.setBounds(464, 416, -399, -234);
+		listStudentsFilter__panel.add(listStudentsFilter__table);
+		listStudentsFilter__table.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null, null, null},
+				},
+				new String[] {
+					"New column", "New column", "New column"
+				}
+			));
+		
+		listStudentsFileter__btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Orientation orientation = Orientation.valueOf(orientationListStudentFilter__comboBox.getSelectedItem().toString());
+				Generation generation = Generation.valueOf(generationListStudentsFilter__comboBox.getSelectedItem().toString());
+
+				String[] infoFileredStudents = { "CISTUDENT", "LASTNAME", "NAME" };
+
+				try {
+
+					List<Student> filteredStudents = controller.studentsList(generation, orientation);
+
+					String[][] filteredStudetnsTemp = new String[filteredStudents.size()][3];
+
+					for (int i = 0; i < filteredStudents.size(); i++) {
+
+						filteredStudetnsTemp[i][0] = filteredStudents.get(i).getCi() + "";
+						filteredStudetnsTemp[i][1] = filteredStudents.get(i).getLastName();
+						filteredStudetnsTemp[i][2] = filteredStudents.get(i).getName();
+
+					}
+
+					listStudentsPendings__table.setModel(new DefaultTableModel(filteredStudetnsTemp, infoFileredStudents));
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

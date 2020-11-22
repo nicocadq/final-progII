@@ -79,7 +79,6 @@ public class Screen extends JFrame {
 	private JTextField textField_10;
 	private JTextField idConsulSubject__textField;
 	private JTextField nameSubjectConsulted__textField;
-	private JTextField enrolledSubjectConsulted__textField;
 	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
@@ -958,7 +957,7 @@ public class Screen extends JFrame {
 		lblNewLabel_26.setBounds(24, 82, 70, 14);
 		infoConsultSubject__panel.add(lblNewLabel_26);
 
-		JLabel lblNewLabel_27 = new JLabel("Enrolled");
+		JLabel lblNewLabel_27 = new JLabel("Teacher");
 		lblNewLabel_27.setBounds(24, 114, 46, 14);
 		infoConsultSubject__panel.add(lblNewLabel_27);
 
@@ -967,14 +966,10 @@ public class Screen extends JFrame {
 		infoConsultSubject__panel.add(nameSubjectConsulted__textField);
 		nameSubjectConsulted__textField.setColumns(10);
 
-		enrolledSubjectConsulted__textField = new JTextField();
-		enrolledSubjectConsulted__textField.setBounds(104, 111, 86, 20);
-		infoConsultSubject__panel.add(enrolledSubjectConsulted__textField);
-		enrolledSubjectConsulted__textField.setColumns(10);
+		JButton updateSubjectConsulted__btn = new JButton("Update");
 
-		JButton btnNewButton_1 = new JButton("Update");
-		btnNewButton_1.setBounds(49, 153, 89, 23);
-		infoConsultSubject__panel.add(btnNewButton_1);
+		updateSubjectConsulted__btn.setBounds(49, 153, 89, 23);
+		infoConsultSubject__panel.add(updateSubjectConsulted__btn);
 
 		JComboBox orientationSubjectConsult__comboBox = new JComboBox();
 		orientationSubjectConsult__comboBox.setModel(new DefaultComboBoxModel(new String[] { "TIC", "ADM" }));
@@ -983,9 +978,13 @@ public class Screen extends JFrame {
 
 		JComboBox generationSubjectConsult__comboBox = new JComboBox();
 		generationSubjectConsult__comboBox
-				.setModel(new DefaultComboBoxModel(new String[] { " FIRST", "SECOND", "THIRD" }));
+				.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
 		generationSubjectConsult__comboBox.setBounds(104, 78, 86, 22);
 		infoConsultSubject__panel.add(generationSubjectConsult__comboBox);
+
+		JLabel teacherConsultSubject__lbl = new JLabel("Have not teacher");
+		teacherConsultSubject__lbl.setBounds(104, 114, 109, 14);
+		infoConsultSubject__panel.add(teacherConsultSubject__lbl);
 
 		idConsulSubject__textField = new JTextField();
 		idConsulSubject__textField.setBounds(200, 113, 94, 20);
@@ -1409,7 +1408,6 @@ public class Screen extends JFrame {
 
 		studentPendingsList__btnNewButton.setBounds(221, 65, 102, 23);
 		listStudentsPendings__panel.add(studentPendingsList__btnNewButton);
-
 		JPanel listStudentsFilter__panel = new JPanel();
 		master__panel.add(listStudentsFilter__panel, "LIST_STUDENTS_FILTER_PANEL");
 		listStudentsFilter__panel.setLayout(null);
@@ -1440,15 +1438,15 @@ public class Screen extends JFrame {
 		listStudentsFilter__table.setBounds(42, 169, 440, 275);
 		listStudentsFilter__panel.add(listStudentsFilter__table);
 		Menu listStudentsFilter = new Menu(listStudentsFilter__panel, master__panel, master__cardLayout);
-		
+
 		JLabel lblNewLabel_67 = new JLabel("CI");
 		lblNewLabel_67.setBounds(77, 154, 46, 14);
 		listStudentsFilter__panel.add(lblNewLabel_67);
-		
+
 		JLabel lblNewLabel_68 = new JLabel("NAME");
 		lblNewLabel_68.setBounds(222, 154, 46, 14);
 		listStudentsFilter__panel.add(lblNewLabel_68);
-		
+
 		JLabel lblNewLabel_69 = new JLabel("LAST NAME");
 		lblNewLabel_69.setBounds(345, 154, 80, 14);
 		listStudentsFilter__panel.add(lblNewLabel_69);
@@ -1576,8 +1574,10 @@ public class Screen extends JFrame {
 						nameSubjectConsulted__textField.setText(subject.getName());
 						orientationSubjectConsult__comboBox.setSelectedItem(subject.getOrientation() + "");
 						generationSubjectConsult__comboBox.setSelectedItem(subject.getGeneration() + "");
-						// to Implement
-						enrolledSubjectConsulted__textField.setText("");
+
+						if (subject.getTeacher() != null) {
+							teacherConsultSubject__lbl.setText(subject.getTeacher().getCi() + "");
+						}
 
 					}
 
@@ -1966,6 +1966,38 @@ public class Screen extends JFrame {
 					e.printStackTrace();
 				}
 
+			}
+		});
+
+		updateSubjectConsulted__btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String idSubject = idConsulSubject__textField.getText();
+
+				Orientation orientation = Orientation
+						.valueOf(orientationSubjectConsult__comboBox.getSelectedItem().toString());
+
+				System.out.println(generationSubjectConsult__comboBox.getSelectedItem().toString());
+
+				Generation generation = Generation
+						.valueOf(generationSubjectConsult__comboBox.getSelectedItem().toString());
+
+				String name = nameSubjectConsulted__textField.getText();
+
+				Teacher teacher = null;
+				try {
+
+					try {
+						int teacherID = Integer.parseInt(teacherConsultSubject__lbl.getText());
+						teacher = new Teacher(teacherID);
+					} catch (Exception ex) {
+
+					}
+
+					controller.subjectUpdate(idSubject, new Subject(idSubject, name, orientation, generation, teacher));
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+				}
 			}
 		});
 

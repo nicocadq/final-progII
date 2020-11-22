@@ -99,8 +99,6 @@ public class Screen extends JFrame {
 	private JTextField textField_26;
 	private JTextField textField_27;
 	private JTextField textField_28;
-	private JTable table_4;
-	private JTable table_5;
 	private JTextField subjectStudentExam__textField;
 	private JTextField noteStudentExam__textField;
 	private JTextField yearDateExam__textField;
@@ -126,7 +124,7 @@ public class Screen extends JFrame {
 	private JTextField textField_31;
 	private JTextField textField_32;
 	private JTextField textField_33;
-	private JTextField textField_34;
+	private JTextField idAbsenceToDelete__textField;
 	private JTextField dateMonthCreateFunctionary__textField;
 	private JTextField dateDayCreateFunctionary__textField;
 	private JTextField dateMonthCreateTeacher__textField;
@@ -138,6 +136,7 @@ public class Screen extends JFrame {
 	private JTextField monthStudent__textField;
 	private JTextField dayStudent__textField;
 	private JTable listStudentsPendings__table;
+
 	/**
 	 * Launch the application.
 	 */
@@ -1198,10 +1197,10 @@ public class Screen extends JFrame {
 		lblNewLabel_53.setBounds(10, 11, 70, 14);
 		infoConsultAbsences__panel.add(lblNewLabel_53);
 
-		idtDelete__textField = new JTextField();
-		idtDelete__textField.setBounds(10, 260, 53, 20);
-		infoConsultAbsences__panel.add(idtDelete__textField);
-		idtDelete__textField.setColumns(10);
+		idAbsenceToDelete__textField = new JTextField();
+		idAbsenceToDelete__textField.setBounds(10, 260, 53, 20);
+		infoConsultAbsences__panel.add(idAbsenceToDelete__textField);
+		idAbsenceToDelete__textField.setColumns(10);
 
 		JLabel lblNewLabel_23 = new JLabel("ID Abscence");
 		lblNewLabel_23.setBounds(10, 240, 70, 14);
@@ -1359,9 +1358,9 @@ public class Screen extends JFrame {
 		master__panel.add(listStudentsPendings__panel, "name_120454282608500");
 		listStudentsPendings__panel.setLayout(null);
 
-		JLabel lblNewLabel_23 = new JLabel("Students with Pendings");
-		lblNewLabel_23.setBounds(358, 34, 112, 14);
-		listStudentsPendings__panel.add(lblNewLabel_23);
+		JLabel lblNewLabel_231 = new JLabel("Students with Pendings");
+		lblNewLabel_231.setBounds(358, 34, 112, 14);
+		listStudentsPendings__panel.add(lblNewLabel_231);
 
 		listStudentsPendings__table = new JTable();
 		try {
@@ -1382,6 +1381,40 @@ public class Screen extends JFrame {
 
 		listStudentsPendings__table.setBounds(168, 75, 523, 413);
 		listStudentsPendings__panel.add(listStudentsPendings__table);
+
+		JPanel stadisticsReport__panel = new JPanel();
+		master__panel.add(stadisticsReport__panel, "STADISTICS_REPORT_PANEL");
+		stadisticsReport__panel.setLayout(null);
+
+		JLabel lblNewLabel_54 = new JLabel("Stadistics Report");
+		lblNewLabel_54.setBounds(201, 5, 140, 14);
+		stadisticsReport__panel.add(lblNewLabel_54);
+
+		JLabel lblNewLabel_64 = new JLabel("Absences Index");
+		lblNewLabel_64.setBounds(110, 66, 140, 14);
+		stadisticsReport__panel.add(lblNewLabel_64);
+
+		JLabel absencesIndexReport__lblNewLabel = new JLabel("0");
+		absencesIndexReport__lblNewLabel.setBounds(235, 66, 46, 14);
+		stadisticsReport__panel.add(absencesIndexReport__lblNewLabel);
+
+		JButton getReportStadisticsReport__btn = new JButton("GET REPORT");
+		getReportStadisticsReport__btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int absencesIndex = 0;
+
+				try {
+					absencesIndex = controller.getAbsencesIndex();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+				}
+				
+				absencesIndexReport__lblNewLabel.setText(absencesIndex + "");
+
+			}
+		});
+		getReportStadisticsReport__btn.setBounds(235, 254, 181, 23);
+		stadisticsReport__panel.add(getReportStadisticsReport__btn);
 
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1594,7 +1627,7 @@ public class Screen extends JFrame {
 				try {
 					controller.createUser(teacher);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage()	);
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
@@ -1829,10 +1862,10 @@ public class Screen extends JFrame {
 		deleteAbsence__btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				int idAbsence = Integer.parseInt(idtDelete__textField.getText());
+				int idAbsence = Integer.parseInt(idAbsenceToDelete__textField.getText());
 
 				try {
-					
+
 					Absence absence = new Absence(idAbsence);
 					controller.deleteAbsence(absence);
 
@@ -1845,5 +1878,4 @@ public class Screen extends JFrame {
 		});
 
 	}
-}	
-}}
+}

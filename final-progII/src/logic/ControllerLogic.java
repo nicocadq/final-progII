@@ -510,5 +510,46 @@ public class ControllerLogic {
 	public User getUserLoggedIn() {
 		return this.userLoggedIn;
 	}
+	
+	
+	//This must be implemented later
+	public Subject subjectWithMoreAbsences(Orientation orientation) throws Exception {
+		
+		List<Subject> subjectsByOrientation = null;
+		
+		
+		try { 
+			subjectsByOrientation = this.db.recoverSubjects(orientation);
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+		
+		for(Subject subject : subjectsByOrientation) {
+		}
+		
+		return null;
+	}
+	
+	public int getAbsencesIndex() throws Exception {
+		int amountOfAbsences = 0;
+		int amountOfStudents = 0;
+		int absencesIndex= 0;
+		
+		try {
+			amountOfAbsences = this.db.recoverAmountOfAbsences();
+		} catch(Exception ex) {
+			throw new Exception(errorMessage);
+		}
+		
+		try {
+			amountOfStudents = this.db.recoverAmountOfStudents();
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+		
+		absencesIndex = amountOfAbsences / amountOfStudents;
+		
+		return absencesIndex;
+	}
 
 }

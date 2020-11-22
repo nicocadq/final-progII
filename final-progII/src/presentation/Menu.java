@@ -71,6 +71,9 @@ public class Menu {
 
 		JMenuItem listAbsence_menuItem = new JMenuItem("List Absences");
 		menu_Absence.add(listAbsence_menuItem);
+		
+		JMenuItem stadisticsReport_menuItem = new JMenuItem("Stadistics Report");
+		menu_Absence.add(stadisticsReport_menuItem);
 
 		ControllerLogic c = new ControllerLogic();
 
@@ -152,6 +155,12 @@ public class Menu {
 		listPendings_menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				master__cardLayout.show(master__panel, "LIST_STUDENTS_PENDINGS");
+			}
+		});
+		
+		stadisticsReport_menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				master__cardLayout.show(master__panel, "STADISTICS_REPORT_PANEL");
 			}
 		});
 	}

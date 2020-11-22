@@ -181,7 +181,7 @@ public class ControllerDB extends Conn {
 		}
 
 	}
-	
+
 	public void toPersistIntoTakes(Subject subject, Student student, int mark) throws Exception {
 		try {
 			System.out.println("Creting a connection object");
@@ -195,7 +195,6 @@ public class ControllerDB extends Conn {
 			takesSt.setString(1, subject.getCode());
 			takesSt.setInt(2, student.getCi());
 			takesSt.setInt(3, mark);
-			
 
 			System.out.println("Execut Update");
 
@@ -436,11 +435,10 @@ public class ControllerDB extends Conn {
 		return subject;
 
 	}
-	
-	
-	public void updateUser(int ci, User user) throws Exception{
+
+	public void updateUser(int ci, User user) throws Exception {
 		try {
-			
+
 			System.out.println("Creating a connection for a updateUser method");
 			this.MySQLconnection();
 
@@ -449,7 +447,7 @@ public class ControllerDB extends Conn {
 			PreparedStatement userSt = this.conn.prepareStatement(
 					"UPDATE User SET NAME = ?, LASTNAME = ?, BIRTH = ?, MAIL = ?, PASSWORD =? WHERE CI = ?");
 
-			userSt.setString(1,  user.getName());
+			userSt.setString(1, user.getName());
 			userSt.setString(2, user.getLastName());
 			userSt.setDate(3, java.sql.Date.valueOf(user.getDateBirth()));
 			userSt.setString(4, user.getMail());
@@ -608,7 +606,7 @@ public class ControllerDB extends Conn {
 
 			while (subjectRs.next()) {
 				Teacher teacher = null;
-				
+
 				PreparedStatement teachesSt = this.conn.prepareStatement("SELECT * FROM teaches WHERE IDSUBJECT = ?");
 
 				teachesSt.setString(1, subjectRs.getString("IDSUBJECT"));
@@ -635,9 +633,54 @@ public class ControllerDB extends Conn {
 		return subjects;
 
 	}
-	
-	//this method must be tested in database environment
-	public Map<Integer,String> recoverTakes() throws Exception{
+
+	public List<Subject> recoverSubjects(Orientation orientation) throws Exception {
+		List<Subject> subjects = new ArrayList<Subject>();
+
+		try {
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement subjectSt = this.conn.prepareStatement("SELECT * FROM Subject WHERE ORIENTATION = ?");
+			
+			subjectSt.setString(1, orientation.toString());
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet subjectRs = subjectSt.executeQuery();
+
+			while (subjectRs.next()) {
+				Teacher teacher = null;
+
+				PreparedStatement teachesSt = this.conn.prepareStatement("SELECT * FROM teaches WHERE IDSUBJECT = ?");
+
+				teachesSt.setString(1, subjectRs.getString("IDSUBJECT"));
+
+				System.out.println("Executing Query and creating ResultSet for the Recover Teaches");
+				ResultSet teachesRs = teachesSt.executeQuery();
+
+				while (teachesRs.next()) {
+					System.out.println("Database IDTEACHER");
+					teacher = new Teacher(teachesRs.getInt("CITEACHER"));
+				}
+
+				System.out.println("Database User student ");
+				Subject subject = new Subject(subjectRs.getString(1), subjectRs.getString(2),
+						Orientation.valueOf(subjectRs.getString(3)), Generation.valueOf(subjectRs.getString(4)),
+						teacher);
+				subjects.add(subject);
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return subjects;
+
+	}
+
+	// this method must be tested in database environment
+	public Map<Integer, String> recoverTakes() throws Exception {
 		Map<Integer, String> studentCIandSubjectCode = new HashMap<Integer, String>();
 
 		try {
@@ -715,5 +758,56 @@ public class ControllerDB extends Conn {
 		}
 
 		return absences;
+	}
+	
+	
+	public int recoverAmountOfAbsences() throws Exception {
+		int amountOfAbsences= 0;
+		
+		try {
+
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement absenceSt = this.conn.prepareStatement("SELECT COUNT(IDABSENCE) FROM Absence");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet absenceRs = absenceSt.executeQuery();
+
+			while (absenceRs.next()) {
+				amountOfAbsences = absenceRs.getInt(1);
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return amountOfAbsences;
+	}
+	
+	public int recoverAmountOfStudents() throws Exception {
+		int amountOfStudents= 0;
+		
+		try {
+
+			System.out.println("Creating a Connection Object.");
+			this.MySQLconnection();
+
+			System.out.println("Creating PreparedStatement");
+			PreparedStatement absenceSt = this.conn.prepareStatement("SELECT COUNT(CIUSER) FROM Student");
+
+			System.out.println("Executing Query and creating ResultSet.");
+			ResultSet absenceRs = absenceSt.executeQuery();
+
+			while (absenceRs.next()) {
+				amountOfStudents = absenceRs.getInt(1);
+			}
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return amountOfStudents;
 	}
 }

@@ -1407,6 +1407,9 @@ public class Screen extends JFrame {
 			}
 		});
 
+		studentPendingsList__btnNewButton.setBounds(221, 65, 102, 23);
+		listStudentsPendings__panel.add(studentPendingsList__btnNewButton);
+
 		JPanel listStudentsFilter__panel = new JPanel();
 		master__panel.add(listStudentsFilter__panel, "LIST_STUDENTS_FILTER_PANEL");
 		listStudentsFilter__panel.setLayout(null);
@@ -1416,26 +1419,39 @@ public class Screen extends JFrame {
 		listStudentsFilter__panel.add(lblNewLabel_66);
 
 		JComboBox orientationListStudentFilter__comboBox = new JComboBox();
-		orientationListStudentFilter__comboBox.setModel(new DefaultComboBoxModel(new String[] { "ADM", "TIC" }));
 		orientationListStudentFilter__comboBox.setBounds(123, 94, 110, 22);
+		orientationListStudentFilter__comboBox.setModel(new DefaultComboBoxModel(new String[] { "ADM", "TIC" }));
 		listStudentsFilter__panel.add(orientationListStudentFilter__comboBox);
 
 		JComboBox generationListStudentsFilter__comboBox = new JComboBox();
+		generationListStudentsFilter__comboBox.setBounds(301, 94, 105, 22);
 		generationListStudentsFilter__comboBox
 				.setModel(new DefaultComboBoxModel(new String[] { "FIRST", "SECOND", "THIRD" }));
-		generationListStudentsFilter__comboBox.setBounds(301, 94, 105, 22);
 		listStudentsFilter__panel.add(generationListStudentsFilter__comboBox);
 
 		JButton listStudentsFileter__btn = new JButton("LIST");
-
 		listStudentsFileter__btn.setBounds(212, 127, 89, 23);
 		listStudentsFilter__panel.add(listStudentsFileter__btn);
 
 		listStudentsFilter__table = new JTable();
-		listStudentsFilter__table.setBounds(464, 416, -399, -234);
-		listStudentsFilter__panel.add(listStudentsFilter__table);
+		listStudentsFilter__table.setEnabled(false);
 		listStudentsFilter__table.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, },
 				new String[] { "New column", "New column", "New column" }));
+		listStudentsFilter__table.setBounds(42, 169, 440, 275);
+		listStudentsFilter__panel.add(listStudentsFilter__table);
+		Menu listStudentsFilter = new Menu(listStudentsFilter__panel, master__panel, master__cardLayout);
+		
+		JLabel lblNewLabel_67 = new JLabel("CI");
+		lblNewLabel_67.setBounds(77, 154, 46, 14);
+		listStudentsFilter__panel.add(lblNewLabel_67);
+		
+		JLabel lblNewLabel_68 = new JLabel("NAME");
+		lblNewLabel_68.setBounds(222, 154, 46, 14);
+		listStudentsFilter__panel.add(lblNewLabel_68);
+		
+		JLabel lblNewLabel_69 = new JLabel("LAST NAME");
+		lblNewLabel_69.setBounds(345, 154, 80, 14);
+		listStudentsFilter__panel.add(lblNewLabel_69);
 
 		listStudentsFileter__btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1461,7 +1477,7 @@ public class Screen extends JFrame {
 
 					}
 
-					listStudentsPendings__table
+					listStudentsFilter__table
 							.setModel(new DefaultTableModel(filteredStudetnsTemp, infoFileredStudents));
 
 				} catch (Exception e) {

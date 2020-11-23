@@ -743,16 +743,17 @@ public class ControllerDB extends Conn {
 
 	}
 
-	public void deleteTeacherFromTeaches(int id) throws Exception {
+	public void deleteTeacherFromTeaches(String idSubject, int ciTeacher) throws Exception {
 
 		try {
 			System.out.println("Creating a connection");
 			this.MySQLconnection();
 
 			System.out.println("Creating a connection Object");
-			PreparedStatement deleteTeachesSt = this.conn.prepareStatement("DELETE FROM teaches WHERE idSubject = ?");
+			PreparedStatement deleteTeachesSt = this.conn.prepareStatement("DELETE FROM teaches WHERE idSubject = ? AND ciTeacher = ?");
 
-			deleteTeachesSt.setInt(1, id);
+			deleteTeachesSt.setString(1, idSubject);
+			deleteTeachesSt.setInt(2, ciTeacher);
 			
 			System.out.println("Execute Update");
 

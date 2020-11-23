@@ -701,9 +701,9 @@ public class Screen extends JFrame {
 		subjectId__comboBox.setBounds(68, 21, 83, 22);
 		teacherModify__panel.add(subjectId__comboBox);
 
-		JButton DeleteSubject__Button = new JButton("Delete");
-		DeleteSubject__Button.setBounds(68, 71, 89, 23);
-		teacherModify__panel.add(DeleteSubject__Button);
+		JButton deleteSubject__Button = new JButton("Delete");
+		deleteSubject__Button.setBounds(68, 71, 89, 23);
+		teacherModify__panel.add(deleteSubject__Button);
 
 		JPanel listUsers__panel = new JPanel();
 		master__panel.add(listUsers__panel, "name_110770879092900");
@@ -2094,12 +2094,15 @@ public class Screen extends JFrame {
 			}
 		});
 
-		DeleteSubject__Button.addActionListener(new ActionListener() {
+		deleteSubject__Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int idSubject = Integer.parseInt((String) subjectId__comboBox.getSelectedItem());
+				int ciTeacher = Integer.parseInt(searchCiConsultUser__textField.getText().toString());
+				String idSubject =  subjectId__comboBox.getSelectedItem().toString();
+				
 				try {
 
-					controller.deleteTeacherFromSubject(idSubject);
+					controller.deleteTeacherFromSubject(ciTeacher, idSubject);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -332,10 +332,10 @@ public class ControllerLogic {
 
 	}
 
-	public void deleteTeacherFromSubject(int id) throws Exception {
+	public void deleteTeacherFromSubject(int ciTeacher, String idSubject) throws Exception {
 
 		try {
-			this.db.deleteTeacherFromTeaches(id);
+			this.db.deleteTeacherFromTeaches(idSubject, ciTeacher);
 		} catch (Exception e) {
 			throw new Exception(errorMessage);
 		}

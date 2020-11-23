@@ -1,6 +1,8 @@
 package logic;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import persistence.ControllerDB;
 
@@ -20,7 +22,7 @@ public class main {
 		 * try { teacher = (Teacher) db.recoverUser(99999); } catch(Exception ex) {
 		 * ex.printStackTrace(); }
 		 */
-		Functionary functionary = new Functionary(87897, "Pedro", "Varela", "fun@mail.com", "password",
+		Functionary functionary = new Functionary(1, "Pedro", "Varela", "fun@mail.com", "1",
 				LocalDate.of(1898, 2, 8));
 		Teacher teacher = new Teacher(888, "Ruben", "Derigo", "rb@mail.com", "psswdRuben", LocalDate.of(1898, 2, 8));
 		Subject subject = new Subject("123", "Geometria", Orientation.ADM, Generation.FIRST, teacher);
@@ -30,8 +32,15 @@ public class main {
 
 		Exam exam = new Exam(LocalDate.of(2015, 6, 3), 10, student, subject);
 		try {
+			/*
+			List<Subject> sub = con.teacherWithSubjects(321);
+			for (Subject subb : sub) {
+				System.out.println(subb.getCode());
+			}*/
+			
+			//con.deleteTeacherFromSubject(777);
 			// Tested to persist
-			// db.toPersistUser(functionary);
+			 db.toPersistUser(functionary);
 			// db.toPersistUser(student);
 			// db.toPersistUser(teacher);
 			// db.toPersistSubject(subject);
@@ -60,23 +69,21 @@ public class main {
 			 * /*for (User fun : db.recoverUsers()) { System.out.println( (Teacher)fun); }
 			 */
 
-			System.out.println(con.getUserLoggedIn() + " has to be null");
-			
+			// System.out.println(con.getUserLoggedIn() + " has to be null");
 
-			/*for (User fun : db.recoverUsers()) {
-				System.out.println( (Teacher)fun);
-			}*/
-
-			 for(Student stu : con.listStudentPendings()) {
-				 System.out.println(stu.getCi());
-			 }
-			 
-			con.login(01, "fun");
-			System.out.println(con.getUserLoggedIn() + " has to be user");
-			
-			con.logout();
-			System.out.println(con.getUserLoggedIn() + " has to be null");
-
+			/*
+			 * for (User fun : db.recoverUsers()) { System.out.println( (Teacher)fun); }
+			 */
+			/*
+			 * for(Student stu : con.listStudentPendings()) {
+			 * System.out.println(stu.getCi()); }
+			 * 
+			 * con.login(01, "fun"); System.out.println(con.getUserLoggedIn() +
+			 * " has to be user");
+			 * 
+			 * con.logout(); System.out.println(con.getUserLoggedIn() + " has to be null");
+			 */
+		
 //			for(Absence absenceFromDB : db.recoverAbsences()) {
 //				System.out.println(absenceFromDB.getSubject().getCode());
 //			}

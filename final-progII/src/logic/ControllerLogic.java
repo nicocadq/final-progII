@@ -332,6 +332,28 @@ public class ControllerLogic {
 
 	}
 
+	public void deleteTeacherFromSubject(int ciTeacher, String idSubject) throws Exception {
+
+		try {
+			this.db.deleteTeacherFromTeaches(idSubject, ciTeacher);
+		} catch (Exception e) {
+			throw new Exception(errorMessage);
+		}
+	}
+
+	public List<Subject> teacherWithSubjects(int ci) throws Exception {
+		List<Subject> subjects = null;
+
+		try {
+			subjects = this.db.recoverTeaches(ci);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return subjects;
+
+	}
+
 	public List<Student> listStudentPendings() throws Exception {
 		List<User> users = null;
 		List<Student> students = new ArrayList<Student>();

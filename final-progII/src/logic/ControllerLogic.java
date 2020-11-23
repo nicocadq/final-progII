@@ -166,6 +166,37 @@ public class ControllerLogic {
 
 		return students;
 	}
+	
+	public List<Student> studentsList(Generation generation, Orientation orientation) throws Exception {
+		List<User> users = null;
+		List<Student> students = new ArrayList<Student>();
+		List<Student> studentsMatched = new ArrayList<Student>();
+
+		try {
+			users = this.db.recoverUsers();
+
+		} catch (Exception ex) {
+			throw new Exception(errorMessage);
+		}
+
+		try {
+
+			for (User user : users) {
+				students.add((Student) user);
+			}
+
+		} catch (ClassCastException castEx) {
+
+		}
+		
+		for (Student student : students) {
+			if (student.getOrientation() == orientation && student.getGeneration() == generation) {
+				studentsMatched.add(student);
+			}
+		}
+
+		return students;
+	}
 
 	public List<Subject> subjectsList() throws Exception {
 		List<Subject> subjects = null;
@@ -473,10 +504,7 @@ public class ControllerLogic {
 
 	}
 
-	public List<User> listClass(Generation generation, Orientation orientation) {
-
-		return null;
-	}
+	
 
 	public List<Teacher> teachersList() throws Exception {
 		List<User> users = null;
